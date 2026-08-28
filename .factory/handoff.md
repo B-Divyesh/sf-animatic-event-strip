@@ -37,6 +37,17 @@ node -e "const c=require('./.factory/claims.json'); for (const x of c.filter(x=>
 - Local Lighthouse 13.4.1 produced a complete report before the known post-report Chromium exit: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,357 ms, TBT 83 ms, CLS 0.014.
 - Visual review of `.factory/evidence/repair-3/demo-desktop.png`, `demo-mobile-390.png`, and `404-mobile-390.png` found no clipping, collisions, horizontal body overflow, or unreadable controls.
 
+### Deployment and live verification
+
+- Repair commits `0c1db84`, `baca888`, and `c933583` were pushed to `origin/main`. Azure Static Web Apps CLI 2.0.7 deployed the final `dist/` to the production resource `sf-animatic-event-strip` in resource group `sociobot` (default host `salmon-coast-047047110.7.azurestaticapps.net`).
+- The custom domain <https://animatic-event-strip.sociobot.in> serves the repair. All 22 deployable files match the final local `dist/` byte-for-byte by SHA-256; Azure consumes `staticwebapp.config.json`, so it is excluded from public-file comparison.
+- Live `/`, `/demo`, `/privacy`, `/privacy/`, `/terms`, and `/terms/` return 200. `/qa-definitely-missing-repair-3` returns HTTP 404 with the designed missing-page body. The social image, Apple touch icon, manifest, and `aes-shell-v6` worker all return 200.
+- Live browser regressions for AES-QA-301 through AES-QA-305 passed 4/4. The demo, Privacy, Terms, and missing page had zero serious/critical axe findings, and both exact focus-return paths passed against the custom domain.
+- Live `verify-url.sh`: HTTP 200; correct demo title, `lang=en`, one H1, main landmark, zero missing alternatives, zero unlabeled buttons, and zero console/page errors.
+- The declared `studio-checkout` claim passed live: checkout returned 303 to Sociobot/Dodo; license verification reached HTTP 429 with numeric `Retry-After: 4`; the live root and immutable asset policy returned 200.
+- Live response headers include HSTS, restrictive CSP with `frame-ancestors 'none'`, `X-Frame-Options: DENY`, Permissions Policy, `nosniff`, and strict-origin referrer policy.
+- Live Lighthouse 13.4.1 produced its report before the same post-report Chromium exit: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,056 ms, TBT 21 ms, CLS 0.014.
+
 ### Remaining research gap
 
 The brief’s five-person handoff pilot has not been run. Its ambiguity success measure remains product research, not a release claim.
