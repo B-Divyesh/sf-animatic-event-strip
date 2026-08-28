@@ -1,0 +1,19 @@
+{
+  "inside": {
+    "tag": "INPUT",
+    "id": "event-label",
+    "label": null
+  },
+  "afterEdit": {
+    "tag": "BODY",
+    "id": "",
+    "label": null,
+    "text": "Skip to event strip\n    \n      \n        \n        AnimaticEvent Strip\n      \n    "
+  },
+  "afterAdd": {
+    "tag": "BUTTON",
+    "id": "add-event",
+    "label": null,
+    "text": "+ Add event"
+  }
+}

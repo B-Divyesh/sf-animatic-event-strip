@@ -1,0 +1,16 @@
+{
+  "before": "Edit Interaction Enable player input, F108–144",
+  "afterOne": "Edit Interaction Enable player input, F109–145",
+  "focusAfterOne": {
+    "tag": "BODY",
+    "id": "",
+    "label": null
+  },
+  "afterTwo": "Edit Interaction Enable player input, F109–145",
+  "focusAfterTwo": {
+    "tag": "BODY",
+    "id": "",
+    "label": null
+  },
+  "secondMoveOccurred": false
+}

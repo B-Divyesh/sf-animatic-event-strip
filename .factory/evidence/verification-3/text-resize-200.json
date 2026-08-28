@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "layout": {
+    "viewport": 640,
+    "body": 640,
+    "h1Visible": true,
+    "demoVisible": true,
+    "primaryVisible": true
+  },
+  "dialog": {
+    "top": 24,
+    "bottom": 712,
+    "height": 688,
+    "viewport": 720,
+    "scrollHeight": 693,
+    "clientHeight": 686
+  }
+}

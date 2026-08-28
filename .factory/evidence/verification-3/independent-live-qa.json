@@ -1,0 +1,186 @@
+{
+  "summary": {
+    "total": 28,
+    "passed": 28,
+    "failed": 0
+  },
+  "checks": [
+    {
+      "name": "demo starts populated",
+      "passed": true,
+      "evidence": "HTTP 200; 2 boards, 1 sound, 3 markers"
+    },
+    {
+      "name": "invalid range is rejected in-place",
+      "passed": true,
+      "evidence": {
+        "rangeUnderflow": true,
+        "message": "Value must be greater than or equal to 0.",
+        "dialogOpen": true
+      }
+    },
+    {
+      "name": "valid one-frame recovery succeeds",
+      "passed": true,
+      "evidence": "board F0 added without reload"
+    },
+    {
+      "name": "duration cannot truncate existing events",
+      "passed": true,
+      "evidence": "Duration must be at least 145 frames to contain the current events."
+    },
+    {
+      "name": "settings recover after validation",
+      "passed": true,
+      "evidence": "name and duration saved"
+    },
+    {
+      "name": "malformed import is non-destructive and recoverable",
+      "passed": true,
+      "evidence": "Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+    },
+    {
+      "name": "minimum duration import succeeds",
+      "passed": true,
+      "evidence": "12 frames at 60 fps"
+    },
+    {
+      "name": "over-maximum duration is rejected",
+      "passed": true,
+      "evidence": {
+        "rangeOverflow": true,
+        "message": "Value must be less than or equal to 216000.",
+        "dialogOpen": true
+      }
+    },
+    {
+      "name": "maximum duration is accepted",
+      "passed": true,
+      "evidence": "216000 frames at 60 fps"
+    },
+    {
+      "name": "last supported frame can be marked",
+      "passed": true,
+      "evidence": "note at frame 215999"
+    },
+    {
+      "name": "keyboard movement respects upper boundary",
+      "passed": true,
+      "evidence": "ArrowRight did not move past end"
+    },
+    {
+      "name": "keyboard recovery move persists",
+      "passed": true,
+      "evidence": "Shift+ArrowLeft moved ten frames"
+    },
+    {
+      "name": "boundary CSV has schema and one data row",
+      "passed": true,
+      "evidence": [
+        "﻿schema,adapter_version,project,event_id,type,kind,name,start_frame,end_frame_exclusive,start_seconds,duration_seconds,notes,media_filename",
+        "animatic-event-strip/adapter,1,Twelve frame boundary,marker_6466d0c9-74f0-4235-ba88-6901e5759509,marker,note,Final supported frame,215989,215990,3599.817,0.017,,"
+      ]
+    },
+    {
+      "name": "boundary edit persists after live reload",
+      "passed": true,
+      "evidence": "marker F215989 after reload"
+    },
+    {
+      "name": "delete cancellation restores editor",
+      "passed": true,
+      "evidence": "cancelled deletion retained event"
+    },
+    {
+      "name": "confirmed delete removes event",
+      "passed": true,
+      "evidence": "event removed"
+    },
+    {
+      "name": "desktop axe serious/critical",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "name": "ordinary demo flow stays same-origin",
+      "passed": true,
+      "evidence": [
+        "https://animatic-event-strip.sociobot.in"
+      ]
+    },
+    {
+      "name": "desktop console and page errors",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "name": "390px page has no body overflow",
+      "passed": true,
+      "evidence": {
+        "viewport": 390,
+        "body": 390
+      }
+    },
+    {
+      "name": "all rendered mobile targets are at least 44x44",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "name": "first Tab exposes designed skip-link focus",
+      "passed": true,
+      "evidence": {
+        "focused": true,
+        "outline": "rgb(101, 227, 209) solid 3px",
+        "color": "rgb(101, 227, 209)"
+      }
+    },
+    {
+      "name": "reduced motion removes meaningful animation",
+      "passed": true,
+      "evidence": [
+        "1e-05s"
+      ]
+    },
+    {
+      "name": "mobile axe serious/critical",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "name": "mobile console and page errors",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "name": "live PWA controls and reloads demo offline",
+      "passed": true,
+      "evidence": {
+        "online": false,
+        "controller": true,
+        "caches": [
+          "aes-shell-v5"
+        ],
+        "title": "Demo — Animatic Event Strip"
+      }
+    },
+    {
+      "name": "/privacy/ responds and passes serious/critical axe",
+      "passed": true,
+      "evidence": {
+        "status": 200,
+        "severe": [],
+        "title": "Privacy — Animatic Event Strip"
+      }
+    },
+    {
+      "name": "/terms/ responds and passes serious/critical axe",
+      "passed": true,
+      "evidence": {
+        "status": 200,
+        "severe": [],
+        "title": "Terms — Animatic Event Strip"
+      }
+    }
+  ]
+}

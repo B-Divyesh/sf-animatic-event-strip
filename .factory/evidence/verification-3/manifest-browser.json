@@ -1,0 +1,41 @@
+{
+  "url": "https://animatic-event-strip.sociobot.in/manifest.webmanifest",
+  "errors": [],
+  "data": {
+    "id": "/",
+    "name": "Animatic Event Strip",
+    "short_name": "Event Strip",
+    "description": "Plan visual beats, audio cues, and engine-neutral interaction windows offline.",
+    "start_url": "/?source=pwa&v=5",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#11191d",
+    "theme_color": "#11191d",
+    "orientation": "any",
+    "categories": [
+      "design",
+      "productivity",
+      "utilities"
+    ],
+    "icons": [
+      {
+        "src": "/icons/icon-192.d8a89c52.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-512.50176303.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-maskable-512.50176303.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ]
+  }
+}

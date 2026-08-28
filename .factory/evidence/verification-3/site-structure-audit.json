@@ -1,0 +1,72 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "title": "Animatic Event Strip — plan animation events",
+    "canonical": "https://animatic-event-strip.sociobot.in/",
+    "openGraph": 0,
+    "twitter": 0,
+    "appleTouch": false,
+    "skipLink": true,
+    "footer": true,
+    "builtByParamFactory": false,
+    "buildId": false,
+    "h1": 1
+  },
+  {
+    "route": "/demo",
+    "status": 200,
+    "title": "Animatic Event Strip — plan animation events",
+    "canonical": "https://animatic-event-strip.sociobot.in/",
+    "openGraph": 0,
+    "twitter": 0,
+    "appleTouch": false,
+    "skipLink": true,
+    "footer": true,
+    "builtByParamFactory": false,
+    "buildId": false,
+    "h1": 1
+  },
+  {
+    "route": "/privacy/",
+    "status": 200,
+    "title": "Privacy — Animatic Event Strip",
+    "canonical": null,
+    "openGraph": 0,
+    "twitter": 0,
+    "appleTouch": false,
+    "skipLink": false,
+    "footer": true,
+    "builtByParamFactory": false,
+    "buildId": false,
+    "h1": 1
+  },
+  {
+    "route": "/terms/",
+    "status": 200,
+    "title": "Terms — Animatic Event Strip",
+    "canonical": null,
+    "openGraph": 0,
+    "twitter": 0,
+    "appleTouch": false,
+    "skipLink": false,
+    "footer": true,
+    "builtByParamFactory": false,
+    "buildId": false,
+    "h1": 1
+  },
+  {
+    "route": "/qa-missing-route",
+    "status": 200,
+    "title": "Animatic Event Strip — plan animation events",
+    "canonical": "https://animatic-event-strip.sociobot.in/",
+    "openGraph": 0,
+    "twitter": 0,
+    "appleTouch": false,
+    "skipLink": true,
+    "footer": true,
+    "builtByParamFactory": false,
+    "buildId": false,
+    "h1": 1
+  }
+]

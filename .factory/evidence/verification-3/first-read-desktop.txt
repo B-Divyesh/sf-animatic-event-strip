@@ -1,0 +1,74 @@
+{
+  "httpStatus": 200,
+  "title": "Animatic Event Strip — plan animation events",
+  "url": "https://animatic-event-strip.sociobot.in/",
+  "statusText": "Skip to event strip\nANIMATIC\nEvent Strip\nQuick guide\nSaved locally\n\nANIMATION HANDOFF PLANNER\n\nPlan animation events before engine work.\n\nFor solo 2D animators and small game teams planning frames, sound cues, and input windows before engine work.\n\nTry it with sample data\nAdd your own event\n\nLoads a filled 10-second strip. The demo never opens or changes your project.\n\nYour project stays on this device.\nReopens offline after your first visit.\nCore exports are free. Studio Pack costs $12 once.\n\nCURRENT STRIP\n\nUntitled scene\n10.0S\nDURATION\n24\nFPS\nImport\nExport\n+ Add event\nOffline install is unavailable in this browser. Your project still saves locally.\n00:00:00:00\nZoom\nFRAME\nBOARDS\n0 cards\nSOUND\n0 clips\nEVENTS\n0 markers\n0\n24\n48\n72\n96\n120\n144\n168\n192\n216\n240\n01\n\nFIRST PASS\n\nStart with the beat you can see.\n\nAdd a board image, then mark the sounds and implementation moments around it. Everything is stored locally.\n\nAdd your first event\n\nPORTABLE BY DESIGN\n\nOne strip, several handoffs.\n\nProject JSON reopens here with local media. Adapter JSON and CSV stay implementation-neutral, with stable schema versions for Godot, Unity, or your own tools.\n\nPROJECT\n\nAES 1\nJSON\n\nADAPTER 1\nCSV\n\nUTF-8\n\nOPTIONAL STUDIO PACK\n\nTurn markers into starter code.\n\nThe full planner and every core export are free. A one-time Studio Pack adds direct Godot 4 and Unity 6 adapter source plus a printable handoff sheet.\n\n$12 ONE-TIME PURCHASE\n\nBuy Studio Pack\n\nFree planner active\n\nHave a license?\nRestore\n\nLicenses are checked at most once daily. Cached access works offline.\n\nBuilt for sketches before systems. Your project and media stay on this device.\n\nPrivacy\nTerms\nArtwork provenance\n\nOriginal AI-generated environmental artwork · No analytics",
+  "h1": [
+    "Plan animation events before engine work."
+  ],
+  "visibleButtons": [
+    {
+      "text": "ANIMATIC\nEvent Strip",
+      "tag": "A",
+      "href": "https://animatic-event-strip.sociobot.in/",
+      "top": 20
+    },
+    {
+      "text": "Quick guide",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 20
+    },
+    {
+      "text": "Saved locally",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 20
+    },
+    {
+      "text": "Try it with sample data",
+      "tag": "A",
+      "href": "https://animatic-event-strip.sociobot.in/demo",
+      "top": 546
+    },
+    {
+      "text": "Add your own event",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 546
+    },
+    {
+      "text": "Untitled scene",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 865
+    },
+    {
+      "text": "",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 851
+    },
+    {
+      "text": "Import",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 850
+    },
+    {
+      "text": "Export",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 850
+    },
+    {
+      "text": "+ Add event",
+      "tag": "BUTTON",
+      "href": null,
+      "top": 850
+    }
+  ],
+  "main": true,
+  "lang": "en",
+  "errors": []
+}

@@ -1,5 +1,23 @@
 # Animatic Event Strip — handoff
 
+## Independent verification 3 — FAIL (release blocked)
+
+Candidate `bf3323eb1fb9922deb2e7f7bb1670950d61c1d60` was independently tested on 2026-08-28 at <https://animatic-event-strip.sociobot.in>. The live deployment matches all 19 served files rebuilt from this exact commit. The cold first-read and one-click isolated demo pass, all nine `.factory/claims.json` commands pass, and install/unit/lint/type/build/e2e/audit gates are clean. The editor, media waveform, import/export, min/max frames, persistence, checkout, cached license, offline reload, service-worker update, response policy, caching, accessibility automation, 390 px layout, and performance budgets all passed fresh checks.
+
+The release verdict is nevertheless **FAIL**:
+
+- **High AES-QA-301:** moving a focused timeline event re-renders it and drops focus to `<body>`. One Right press works; a second does nothing, so keyboard users cannot repeatedly frame-step an event.
+- **High AES-QA-302:** closing an existing event's edit dialog returns focus to `<body>` rather than the event that opened it.
+- **High AES-QA-303:** public claims for browser-audio preview, the paid Godot/Unity/print outputs, and the broader no-analytics/cookies/fonts/scripts promise have no matching entries and exactly tagged sandbox tests in `.factory/claims.json`. The supplied claims contract makes unlisted claims release-blocking.
+- **Medium AES-QA-304:** an unknown URL returns the normal home shell with HTTP 200; the required designed 404 does not exist.
+- **Low AES-QA-305:** required Open Graph/Twitter/social image/Apple-touch metadata is absent; legal routes lack the shared skip/header/footer skeleton; no footer includes “Built by Param Factory” and a build ID.
+
+Fresh API threshold: requests 1–30 returned 200; request 31 returned 429 with `Retry-After: 4`. Fresh Lighthouse mobile: 93 Performance / 100 Accessibility / 100 Best Practices / 100 SEO; LCP 1,059 ms, TBT 318.5 ms, CLS 0.0136. Initial JS is 28,392 B (10,146 B gzip), CSS 20,717 B (5,378 B gzip), fonts 0 B, and mobile hero 36,138 B.
+
+Full commands, evidence, reproduction details, and severity-ranked findings are in `.factory/verification-3.md` and `.factory/evidence/verification-3/`. No product code was changed during verification.
+
+---
+
 ## Release-blocking product-QA repair 2 — PASS (deployed)
 
 Work order `animatic-event-strip-repair-2` repairs every blocker recorded in verifier commit `7c859f8c1a1110429c4496027094314f872ffc3d` for candidate `ae964e0113269aecfbdf888a3f239e27f200a280`. The product remains a static, local-first PWA. Repair commits: `a56bc16` and `9624e95`.

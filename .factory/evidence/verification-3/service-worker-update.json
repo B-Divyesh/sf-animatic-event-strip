@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "initial": {
+    "controller": true,
+    "caches": [
+      "aes-shell-qa-update-1"
+    ]
+  },
+  "updateToast": "A fresh version is ready.",
+  "final": {
+    "controller": true,
+    "caches": [
+      "aes-shell-qa-update-2"
+    ],
+    "title": "Demo — Animatic Event Strip"
+  },
+  "errors": []
+}

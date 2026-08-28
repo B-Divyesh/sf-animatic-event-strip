@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "renderedWaveformPointCount": 112,
+  "exportedWaveformBuckets": 56,
+  "mediaName": "qa-tone.wav",
+  "mediaPrefix": "data:audio/wav;base64,UklGRsQP",
+  "persistedAfterReload": true,
+  "errors": []
+}

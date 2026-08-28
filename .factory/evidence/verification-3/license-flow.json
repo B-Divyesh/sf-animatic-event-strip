@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "cachedPaidOutputs": {
+    "godot": {
+      "filename": "untitled-scene_event_strip.gd",
+      "hasV1Loader": true
+    },
+    "unity": {
+      "filename": "untitled-scene_event_strip.cs",
+      "hasV1Loader": true
+    },
+    "printCalled": true
+  },
+  "returnToken": {
+    "url": "https://animatic-event-strip.sociobot.in/?kept=1#anchor",
+    "token": "qa-invalid-token",
+    "state": "Free planner active",
+    "verifyUrl": "https://api.sociobot.in/api/v1/products/animatic-event-strip/verify?license=qa-invalid-token"
+  }
+}
