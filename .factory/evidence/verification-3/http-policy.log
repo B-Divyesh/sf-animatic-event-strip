@@ -1,0 +1,107 @@
+## root headers
+HTTP/2 200 
+content-type: text/html
+date: Fri, 28 Aug 2026 11:03:20 GMT
+cache-control: public, must-revalidate, max-age=30
+etag: "10784457"
+last-modified: Fri, 28 Aug 2026 10:28:59 GMT
+content-length: 16788
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob: data:; connect-src 'self' https://api.sociobot.in; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
+x-frame-options: DENY
+
+## hashed asset headers
+HTTP/2 200 
+content-type: text/javascript
+date: Fri, 28 Aug 2026 11:03:19 GMT
+cache-control: public, max-age=31536000, immutable
+etag: "10784457"
+last-modified: Fri, 28 Aug 2026 10:28:59 GMT
+content-length: 28392
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob: data:; connect-src 'self' https://api.sociobot.in; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
+x-frame-options: DENY
+
+## service worker headers
+HTTP/2 200 
+content-type: text/javascript
+date: Fri, 28 Aug 2026 11:03:20 GMT
+cache-control: public, must-revalidate, max-age=30
+etag: "10784457"
+last-modified: Fri, 28 Aug 2026 10:28:59 GMT
+content-length: 2552
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob: data:; connect-src 'self' https://api.sociobot.in; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
+x-frame-options: DENY
+
+## manifest
+HTTP/2 200 
+content-type: application/octet-stream
+date: Fri, 28 Aug 2026 11:03:20 GMT
+cache-control: public, must-revalidate, max-age=30
+etag: "10784457"
+last-modified: Fri, 28 Aug 2026 10:28:59 GMT
+content-length: 749
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob: data:; connect-src 'self' https://api.sociobot.in; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+permissions-policy: camera=(), geolocation=(), microphone=(), payment=(), usb=()
+x-frame-options: DENY
+
+{
+  "id": "/",
+  "name": "Animatic Event Strip",
+  "short_name": "Event Strip",
+  "description": "Plan visual beats, audio cues, and engine-neutral interaction windows offline.",
+  "start_url": "/?source=pwa&v=5",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#11191d",
+  "theme_color": "#11191d",
+  "orientation": "any",
+  "categories": ["design", "productivity", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.d8a89c52.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.50176303.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.50176303.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
+## routes
+/ status=200 type=text/html url=https://animatic-event-strip.sociobot.in/
+/demo status=200 type=text/html url=https://animatic-event-strip.sociobot.in/demo
+/privacy/ status=200 type=text/html url=https://animatic-event-strip.sociobot.in/privacy/
+/terms/ status=200 type=text/html url=https://animatic-event-strip.sociobot.in/terms/
+/offline.html status=200 type=text/html url=https://animatic-event-strip.sociobot.in/offline.html
+/robots.txt status=200 type=text/plain url=https://animatic-event-strip.sociobot.in/robots.txt
+/sitemap.xml status=200 type=text/xml url=https://animatic-event-strip.sociobot.in/sitemap.xml
+/qa-definitely-missing-20260828 status=200 type=text/html url=https://animatic-event-strip.sociobot.in/qa-definitely-missing-20260828
+## API CORS
+HTTP/2 200 
+content-type: application/json
+date: Fri, 28 Aug 2026 11:03:21 GMT
+access-control-allow-credentials: true
+access-control-allow-origin: https://animatic-event-strip.sociobot.in
+cache-control: no-store
+set-cookie: ARRAffinity=27a68b7e77a8b7692bcb4c16e2a8a32d44ecdf1f351d0e078d158af264a88edc;Path=/;HttpOnly;Secure;Domain=api.sociobot.in
+set-cookie: ARRAffinitySameSite=27a68b7e77a8b7692bcb4c16e2a8a32d44ecdf1f351d0e078d158af264a88edc;Path=/;HttpOnly;SameSite=None;Secure;Domain=api.sociobot.in
+vary: origin, access-control-request-method, access-control-request-headers
+content-length: 52
+

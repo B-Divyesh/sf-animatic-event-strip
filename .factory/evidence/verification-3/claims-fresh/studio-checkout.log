@@ -1,0 +1,5 @@
+
+> animatic-event-strip@1.0.0 test:live-policy
+> node tests/live-policy.mjs --claim @claim:studio-checkout
+
+PASS checkout=303 rate-limit=429 retry-after=4 live=200 asset=/assets/cutting-room-960.641304ed.jpg

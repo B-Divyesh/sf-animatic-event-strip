@@ -1,0 +1,105 @@
+## npm ci
+
+added 140 packages, and audited 141 packages in 4s
+
+42 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+## npm test
+
+> animatic-event-strip@1.0.0 test
+> vitest run tests/model.test.ts tests/release.test.ts
+
+
+ RUN  v3.2.7 /work/repo
+
+ ✓ tests/release.test.ts (4 tests) 83ms
+ ✓ tests/model.test.ts (5 tests) 9ms
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  11:00:57
+   Duration  1.36s (transform 379ms, setup 0ms, collect 315ms, tests 91ms, environment 0ms, prepare 694ms)
+
+## npm run lint
+
+> animatic-event-strip@1.0.0 lint
+> eslint .
+
+## npm run typecheck
+
+> animatic-event-strip@1.0.0 typecheck
+> tsc --noEmit
+
+## npm run build
+
+> animatic-event-strip@1.0.0 build
+> tsc --noEmit && vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 8 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                 16.79 kB │ gzip:  5.13 kB
+dist/assets/index-BAdUlz0e.css  20.72 kB │ gzip:  5.40 kB
+dist/assets/index-D8hf2-jj.js   28.39 kB │ gzip: 10.15 kB
+✓ built in 378ms
+## npm run test:e2e
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test
+
+[1A[2K[2m[WebServer] [22m(node:5117) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 26 tests using 2 workers
+
+[1A[2K(node:5135) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:5136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:5135) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:5136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/26] [chromium] › tests/e2e/app.spec.ts:23:1 › @claim:editor-workflow creates, edits, persists, and exports a useful strip
+[1A[2K[2/26] [mobile] › tests/e2e/app.spec.ts:23:1 › @claim:editor-workflow creates, edits, persists, and exports a useful strip
+[1A[2K[3/26] [mobile] › tests/e2e/app.spec.ts:57:1 › repairs AES-QA-203 with a plain first read and first action
+[1A[2K[4/26] [chromium] › tests/e2e/app.spec.ts:57:1 › repairs AES-QA-203 with a plain first read and first action
+[1A[2K[5/26] [mobile] › tests/e2e/app.spec.ts:66:1 › @claim:sample-demo opens one-click sample data in an isolated, resettable workspace
+[1A[2K[6/26] [chromium] › tests/e2e/app.spec.ts:66:1 › @claim:sample-demo opens one-click sample data in an isolated, resettable workspace
+[1A[2K[7/26] [mobile] › tests/e2e/app.spec.ts:97:1 › @claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage
+[1A[2K[8/26] [chromium] › tests/e2e/app.spec.ts:97:1 › @claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage
+[1A[2K[9/26] [mobile] › tests/e2e/app.spec.ts:114:1 › @claim:project-json-roundtrip exports a complete backup that reopens
+[1A[2K[10/26] [chromium] › tests/e2e/app.spec.ts:114:1 › @claim:project-json-roundtrip exports a complete backup that reopens
+[1A[2K[11/26] [mobile] › tests/e2e/app.spec.ts:129:1 › @claim:adapter-json-v1 exports every sample event with the stable adapter schema
+[1A[2K[12/26] [mobile] › tests/e2e/app.spec.ts:139:1 › @claim:csv-export exports one UTF-8 row per sample event
+[1A[2K[13/26] [mobile] › tests/e2e/app.spec.ts:149:1 › @claim:cached-license-offline keeps a cached Studio verdict available offline
+[1A[2K[14/26] [chromium] › tests/e2e/app.spec.ts:129:1 › @claim:adapter-json-v1 exports every sample event with the stable adapter schema
+[1A[2K[15/26] [mobile] › tests/e2e/app.spec.ts:166:1 › has no serious accessibility violations
+[1A[2K[16/26] [chromium] › tests/e2e/app.spec.ts:139:1 › @claim:csv-export exports one UTF-8 row per sample event
+[1A[2K[17/26] [chromium] › tests/e2e/app.spec.ts:149:1 › @claim:cached-license-offline keeps a cached Studio verdict available offline
+[1A[2K[18/26] [mobile] › tests/e2e/app.spec.ts:172:1 › supports keyboard-only entry, dialog focus, and frame movement
+[1A[2K[19/26] [chromium] › tests/e2e/app.spec.ts:166:1 › has no serious accessibility violations
+[1A[2K[20/26] [mobile] › tests/e2e/app.spec.ts:192:1 › @claim:offline-reload reloads the installed demo shell and sample data offline
+[1A[2K[21/26] [mobile] › tests/e2e/app.spec.ts:205:1 › keeps the 390px page viewport free of body overflow
+[1A[2K[22/26] [mobile] › tests/e2e/app.spec.ts:214:1 › keeps every verifier-identified mobile target at least 44 by 44 CSS pixels
+[1A[2K[23/26] [chromium] › tests/e2e/app.spec.ts:172:1 › supports keyboard-only entry, dialog focus, and frame movement
+[1A[2K[24/26] [chromium] › tests/e2e/app.spec.ts:192:1 › @claim:offline-reload reloads the installed demo shell and sample data offline
+[1A[2K[25/26] [chromium] › tests/e2e/app.spec.ts:205:1 › keeps the 390px page viewport free of body overflow
+[1A[2K[26/26] [chromium] › tests/e2e/app.spec.ts:214:1 › keeps every verifier-identified mobile target at least 44 by 44 CSS pixels
+[1A[2K  3 skipped
+  23 passed (48.7s)
+## npm audit --omit=dev
+found 0 vulnerabilities

@@ -1,0 +1,20 @@
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:sample-demo --project=chromium
+
+[1A[2K[2m[WebServer] [22m(node:3484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 1 test using 1 worker
+
+[1A[2K(node:3502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:3502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/1] [chromium] › tests/e2e/app.spec.ts:66:1 › @claim:sample-demo opens one-click sample data in an isolated, resettable workspace
+[1A[2K  1 passed (7.3s)
