@@ -1,13 +1,17 @@
 import './style.css';
 import { createAdapterExport, createCsvExport, createProjectExport, godotAdapterSource, projectFilename, restoreProject, unityAdapterSource } from './exporters';
 import { clampFrame, frameRange, frameToTimecode, newProject, sortEvents, uid } from './model';
-import { loadProject, saveProject } from './storage';
+import { sampleProject } from './sample';
+import { clearProject, loadProject, saveProject, type StorageSpace } from './storage';
 import type { LocalMedia, MarkerKind, StripEvent } from './types';
 
 const SLUG = 'animatic-event-strip';
 const LICENSE_KEY = `sb_license:${SLUG}`;
 const LICENSE_CACHE_KEY = `${LICENSE_KEY}:verdict`;
 const VERIFY_URL = `https://api.sociobot.in/api/v1/products/${SLUG}/verify`;
+const params = new URLSearchParams(location.search);
+const demoMode = location.pathname.replace(/\/$/, '') === '/demo' || params.get('demo') === '1';
+const storageSpace: StorageSpace = demoMode ? 'demo' : 'project';
 
 function element<T extends HTMLElement>(id: string): T {
   const found = document.getElementById(id);
@@ -138,8 +142,8 @@ async function persist(message = 'Saved locally'): Promise<void> {
   saveStatus.textContent = 'Saving…';
   clearError();
   try {
-    await saveProject(project);
-    saveStatus.textContent = message;
+    await saveProject(project, storageSpace);
+    saveStatus.textContent = demoMode ? 'Demo only' : message;
     saveStatus.setAttribute('aria-label', `${message}. Last saved ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`);
   } catch (error) {
     saveStatus.textContent = 'Save failed';
@@ -424,9 +428,9 @@ async function verifyLicense(token: string, force = false): Promise<void> {
   let cached: { valid: boolean; checkedAt: number } | undefined;
   try { cached = cachedText ? JSON.parse(cachedText) as { valid: boolean; checkedAt: number } : undefined; } catch { cached = undefined; }
   if (cached?.valid) licensed = true;
-  renderLicense(cached?.valid ? 'Cached Studio access is active while the license check runs in the background.' : undefined);
-  if (!force && cached && Date.now() - cached.checkedAt < 86_400_000) { licensed = cached.valid; renderLicense(); return; }
+  renderLicense(cached?.valid ? 'Cached Studio access is active.' : undefined);
   if (!navigator.onLine) { renderLicense(cached?.valid ? 'Studio access is cached on this device. License verification will resume online.' : 'Connect once to verify this license. The free planner works offline.'); return; }
+  if (!force && cached && Date.now() - cached.checkedAt < 86_400_000) { licensed = cached.valid; renderLicense(cached.valid ? 'Studio access was checked within the last day.' : undefined); return; }
   try {
     const response = await fetch(`${VERIFY_URL}?license=${encodeURIComponent(token)}`, { headers: { Accept: 'application/json' } });
     if (!response.ok) throw new Error('License service unavailable');
@@ -453,6 +457,21 @@ async function initializeLicense(): Promise<void> {
 }
 
 function registerEvents(): void {
+  element('start-project').addEventListener('click', () => {
+    element('workspace-title').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    openEventEditor();
+  });
+  element('reset-demo').addEventListener('click', async () => {
+    project = sampleProject();
+    currentFrame = 0;
+    selectedId = null;
+    render();
+    await persist('Demo reset');
+    element('demo-status').textContent = 'Sample strip reset.';
+  });
+  element('leave-demo').addEventListener('click', async () => {
+    try { await clearProject('demo'); } finally { location.assign('/'); }
+  });
   element('add-event').addEventListener('click', () => openEventEditor());
   element('empty-add').addEventListener('click', () => openEventEditor());
   element('project-settings').addEventListener('click', () => openSettings());
@@ -535,6 +554,7 @@ function registerEvents(): void {
   element<HTMLInputElement>('timeline-zoom').addEventListener('input', (event) => { stage.style.width = `${Number((event.target as HTMLInputElement).value) * 100}%`; });
   element<HTMLFormElement>('license-form').addEventListener('submit', (event) => {
     event.preventDefault();
+    if (demoMode) { element('license-note').textContent = 'Start for real before restoring a license. The demo does not read your saved access.'; return; }
     const token = element<HTMLInputElement>('license-token').value.trim();
     if (!token) { element('license-note').textContent = 'Paste the license token from your receipt.'; return; }
     localStorage.setItem(LICENSE_KEY, token);
@@ -542,7 +562,7 @@ function registerEvents(): void {
   });
   element('save-status').addEventListener('click', () => void persist('Saved locally'));
   element('about-art').addEventListener('click', () => { guideDialog.showModal(); element('guide-title').textContent = 'Artwork provenance'; const list = guideDialog.querySelector('ol'); if (list) list.innerHTML = '<li><b>Original scene.</b><span>Generated for this product with the Param Factory image model on 28 August 2026.</span></li><li><b>Purpose.</b><span>The blue-hour cutting room establishes the planning context; it does not depict product output.</span></li><li><b>No stock library.</b><span>All interface marks are authored SVG strokes. No third-party art or fonts are loaded.</span></li>'; });
-  window.addEventListener('online', () => { setOnlineStatus(); const token = localStorage.getItem(LICENSE_KEY); if (token) void verifyLicense(token); });
+  window.addEventListener('online', () => { setOnlineStatus(); if (!demoMode) { const token = localStorage.getItem(LICENSE_KEY); if (token) void verifyLicense(token); } });
   window.addEventListener('offline', setOnlineStatus);
   window.addEventListener('pageshow', setOnlineStatus);
   setTimeout(setOnlineStatus, 250);
@@ -551,12 +571,29 @@ function registerEvents(): void {
 async function registerServiceWorker(): Promise<void> {
   if (!('serviceWorker' in navigator)) return;
   try {
+    const controlledAtRegistration = Boolean(navigator.serviceWorker.controller);
+    let updateRequested = false;
     const registration = await navigator.serviceWorker.register('/sw.js');
     registration.addEventListener('updatefound', () => {
       const worker = registration.installing;
       worker?.addEventListener('statechange', () => { if (worker.state === 'installed' && navigator.serviceWorker.controller) element('update-toast').hidden = false; });
     });
-    element('reload-app').addEventListener('click', () => location.reload());
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (updateRequested) location.reload();
+      else if (controlledAtRegistration) element('update-toast').hidden = false;
+    });
+    element('reload-app').addEventListener('click', () => {
+      const button = element<HTMLButtonElement>('reload-app');
+      const worker = registration.waiting ?? registration.installing;
+      if (!worker || worker.state === 'activated') { location.reload(); return; }
+      updateRequested = true;
+      button.disabled = true;
+      button.textContent = 'Updating…';
+      if (worker.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
+      else worker.addEventListener('statechange', () => {
+        if (worker.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
+      });
+    });
   } catch {
     announceError('Offline install is unavailable in this browser. Your project still saves locally.');
   }
@@ -565,16 +602,23 @@ async function registerServiceWorker(): Promise<void> {
 async function start(): Promise<void> {
   registerEvents();
   setOnlineStatus();
+  document.title = demoMode ? 'Demo — Animatic Event Strip' : 'Animatic Event Strip — plan animation events';
+  element('demo-banner').hidden = !demoMode;
+  document.body.classList.toggle('demo-mode', demoMode);
   try {
-    const stored = await loadProject();
+    const stored = await loadProject(storageSpace);
     if (stored) project = stored;
-    else await persist('Ready offline');
+    else {
+      project = demoMode ? sampleProject() : newProject();
+      await persist(demoMode ? 'Demo ready' : 'Ready offline');
+    }
   } catch (error) {
     announceError(`${error instanceof Error ? error.message : 'Local storage is unavailable.'} You can still work and export from this tab.`);
   }
   render();
-  saveStatus.textContent = 'Saved locally';
-  await initializeLicense();
+  saveStatus.textContent = demoMode ? 'Demo only' : 'Saved locally';
+  if (demoMode) renderLicense('The demo uses the free planner and does not read saved licenses.');
+  else await initializeLicense();
   await registerServiceWorker();
 }
 

@@ -4,6 +4,8 @@ Animatic Event Strip is an offline-first timing board for solo 2D animators and 
 
 Live product: <https://animatic-event-strip.sociobot.in>
 
+One-click demo: <https://animatic-event-strip.sociobot.in/demo>. It opens a filled 10-second strip without reading or changing your project. **Reset demo** restores the sample, and **Start for real** discards demo edits.
+
 ## What it does
 
 - Builds a frame-accurate strip at 12, 15, 24, 25, 30, or 60 fps.
@@ -16,6 +18,8 @@ Live product: <https://animatic-event-strip.sociobot.in>
 - Optionally unlocks Godot 4 / Unity 6 starter adapters and a print handoff sheet through a one-time Sociobot license.
 
 This is a pre-production tool, not an animation editor: it does not tween, generate art, animate characters, or execute engine events.
+
+The demo stores edits in the separate `demo:animatic-event-strip` IndexedDB database. Real projects use `animatic-event-strip`. The complete claim list and one tagged browser test per claim are in [`.factory/claims.json`](.factory/claims.json).
 
 ## Run locally
 
@@ -42,6 +46,12 @@ npm run lint             # ESLint for TypeScript and test sources
 npm run typecheck        # TypeScript without emitting files
 npm run test:e2e         # Chromium desktop/390px mobile, persistence, axe, offline
 npm run test:live-policy # checkout, rate limit, live headers/cache, and identity
+```
+
+Run every observable product claim from a fresh demo sandbox:
+
+```sh
+node -e "for (const c of require('./.factory/claims.json')) console.log(c.test)"
 ```
 
 Playwright is pinned to 1.58.2. The end-to-end test starts `vite preview` automatically when one is not already running. The live-policy check intentionally targets the production Sociobot API and deployed product, so run it after deployment rather than as part of local unit tests.

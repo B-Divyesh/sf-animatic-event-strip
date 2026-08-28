@@ -1,5 +1,45 @@
 # Animatic Event Strip — handoff
 
+## Release-blocking product-QA repair 2 — local PASS
+
+Work order `animatic-event-strip-repair-2` repairs every blocker recorded in verifier commit `7c859f8c1a1110429c4496027094314f872ffc3d` for candidate `ae964e0113269aecfbdf888a3f239e27f200a280`. The product remains a static, local-first PWA. Deployment and final live-policy evidence are recorded below after the repair commit.
+
+### Finding disposition
+
+- **AES-QA-201 — repaired and covered:** `.factory/claims.json` now declares nine observable claims. Each ID occurs in exactly one `@claim:<id>` test, and `tests/release.test.ts` fails for missing, duplicate, or unreferenced tags. The eight local claim commands passed independently from fresh browser contexts. The hosted-checkout claim remains in the existing live-policy gate and is run after deployment.
+- **AES-QA-202 — repaired and covered:** the first-screen **Try it with sample data** link and `/demo` open a seeded 10-second Rain Gate handoff with six realistic events. Demo reads and writes only `demo:animatic-event-strip`; it does not open the real project database or read a stored license. **Reset demo** restores the seed. **Start for real** deletes the demo record and reveals the unchanged real project. `.factory/demo.md` documents the entry point, sample, reset, exit, and namespace. The sample, isolation, reset, discard, and offline paths are browser-tested.
+- **AES-QA-203 — repaired and covered:** the single H1 is now **Plan animation events before engine work.** The next sentence names solo 2D animators and small game teams. The primary action explains that it loads a filled 10-second strip, followed by the privacy, offline, and price facts. The exact first read is asserted on desktop and 390 px mobile. `.factory/copy-audit.md` records word counts and terminology; no audited sentence exceeds 22 words.
+
+The update flow was also made deterministic while exercising the complete PWA gate. A waiting service worker now receives `SKIP_WAITING` only after **Update app** is chosen; `controllerchange` then reloads the page. A forced v5-to-v6 probe displayed **A fresh version is ready** and accepted the update action. The shipped cache remains `aes-shell-v5`.
+
+### Local verification evidence — 2026-08-28 UTC
+
+```sh
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm run test:e2e
+npm audit --omit=dev
+node -e "const c=require('./.factory/claims.json'); for (const x of c.filter(x=>x.id!=='studio-checkout')) console.log(x.test)" | while IFS= read -r claim_cmd; do bash -lc "$claim_cmd" || exit 1; done
+/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/demo .factory/evidence/repair-2
+```
+
+- Clean install: 140 packages, 0 audit vulnerabilities. Unit/release tests: 9/9. ESLint and TypeScript: clean.
+- Production build: `dist/index.html` at the root; initial JS 28,392 bytes / 10,158 bytes gzip; CSS 20,679 bytes / 5,395 bytes gzip; no font files; mobile hero WebP 36,138 bytes.
+- Playwright 1.58.2: 23 passed / 3 intentional profile skips across desktop Chromium and 390×844 mobile. Coverage includes the nine claim paths, real/demo storage isolation, reset/exit, import/export contents, persistence, offline shell and cached license, keyboard focus and movement, 44 px targets, body overflow, and axe WCAG 2 A/AA.
+- Every local claim command in `.factory/claims.json` passed independently. Project JSON round-tripped seven events; Adapter JSON reported `animatic-event-strip/adapter` v1 with six events; CSV contained its BOM, header, and six data rows; privacy interception observed only `http://127.0.0.1:4173`.
+- Local `verify-url.sh`: HTTP 200, title `Demo — Animatic Event Strip`, `lang=en`, one H1, main landmark, 0 images missing alternatives, 0 unlabeled buttons, and 0 console/page errors. Desktop and 390 px visual review found no body overflow, collision, clipping, or unreadable controls.
+- Lighthouse 13.4.1 mobile completed its report before the known post-audit Chromium crash: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,356 ms, TBT 65 ms, CLS 0.014. INP is not represented as measured by a lab navigation.
+- Package/consumer and first-party backend checks do not apply: this artifact is an application with no published package and no first-party backend. Response-policy, checkout, rate-limit, deployment identity, and live privacy checks are run against the deployed custom domain.
+
+### Known research gap
+
+The five-person handoff pilot in the researched brief has not been run. The success measure about ambiguous implementation questions therefore remains user-research work, not a product or release-gate claim.
+
+---
+
 ## Independent verification 2 — FAIL (release blocked)
 
 Candidate `ae964e0113269aecfbdf888a3f239e27f200a280` at <https://animatic-event-strip.sociobot.in> was freshly verified on 2026-08-28 UTC. The live deployment matches all 18 deployable files rebuilt from this exact commit, and its repaired checkout, rate limit, security headers, caching, editor flow, PWA offline reload/update, accessibility baseline, and quality gates pass.

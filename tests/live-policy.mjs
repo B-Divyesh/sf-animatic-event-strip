@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 
+// @claim:studio-checkout — the hosted checkout, price path, and live deployment are reachable.
+
 const site = process.env.LIVE_URL ?? 'https://animatic-event-strip.sociobot.in';
 const api = 'https://api.sociobot.in/api/v1/products/animatic-event-strip';
 
@@ -29,6 +31,8 @@ for (const [name, expected] of Object.entries(policies)) {
 const html = await page.text();
 assert.match(html, /<title>Animatic Event Strip/, 'live product identity title is wrong');
 assert.match(html, /<h1[^>]*id="product-title"/, 'live product identity heading is wrong');
+assert.match(html, /Studio Pack costs \$12 once/, 'live product does not state the tested one-time price');
+assert.match(html, /href="https:\/\/api\.sociobot\.in\/api\/v1\/products\/animatic-event-strip\/checkout"/, 'live buy link does not use Sociobot checkout');
 
 const assetPath = html.match(/(?:src|href)="(\/assets\/[^"?#]+\.[a-f0-9]{8}\.[^"?#]+)"/)?.[1];
 assert.ok(assetPath, 'live page did not reference a content-addressed asset');

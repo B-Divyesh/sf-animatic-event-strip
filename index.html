@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#11191d" />
-    <meta name="description" content="Plan animatic frames, audio cues, and engine-neutral event markers in one private offline strip." />
+    <meta name="description" content="Plan frames, sound cues, and input windows in a local event strip for animation handoff." />
+    <link rel="canonical" href="https://animatic-event-strip.sociobot.in/" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/icons/icon.d996dad9.svg" type="image/svg+xml" />
-    <title>Animatic Event Strip — plan the handoff before the engine</title>
+    <title>Animatic Event Strip — plan animation events</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to event strip</a>
@@ -22,12 +23,21 @@
       </nav>
     </header>
 
+    <aside class="demo-banner" id="demo-banner" aria-label="Demo mode" hidden>
+      <div><strong>Demo — sample data, nothing is saved to your project</strong><span>Demo edits stay separate until you reset or leave.</span></div>
+      <div class="demo-actions"><button class="text-button" id="reset-demo" type="button">Reset demo</button><button class="button secondary" id="leave-demo" type="button">Start for real</button></div>
+      <p class="sr-only" id="demo-status" aria-live="polite"></p>
+    </aside>
+
     <main id="main" tabindex="-1">
       <section class="intro" aria-labelledby="product-title">
         <div class="intro-copy">
-          <p class="eyebrow">Engine-neutral pre-production</p>
-          <h1 id="product-title">Find the beat.<br /><i>Mark the handoff.</i></h1>
-          <p class="lede">Shape frames, voice, sound, and interaction windows into one portable strip—before implementation details harden.</p>
+          <p class="eyebrow">Animation handoff planner</p>
+          <h1 id="product-title">Plan animation events <i>before engine work.</i></h1>
+          <p class="lede">For solo 2D animators and small game teams planning frames, sound cues, and input windows before engine work.</p>
+          <div class="hero-actions"><a class="button primary" id="try-demo" href="/demo">Try it with sample data</a><button class="button secondary" id="start-project" type="button">Add your own event</button></div>
+          <p class="action-note">Loads a filled 10-second strip. The demo never opens or changes your project.</p>
+          <ul class="hero-facts"><li>Your project stays on this device.</li><li>Reopens offline after your first visit.</li><li>Core exports are free. Studio Pack costs $12 once.</li></ul>
         </div>
         <picture class="scene-plate">
           <source srcset="/assets/cutting-room-960.c6872b74.webp 960w, /assets/cutting-room-1536.2f79d519.webp 1536w" type="image/webp" sizes="(max-width: 760px) 100vw, 46vw" />

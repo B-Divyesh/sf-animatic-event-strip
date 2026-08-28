@@ -26,4 +26,27 @@ describe('release policy', () => {
       for (const file of files) expect(file).toMatch(/\.[a-f0-9]{8}\.[a-z0-9]+$/);
     }
   });
+
+  test('declares every executable product claim exactly once', async () => {
+    const claims = JSON.parse(await readFile(new URL('.factory/claims.json', root), 'utf8')) as Array<{ id: string; test: string }>;
+    expect(claims.length).toBeGreaterThan(0);
+    expect(new Set(claims.map((claim) => claim.id)).size).toBe(claims.length);
+    const sources = [
+      await readFile(new URL('tests/e2e/app.spec.ts', root), 'utf8'),
+      await readFile(new URL('tests/live-policy.mjs', root), 'utf8'),
+    ].join('\n');
+    for (const claim of claims) {
+      const tag = `@claim:${claim.id}`;
+      expect(claim.test).toContain(tag);
+      expect(sources.split(tag)).toHaveLength(2);
+    }
+  });
+
+  test('documents the isolated demo entry point and storage namespace', async () => {
+    const demo = await readFile(new URL('.factory/demo.md', root), 'utf8');
+    const storage = await readFile(new URL('src/storage.ts', root), 'utf8');
+    expect(demo).toContain('https://animatic-event-strip.sociobot.in/demo');
+    expect(demo).toContain('demo:animatic-event-strip');
+    expect(storage).toContain("demo: 'demo:animatic-event-strip'");
+  });
 });

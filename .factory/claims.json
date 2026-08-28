@@ -1,0 +1,56 @@
+[
+  {
+    "id": "sample-demo",
+    "claim": "Try a filled sample strip without opening or changing your project.",
+    "where": "landing first screen, README",
+    "test": "npm run test:e2e -- --grep @claim:sample-demo --project=chromium"
+  },
+  {
+    "id": "editor-workflow",
+    "claim": "Create, edit, reload, and export a frame-accurate event strip.",
+    "where": "workspace, README",
+    "test": "npm run test:e2e -- --grep @claim:editor-workflow --project=chromium"
+  },
+  {
+    "id": "local-storage-only",
+    "claim": "Project data and media stay on this device during planning and export.",
+    "where": "landing facts, footer, README",
+    "test": "npm run test:e2e -- --grep @claim:local-storage-only --project=chromium"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Reopens offline after the first visit.",
+    "where": "landing facts, README",
+    "test": "npm run test:e2e -- --grep @claim:offline-reload --project=mobile"
+  },
+  {
+    "id": "project-json-roundtrip",
+    "claim": "Project JSON exports a complete backup that reopens in the app.",
+    "where": "export dialog, README",
+    "test": "npm run test:e2e -- --grep @claim:project-json-roundtrip --project=chromium"
+  },
+  {
+    "id": "adapter-json-v1",
+    "claim": "Adapter JSON exports every event with stable schema version 1.",
+    "where": "handoff section, export dialog, README",
+    "test": "npm run test:e2e -- --grep @claim:adapter-json-v1 --project=chromium"
+  },
+  {
+    "id": "csv-export",
+    "claim": "CSV export contains one UTF-8 row per event.",
+    "where": "handoff section, export dialog, README",
+    "test": "npm run test:e2e -- --grep @claim:csv-export --project=chromium"
+  },
+  {
+    "id": "cached-license-offline",
+    "claim": "A cached valid Studio license keeps paid downloads available offline.",
+    "where": "license panel, README",
+    "test": "npm run test:e2e -- --grep @claim:cached-license-offline --project=chromium"
+  },
+  {
+    "id": "studio-checkout",
+    "claim": "The $12 one-time Studio Pack uses Sociobot's hosted checkout.",
+    "where": "landing facts, Studio Pack section, README",
+    "test": "npm run test:live-policy -- --claim @claim:studio-checkout"
+  }
+]

@@ -1,5 +1,5 @@
-/* Animatic Event Strip service worker — app shell v4 */
-const VERSION = 'aes-shell-v4';
+/* Animatic Event Strip service worker — app shell v5 */
+const VERSION = 'aes-shell-v5';
 const SHELL = ['/', '/index.html', '/offline.html', '/manifest.webmanifest', '/icons/icon.d996dad9.svg', '/icons/icon-192.d8a89c52.png', '/icons/icon-512.50176303.png', '/icons/icon-maskable-512.50176303.png', '/assets/cutting-room-960.c6872b74.webp', '/assets/cutting-room-1536.2f79d519.webp', '/assets/cutting-room-960.641304ed.jpg', '/privacy/', '/terms/', '/assets/legal.e3a3c165.css'];
 
 self.addEventListener('install', (event) => {
@@ -10,8 +10,11 @@ self.addEventListener('install', (event) => {
     const html = await response.text();
     const assetPaths = [...html.matchAll(/(?:src|href)="(\/assets\/[^"?#]+)/g)].map((match) => match[1]);
     await Promise.all(assetPaths.map((path) => cache.add(path).catch(() => undefined)));
-    await self.skipWaiting();
   })());
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') void self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
