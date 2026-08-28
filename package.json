@@ -7,16 +7,21 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest run tests/model.test.ts",
-    "test:e2e": "playwright test"
+    "test": "vitest run tests/model.test.ts tests/release.test.ts",
+    "test:e2e": "playwright test",
+    "test:live-policy": "node tests/live-policy.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
     "@playwright/test": "1.58.2",
+    "@types/node": "24.3.0",
+    "eslint": "10.9.1",
     "playwright-core": "1.58.2",
     "typescript": "5.9.2",
+    "typescript-eslint": "8.68.0",
     "vite": "7.3.6",
-    "vite-plugin-singlefile": "2.3.0",
     "vitest": "3.2.7"
   }
 }

@@ -37,11 +37,14 @@ The static artifact is written to `dist/`, with `dist/index.html` at its root.
 ## Test
 
 ```sh
-npm test          # timing, validation, JSON/CSV adapters
-npm run test:e2e # Chromium desktop/mobile, persistence, axe, offline
+npm test                 # model plus release-policy regression tests
+npm run lint             # ESLint for TypeScript and test sources
+npm run typecheck        # TypeScript without emitting files
+npm run test:e2e         # Chromium desktop/390px mobile, persistence, axe, offline
+npm run test:live-policy # checkout, rate limit, live headers/cache, and identity
 ```
 
-Playwright is pinned to 1.58.2. The end-to-end test starts `vite preview` automatically when one is not already running.
+Playwright is pinned to 1.58.2. The end-to-end test starts `vite preview` automatically when one is not already running. The live-policy check intentionally targets the production Sociobot API and deployed product, so run it after deployment rather than as part of local unit tests.
 
 ## Keyboard and mobile
 
@@ -56,6 +59,8 @@ Project JSON is the backup/reopen format. Adapter JSON and CSV are deliberately 
 ## Privacy and payment
 
 No analytics, cookies, remote fonts, or third-party runtime scripts are present. The only optional request is a Studio Pack license check to the Sociobot billing API. Checkout is hosted by Sociobot/Dodo; no product or payment-provider IDs are embedded here. See [`public/privacy/index.html`](public/privacy/index.html) and [`public/terms/index.html`](public/terms/index.html).
+
+Production response policy is declared in [`public/staticwebapp.config.json`](public/staticwebapp.config.json). It restricts content sources and framing, disables unused browser capabilities, and gives content-addressed JS, CSS, art, and icons a one-year immutable cache lifetime. The HTML, manifest, service worker, and legal documents remain revalidatable so updates are discovered safely.
 
 ## Project notes
 

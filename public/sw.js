@@ -1,6 +1,6 @@
-/* Animatic Event Strip service worker — app shell v1 */
-const VERSION = 'aes-shell-v1';
-const SHELL = ['/', '/index.html', '/offline.html', '/manifest.webmanifest', '/icons/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable-512.png', '/assets/cutting-room-960.webp', '/assets/cutting-room-1536.webp', '/assets/cutting-room-960.jpg', '/privacy/', '/terms/', '/legal.css'];
+/* Animatic Event Strip service worker — app shell v4 */
+const VERSION = 'aes-shell-v4';
+const SHELL = ['/', '/index.html', '/offline.html', '/manifest.webmanifest', '/icons/icon.d996dad9.svg', '/icons/icon-192.d8a89c52.png', '/icons/icon-512.50176303.png', '/icons/icon-maskable-512.50176303.png', '/assets/cutting-room-960.c6872b74.webp', '/assets/cutting-room-1536.2f79d519.webp', '/assets/cutting-room-960.641304ed.jpg', '/privacy/', '/terms/', '/assets/legal.e3a3c165.css'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
@@ -35,14 +35,14 @@ self.addEventListener('fetch', (event) => {
         cache.put(request, fresh.clone());
         return fresh;
       } catch {
-        return (await caches.match(request)) || (await caches.match('/index.html')) || (await caches.match('/offline.html'));
+        return (await caches.match(request, { ignoreVary: true })) || (await caches.match('/index.html', { ignoreVary: true })) || (await caches.match('/offline.html', { ignoreVary: true }));
       }
     })());
     return;
   }
   if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/icons/')) {
     event.respondWith((async () => {
-      const cached = await caches.match(request);
+      const cached = await caches.match(request, { ignoreVary: true });
       if (cached) return cached;
       const fresh = await fetch(request);
       const cache = await caches.open(VERSION);
@@ -51,5 +51,5 @@ self.addEventListener('fetch', (event) => {
     })());
     return;
   }
-  event.respondWith(fetch(request).catch(() => caches.match(request)));
+  event.respondWith(fetch(request).catch(() => caches.match(request, { ignoreVary: true })));
 });

@@ -39,7 +39,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round
 .skip-link { position: fixed; z-index: 99; top: 8px; left: 8px; transform: translateY(-150%); padding: 10px 16px; background: var(--signal); color: var(--signal-ink); font-weight: 800; border-radius: 4px; }
 .skip-link:focus { transform: translateY(0); }
 .masthead { min-height: 84px; padding: 14px clamp(16px, 3vw, 48px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: rgba(17,25,29,.96); position: relative; z-index: 5; }
-.wordmark { display: flex; align-items: center; gap: 12px; color: var(--paper); text-decoration: none; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; font-weight: 800; line-height: 1.25; }
+.wordmark { min-height: 44px; display: flex; align-items: center; gap: 12px; color: var(--paper); text-decoration: none; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; font-weight: 800; line-height: 1.25; }
 .wordmark svg { width: 42px; height: 42px; color: var(--gold); stroke-width: 1.35; }
 .wordmark em { font-family: var(--serif); font-size: 15px; text-transform: none; letter-spacing: .025em; font-weight: 400; }
 .masthead nav { display: flex; align-items: center; gap: 16px; }
@@ -63,7 +63,7 @@ h1 i { color: var(--signal); font-weight: 400; }
 .workspace { padding: 40px clamp(16px, 3vw, 48px) 0; max-width: 1800px; margin: 0 auto; }
 .project-bar { display: grid; grid-template-columns: minmax(220px, 1fr) auto auto; align-items: center; gap: 24px; margin-bottom: 24px; }
 .project-bar h2 { font-size: clamp(27px, 3vw, 38px); }
-#rename-project { display: inline-flex; align-items: center; gap: 10px; border: 0; padding: 4px 0; background: transparent; cursor: pointer; text-align: left; }
+#rename-project { min-height: 44px; display: inline-flex; align-items: center; gap: 10px; border: 0; padding: 4px 0; background: transparent; cursor: pointer; text-align: left; }
 #rename-project svg { width: 18px; height: 18px; color: var(--paper-dim); }
 .project-facts { display: flex; align-items: center; gap: 18px; color: var(--paper-dim); }
 .project-facts span { display: flex; flex-direction: column; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; }
@@ -152,6 +152,7 @@ input::placeholder, textarea::placeholder { color: #5c6464; }
 footer { padding: 32px clamp(16px, 3vw, 48px) max(32px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1fr auto; gap: 12px; color: var(--paper-dim); font-size: 13px; }
 footer p { margin: 0; }
 footer nav { display: flex; align-items: center; gap: 20px; }
+footer nav a { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 footer .credit { grid-column: 1 / -1; font-size: 11px; color: #92958e; }
 
 dialog { width: min(640px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; border: 1px solid rgba(242,234,216,.3); border-radius: 4px; padding: 24px; background: var(--ink-raised); color: var(--paper); box-shadow: 0 28px 100px rgba(0,0,0,.65); }

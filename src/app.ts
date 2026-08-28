@@ -544,6 +544,8 @@ function registerEvents(): void {
   element('about-art').addEventListener('click', () => { guideDialog.showModal(); element('guide-title').textContent = 'Artwork provenance'; const list = guideDialog.querySelector('ol'); if (list) list.innerHTML = '<li><b>Original scene.</b><span>Generated for this product with the Param Factory image model on 28 August 2026.</span></li><li><b>Purpose.</b><span>The blue-hour cutting room establishes the planning context; it does not depict product output.</span></li><li><b>No stock library.</b><span>All interface marks are authored SVG strokes. No third-party art or fonts are loaded.</span></li>'; });
   window.addEventListener('online', () => { setOnlineStatus(); const token = localStorage.getItem(LICENSE_KEY); if (token) void verifyLicense(token); });
   window.addEventListener('offline', setOnlineStatus);
+  window.addEventListener('pageshow', setOnlineStatus);
+  setTimeout(setOnlineStatus, 250);
 }
 
 async function registerServiceWorker(): Promise<void> {

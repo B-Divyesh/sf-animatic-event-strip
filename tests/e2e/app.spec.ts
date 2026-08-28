@@ -10,8 +10,8 @@ test('creates, edits, persists, and exports a useful strip', async ({ page }) =>
   await page.getByLabel('Label').fill('Gate opens');
   await page.getByLabel('Start frame').fill('0');
   await page.getByLabel('End frame').fill('48');
-  await page.locator('#image-file').setInputFiles('public/assets/cutting-room-960.webp');
-  await expect(page.locator('#image-picked')).toHaveText('cutting-room-960.webp');
+  await page.locator('#image-file').setInputFiles('public/assets/cutting-room-960.c6872b74.webp');
+  await expect(page.locator('#image-picked')).toHaveText('cutting-room-960.c6872b74.webp');
   await page.getByRole('button', { name: 'Add to strip' }).click();
   await expect(page.getByText('1 card', { exact: true })).toBeVisible();
 
@@ -60,4 +60,21 @@ test('keeps the 390px page viewport free of body overflow', async ({ page }, tes
   expect(dimensions.body).toBeLessThanOrEqual(dimensions.viewport);
   await page.getByRole('button', { name: '+ Add event' }).click();
   await expect(page.getByRole('dialog', { name: 'Add event' })).toBeVisible();
+});
+
+test('keeps every verifier-identified mobile target at least 44 by 44 CSS pixels', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', '390px touch geometry is covered in the mobile profile');
+  await page.goto('/');
+  const targets = [
+    page.getByRole('link', { name: 'Animatic Event Strip home' }),
+    page.getByRole('button', { name: 'Rename project' }),
+    page.getByRole('link', { name: 'Privacy' }),
+    page.getByRole('link', { name: 'Terms' }),
+  ];
+  for (const target of targets) {
+    const box = await target.boundingBox();
+    expect(box, `missing target: ${await target.getAttribute('aria-label') ?? await target.textContent()}`).not.toBeNull();
+    expect(box!.width).toBeGreaterThanOrEqual(44);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+  }
 });
