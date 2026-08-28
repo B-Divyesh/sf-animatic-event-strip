@@ -1,0 +1,316 @@
+
+CLAIM sample-demo
+COMMAND npm run test:e2e -- --grep @claim:sample-demo --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:sample-demo --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:188:1 › @claim:sample-demo opens one-click sample data in an isolated, resettable workspace
+  1 passed (4.7s)
+
+CLAIM editor-workflow
+COMMAND npm run test:e2e -- --grep @claim:editor-workflow --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:editor-workflow --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10183) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:47:1 › @claim:editor-workflow creates, edits, persists, and exports a useful strip
+  1 passed (3.6s)
+
+CLAIM fps-options
+COMMAND npm run test:e2e -- --grep @claim:fps-options --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:fps-options --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10282) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:83:1 › @claim:fps-options exposes every documented planning rate
+  1 passed (2.0s)
+
+CLAIM audio-preview
+COMMAND npm run test:e2e -- --grep @claim:audio-preview --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:audio-preview --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10378) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10378) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:89:1 › @claim:audio-preview stores a waveform and starts aligned local playback
+  1 passed (2.7s)
+
+CLAIM local-storage-only
+COMMAND npm run test:e2e -- --grep @claim:local-storage-only --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:local-storage-only --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:230:1 › @claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage
+  1 passed (3.0s)
+
+CLAIM runtime-privacy
+COMMAND npm run test:e2e -- --grep @claim:runtime-privacy --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:runtime-privacy --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:247:1 › @claim:runtime-privacy ships without analytics, cookies, remote fonts, or third-party runtime scripts
+  1 passed (3.0s)
+
+CLAIM asset-provenance
+COMMAND npm run test:e2e -- --grep @claim:asset-provenance --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:asset-provenance --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:266:1 › @claim:asset-provenance records the generated scene source and serves only bundled artwork
+  1 passed (2.1s)
+
+CLAIM offline-reload
+COMMAND npm run test:e2e -- --grep @claim:offline-reload --project=mobile
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:offline-reload --project=mobile
+
+
+Running 1 test using 1 worker
+
+(node:10780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [mobile] › tests/e2e/app.spec.ts:522:1 › @claim:offline-reload reloads the installed demo shell and sample data offline
+  1 passed (2.1s)
+
+CLAIM keyboard-operation
+COMMAND npm run test:e2e -- --grep @claim:keyboard-operation --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:keyboard-operation --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10896) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10896) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:476:1 › @claim:keyboard-operation operates documented planner controls and frame keys without focus loss
+  1 passed (2.4s)
+
+CLAIM project-json-roundtrip
+COMMAND npm run test:e2e -- --grep @claim:project-json-roundtrip --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:project-json-roundtrip --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:10992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:10992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:285:1 › @claim:project-json-roundtrip exports a complete backup that reopens
+  1 passed (3.5s)
+
+CLAIM adapter-json-v1
+COMMAND npm run test:e2e -- --grep @claim:adapter-json-v1 --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:adapter-json-v1 --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:11089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:11089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:303:1 › @claim:adapter-json-v1 exports every sample event with the stable adapter schema
+  1 passed (2.3s)
+
+CLAIM csv-export
+COMMAND npm run test:e2e -- --grep @claim:csv-export --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:csv-export --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:11185) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:11185) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:313:1 › @claim:csv-export exports one UTF-8 row per sample event
+  1 passed (2.3s)
+
+CLAIM cached-license-offline
+COMMAND npm run test:e2e -- --grep @claim:cached-license-offline --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:cached-license-offline --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:11284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:11284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:323:1 › @claim:cached-license-offline keeps a cached Studio verdict available offline
+  1 passed (2.4s)
+
+CLAIM license-lifecycle
+COMMAND npm run test:e2e -- --grep @claim:license-lifecycle --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:license-lifecycle --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:11380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:11380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:340:1 › @claim:license-lifecycle suppresses same-day checks, restores access, and reconciles inactive licenses from recorded fixtures
+  1 passed (4.7s)
+
+CLAIM studio-outputs
+COMMAND npm run test:e2e -- --grep @claim:studio-outputs --project=chromium
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test --grep @claim:studio-outputs --project=chromium
+
+
+Running 1 test using 1 worker
+
+(node:11482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:11482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] [chromium] › tests/e2e/app.spec.ts:406:1 › @claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the print handoff
+  1 passed (3.0s)
+
+CLAIM studio-checkout
+COMMAND npm run test:live-policy -- --claim @claim:studio-checkout
+
+> animatic-event-strip@1.0.0 test:live-policy
+> node tests/live-policy.mjs --claim @claim:studio-checkout
+
+PASS checkout=303 rate-limit=429 retry-after=4 live=200 asset=/assets/cutting-room-960.641304ed.jpg
+
+CLAIM node-support
+COMMAND npm run test:node-support -- --claim @claim:node-support
+
+> animatic-event-strip@1.0.0 test:node-support
+> npx --yes --package=node@20.19.0 node tests/node-support.mjs --claim @claim:node-support
+
+PASS node=v20.19.0 engine=^20.19.0 || >=22.12.0 production-build=ok

@@ -1,0 +1,79 @@
+
+> animatic-event-strip@1.0.0 test:e2e
+> playwright test
+
+
+Running 54 tests using 1 worker
+
+(node:13880) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:13880) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/54] [chromium] › tests/e2e/app.spec.ts:47:1 › @claim:editor-workflow creates, edits, persists, and exports a useful strip
+[2/54] [chromium] › tests/e2e/app.spec.ts:83:1 › @claim:fps-options exposes every documented planning rate
+[3/54] [chromium] › tests/e2e/app.spec.ts:89:1 › @claim:audio-preview stores a waveform and starts aligned local playback
+[4/54] [chromium] › tests/e2e/app.spec.ts:114:1 › repairs AES-QA-203 with a plain first read and first action
+[5/54] [chromium] › tests/e2e/app.spec.ts:123:1 › repairs F-3-1 and F-1-1 by focusing and announcing app and legal routes, including browser Back
+[6/54] [chromium] › tests/e2e/app.spec.ts:153:1 › repairs F-2-1 with predictable Demo, Privacy, and Terms links in every footer
+[7/54] [chromium] › tests/e2e/app.spec.ts:167:1 › repairs F-2-2 through F-2-4 with specific copy and action names
+[8/54] [chromium] › tests/e2e/app.spec.ts:178:1 › shows the three visible handoff steps on the planner and demo
+[9/54] [chromium] › tests/e2e/app.spec.ts:188:1 › @claim:sample-demo opens one-click sample data in an isolated, resettable workspace
+[10/54] [chromium] › tests/e2e/app.spec.ts:230:1 › @claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage
+[11/54] [chromium] › tests/e2e/app.spec.ts:247:1 › @claim:runtime-privacy ships without analytics, cookies, remote fonts, or third-party runtime scripts
+[12/54] [chromium] › tests/e2e/app.spec.ts:266:1 › @claim:asset-provenance records the generated scene source and serves only bundled artwork
+[13/54] [chromium] › tests/e2e/app.spec.ts:285:1 › @claim:project-json-roundtrip exports a complete backup that reopens
+[14/54] [chromium] › tests/e2e/app.spec.ts:303:1 › @claim:adapter-json-v1 exports every sample event with the stable adapter schema
+[15/54] [chromium] › tests/e2e/app.spec.ts:313:1 › @claim:csv-export exports one UTF-8 row per sample event
+[16/54] [chromium] › tests/e2e/app.spec.ts:323:1 › @claim:cached-license-offline keeps a cached Studio verdict available offline
+[17/54] [chromium] › tests/e2e/app.spec.ts:340:1 › @claim:license-lifecycle suppresses same-day checks, restores access, and reconciles inactive licenses from recorded fixtures
+[18/54] [chromium] › tests/e2e/app.spec.ts:406:1 › @claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the print handoff
+[19/54] [chromium] › tests/e2e/app.spec.ts:423:1 › has no serious accessibility violations
+[20/54] [chromium] › tests/e2e/app.spec.ts:429:1 › repairs AES-QA-304, AES-QA-305, and F-3-3 across every public route
+[21/54] [chromium] › tests/e2e/app.spec.ts:454:1 › repairs AES-QA-301 by retaining focus through repeated keyboard frame moves
+[22/54] [chromium] › tests/e2e/app.spec.ts:476:1 › @claim:keyboard-operation operates documented planner controls and frame keys without focus loss
+[23/54] [chromium] › tests/e2e/app.spec.ts:505:1 › repairs AES-QA-302 by returning dialog focus to the edited event
+[24/54] [chromium] › tests/e2e/app.spec.ts:522:1 › @claim:offline-reload reloads the installed demo shell and sample data offline
+[25/54] [chromium] › tests/e2e/app.spec.ts:540:1 › keeps the 390px page viewport free of body overflow
+[26/54] [chromium] › tests/e2e/app.spec.ts:549:1 › repairs F-3-2 and AES-QA-003 with 44px targets on every public route
+[27/54] [chromium] › tests/e2e/app.spec.ts:565:1 › repairs F-3-5 with result-naming controls and one board term
+(node:14316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:14316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[28/54] [mobile] › tests/e2e/app.spec.ts:47:1 › @claim:editor-workflow creates, edits, persists, and exports a useful strip
+[29/54] [mobile] › tests/e2e/app.spec.ts:83:1 › @claim:fps-options exposes every documented planning rate
+[30/54] [mobile] › tests/e2e/app.spec.ts:89:1 › @claim:audio-preview stores a waveform and starts aligned local playback
+[31/54] [mobile] › tests/e2e/app.spec.ts:114:1 › repairs AES-QA-203 with a plain first read and first action
+[32/54] [mobile] › tests/e2e/app.spec.ts:123:1 › repairs F-3-1 and F-1-1 by focusing and announcing app and legal routes, including browser Back
+[33/54] [mobile] › tests/e2e/app.spec.ts:153:1 › repairs F-2-1 with predictable Demo, Privacy, and Terms links in every footer
+[34/54] [mobile] › tests/e2e/app.spec.ts:167:1 › repairs F-2-2 through F-2-4 with specific copy and action names
+[35/54] [mobile] › tests/e2e/app.spec.ts:178:1 › shows the three visible handoff steps on the planner and demo
+[36/54] [mobile] › tests/e2e/app.spec.ts:188:1 › @claim:sample-demo opens one-click sample data in an isolated, resettable workspace
+[37/54] [mobile] › tests/e2e/app.spec.ts:230:1 › @claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage
+[38/54] [mobile] › tests/e2e/app.spec.ts:247:1 › @claim:runtime-privacy ships without analytics, cookies, remote fonts, or third-party runtime scripts
+[39/54] [mobile] › tests/e2e/app.spec.ts:266:1 › @claim:asset-provenance records the generated scene source and serves only bundled artwork
+[40/54] [mobile] › tests/e2e/app.spec.ts:285:1 › @claim:project-json-roundtrip exports a complete backup that reopens
+[41/54] [mobile] › tests/e2e/app.spec.ts:303:1 › @claim:adapter-json-v1 exports every sample event with the stable adapter schema
+[42/54] [mobile] › tests/e2e/app.spec.ts:313:1 › @claim:csv-export exports one UTF-8 row per sample event
+[43/54] [mobile] › tests/e2e/app.spec.ts:323:1 › @claim:cached-license-offline keeps a cached Studio verdict available offline
+[44/54] [mobile] › tests/e2e/app.spec.ts:340:1 › @claim:license-lifecycle suppresses same-day checks, restores access, and reconciles inactive licenses from recorded fixtures
+[45/54] [mobile] › tests/e2e/app.spec.ts:406:1 › @claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the print handoff
+[46/54] [mobile] › tests/e2e/app.spec.ts:423:1 › has no serious accessibility violations
+[47/54] [mobile] › tests/e2e/app.spec.ts:429:1 › repairs AES-QA-304, AES-QA-305, and F-3-3 across every public route
+[48/54] [mobile] › tests/e2e/app.spec.ts:454:1 › repairs AES-QA-301 by retaining focus through repeated keyboard frame moves
+[49/54] [mobile] › tests/e2e/app.spec.ts:476:1 › @claim:keyboard-operation operates documented planner controls and frame keys without focus loss
+[50/54] [mobile] › tests/e2e/app.spec.ts:505:1 › repairs AES-QA-302 by returning dialog focus to the edited event
+[51/54] [mobile] › tests/e2e/app.spec.ts:522:1 › @claim:offline-reload reloads the installed demo shell and sample data offline
+[52/54] [mobile] › tests/e2e/app.spec.ts:540:1 › keeps the 390px page viewport free of body overflow
+[53/54] [mobile] › tests/e2e/app.spec.ts:549:1 › repairs F-3-2 and AES-QA-003 with 44px targets on every public route
+[54/54] [mobile] › tests/e2e/app.spec.ts:565:1 › repairs F-3-5 with result-naming controls and one board term
+  3 skipped
+  51 passed (1.4m)

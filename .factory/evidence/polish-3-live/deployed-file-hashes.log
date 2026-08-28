@@ -1,0 +1,24 @@
+MATCH 404.html
+MATCH assets/cutting-room-1536.2f79d519.webp
+MATCH assets/cutting-room-960.641304ed.jpg
+MATCH assets/cutting-room-960.c6872b74.webp
+MATCH assets/index-DCYW1Kmf.css
+MATCH assets/index-DGHwQ0-i.js
+MATCH assets/legal.e9ff892f.css
+MATCH assets/social-preview.db2b289c.jpg
+MATCH icons/apple-touch.af9970c1.png
+MATCH icons/icon-192.d8a89c52.png
+MATCH icons/icon-512.50176303.png
+MATCH icons/icon-maskable-512.50176303.png
+MATCH icons/icon.d996dad9.svg
+MATCH index.html
+MATCH manifest.webmanifest
+MATCH mode.js
+MATCH offline.html
+MATCH privacy/index.html
+MATCH robots.txt
+MATCH route-shell.js
+MATCH sitemap.xml
+MATCH sw.js
+MATCH terms/index.html
+SUMMARY 23/23 deployable files match
