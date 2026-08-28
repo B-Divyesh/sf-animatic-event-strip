@@ -42,6 +42,12 @@
     "test": "npm run test:e2e -- --grep @claim:offline-reload --project=mobile"
   },
   {
+    "id": "keyboard-operation",
+    "claim": "Keyboard controls open planner actions and move the selected event or playhead by documented frame steps.",
+    "where": "README keyboard and mobile section, timeline",
+    "test": "npm run test:e2e -- --grep @claim:keyboard-operation --project=chromium"
+  },
+  {
     "id": "project-json-roundtrip",
     "claim": "Project JSON exports a complete backup; valid backups reopen and invalid files leave the current project unchanged.",
     "where": "export dialog, README",

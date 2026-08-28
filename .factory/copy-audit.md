@@ -1,6 +1,6 @@
 # Copy audit
 
-Audited 2026-08-28. Counts treat hyphenated terms and numbers as one word. No sentence exceeds 22 words, and none uses the banned marketing terms except “unlocked” for the literal paid-license state.
+Audited 2026-08-28 for polish 1. Counts treat hyphenated terms and numbers as one word. No sentence exceeds 22 words, and none uses the banned marketing terms except “unlocked” for the literal paid-license state.
 
 ## First screen
 
@@ -34,7 +34,13 @@ The first screen states the job, audience, first action, demo result, privacy, o
 | Your project and media stay on this device. | 8 |
 | No analytics. | 2 |
 | Built by Param Factory. | 4 |
-| Version 1.0.0, repair 5. | 4 |
+| Version 1.0.0, polish 1. | 4 |
+| Add boards. | 2 |
+| Place each visual range on the strip. | 7 |
+| Align sound. | 2 |
+| Add local clips where the scene needs them. | 8 |
+| Name implementation moments. | 3 |
+| Mark beats, cues, and input windows. | 7 |
 
 ## Dialog and state guidance
 
@@ -62,3 +68,22 @@ The first screen states the job, audience, first action, demo result, privacy, o
 | Full reopenable backup | Project JSON |
 | Isolated sample workspace | demo |
 | Paid adapter bundle | Studio Pack |
+
+## README wording repaired in polish 1
+
+| Copy | Words |
+| --- | ---: |
+| Keep storyboard ranges, audio clips, and named moments in one strip. | 11 |
+| Plan them before code and final assets lock the scene. | 11 |
+| Each claim command builds the production artifact first. | 8 |
+| It then starts Vite preview and works after `npm ci` in a clean clone. | 14 |
+| The live-policy check calls the deployed product and Sociobot API. | 10 |
+| Run it after deployment, not with local unit tests. | 10 |
+| Use Tab to reach planner controls. | 7 |
+| Enter or Space opens the focused button. | 8 |
+| Left and Right move the selected event or playhead one frame. | 11 |
+| Hold Shift to move ten frames. | 7 |
+| Home and End jump to the scene start and end. | 11 |
+| The policy restricts content sources and framing. | 7 |
+| It also disables unused browser capabilities. | 6 |
+| Versioned assets use a one-year immutable cache. | 7 |

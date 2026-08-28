@@ -1,6 +1,6 @@
 # Animatic Event Strip
 
-Animatic Event Strip is an offline-first timing board for solo 2D animators and small game teams. It keeps storyboard ranges, local audio clips, semantic beats, sound cues, and interaction windows aligned in one engine-neutral strip before code and final assets lock the scene down.
+Animatic Event Strip is an offline-first timing board for solo 2D animators and small game teams. Keep storyboard ranges, audio clips, and named moments in one strip. Plan them before code and final assets lock the scene.
 
 Live product: <https://animatic-event-strip.sociobot.in>
 
@@ -54,11 +54,13 @@ Run every observable product claim from a fresh demo sandbox:
 node -e "for (const c of require('./.factory/claims.json')) console.log(c.test)"
 ```
 
-Playwright is pinned to 1.58.2. Each end-to-end or local claim command builds the production artifact before starting `vite preview`, so it works after `npm ci` in a clean clone. The live-policy check intentionally targets the production Sociobot API and deployed product, so run it after deployment rather than as part of local unit tests.
+Playwright is pinned to 1.58.2. Each claim command builds the production artifact first. It then starts Vite preview and works after `npm ci` in a clean clone.
+
+The live-policy check calls the deployed product and Sociobot API. Run it after deployment, not with local unit tests.
 
 ## Keyboard and mobile
 
-All actions use native buttons, forms, and dialogs. Tab reaches every control; Enter/Space activates it. In the timeline, Left/Right steps a focused event or the playhead by one frame, Shift+Left/Right by ten, and Home/End move the playhead to scene bounds. The phone layout stacks project controls while keeping the time axis horizontally scrollable.
+Use Tab to reach planner controls. Enter or Space opens the focused button. Left and Right move the selected event or playhead one frame. Hold Shift to move ten frames. Home and End jump to the scene start and end. The phone layout stacks project controls while keeping the time axis horizontally scrollable.
 
 ## Data and export schemas
 
@@ -70,7 +72,7 @@ Project JSON is the backup/reopen format. Adapter JSON and CSV are deliberately 
 
 No analytics, cookies, remote fonts, or third-party runtime scripts are present. The only optional request is a Studio Pack license check to the Sociobot billing API. Checkout is hosted by Sociobot/Dodo; no product or payment-provider IDs are embedded here. See [`public/privacy/index.html`](public/privacy/index.html) and [`public/terms/index.html`](public/terms/index.html).
 
-Production response policy is declared in [`public/staticwebapp.config.json`](public/staticwebapp.config.json). It restricts content sources and framing, disables unused browser capabilities, and gives content-addressed JS, CSS, art, and icons a one-year immutable cache lifetime. The HTML, manifest, service worker, and legal documents remain revalidatable so updates are discovered safely.
+Production response policy is declared in [`public/staticwebapp.config.json`](public/staticwebapp.config.json). The policy restricts content sources and framing. It also disables unused browser capabilities. Versioned assets use a one-year immutable cache. The HTML, manifest, service worker, and legal documents remain revalidatable so updates are discovered safely.
 
 ## Project notes
 

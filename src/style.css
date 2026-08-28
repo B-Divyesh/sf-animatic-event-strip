@@ -71,6 +71,12 @@ h1 i { color: var(--signal); font-weight: 400; }
 .scene-plate { position: absolute; inset: 0 0 0 37%; }
 .scene-plate img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .76; }
 
+/* The sandbox opens on the filled strip, not on a second marketing screen. */
+.demo-mode .intro { min-height: 0; display: block; }
+.demo-mode .intro::after, .demo-mode .scene-plate, .demo-mode .intro-copy .eyebrow, .demo-mode .lede, .demo-mode .hero-actions, .demo-mode .action-note, .demo-mode .hero-facts { display: none; }
+.demo-mode .intro-copy { max-width: none; padding: 28px clamp(16px, 3vw, 48px); }
+.demo-mode h1 { font-size: clamp(32px, 4vw, 52px); }
+
 .workspace { padding: 40px clamp(16px, 3vw, 48px) 0; max-width: 1800px; margin: 0 auto; }
 .project-bar { display: grid; grid-template-columns: minmax(220px, 1fr) auto auto; align-items: center; gap: 24px; margin-bottom: 24px; }
 .project-bar h2 { font-size: clamp(27px, 3vw, 38px); }
@@ -139,6 +145,14 @@ h1 i { color: var(--signal); font-weight: 400; }
 .empty-state h2 { font-size: 28px; line-height: 1.05; }
 .empty-state p:not(.eyebrow) { color: var(--paper-dim); margin: 8px 0 0; max-width: 620px; }
 .empty-number { color: #4d928a; font-family: var(--serif); font-size: 58px; border-right: 1px solid var(--line); padding-right: 24px; }
+.how-it-works { margin-top: 32px; padding: 32px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(220px, .7fr) 1.3fr; gap: 32px; align-items: start; }
+.how-it-works h2 { font-size: clamp(30px, 3.5vw, 46px); }
+.how-it-works ol { counter-reset: handoff-steps; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.how-it-works li { counter-increment: handoff-steps; min-height: 112px; padding: 14px 0 0 42px; border-top: 1px solid var(--line); position: relative; }
+.how-it-works li::before { content: "0" counter(handoff-steps); position: absolute; top: 14px; left: 0; color: var(--gold); font-family: var(--mono); font-size: 12px; }
+.how-it-works b, .how-it-works span { display: block; }
+.how-it-works b { color: var(--paper); }
+.how-it-works span { margin-top: 6px; color: var(--paper-dim); font-size: 14px; }
 .handoff { margin-top: 64px; padding: 40px 0 48px; border-top: 1px solid var(--line); display: grid; grid-template-columns: .8fr 1fr auto; gap: 32px; align-items: center; }
 .handoff h2, .studio h2 { font-size: clamp(32px, 4vw, 54px); }
 .handoff > p { max-width: 620px; color: var(--paper-dim); margin: 0; }
@@ -216,6 +230,7 @@ body.printing .masthead, body.printing .intro, body.printing .transport, body.pr
   .project-facts { grid-row: 2; }
   .bar-actions { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; }
   .handoff { grid-template-columns: 1fr 1fr; }
+  .how-it-works { grid-template-columns: 1fr; }
   .format-stamps { grid-column: 1 / -1; }
   .studio { grid-template-columns: 1fr; }
   .license-panel { border-left: 0; border-top: 1px solid var(--line); padding: 24px 0 0; }
@@ -230,6 +245,8 @@ body.printing .masthead, body.printing .intro, body.printing .transport, body.pr
   .demo-actions { width: 100%; }
   .demo-actions > * { flex: 1; }
   .intro { min-height: 620px; }
+  .demo-mode .intro { min-height: 0; }
+  .demo-mode .intro-copy { padding: 24px 20px; }
   .intro-copy { padding: 44px 20px; align-self: end; }
   .hero-actions { display: grid; }
   .intro::after { background: linear-gradient(0deg, var(--ink) 4%, rgba(17,25,29,.84) 68%, rgba(17,25,29,.3)); }
@@ -248,6 +265,9 @@ body.printing .masthead, body.printing .intro, body.printing .transport, body.pr
   .lane-labels small { font-size: 9px; }
   .timeline-stage { min-width: 760px; }
   .empty-state { grid-template-columns: 1fr; }
+  .how-it-works { margin-top: 24px; padding: 28px 0; gap: 24px; }
+  .how-it-works ol { grid-template-columns: 1fr; gap: 0; }
+  .how-it-works li { min-height: 0; padding-bottom: 14px; }
   .empty-number { display: none; }
   .empty-state .button { width: 100%; }
   .handoff { grid-template-columns: 1fr; margin-top: 48px; }

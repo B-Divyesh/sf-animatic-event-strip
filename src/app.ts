@@ -58,6 +58,29 @@ const confirmDialog = element<HTMLDialogElement>('confirm-dialog');
 const eventForm = element<HTMLFormElement>('event-form');
 const playButton = element<HTMLButtonElement>('play-preview');
 
+type RouteState = { scrollX?: number; scrollY?: number; focusId?: string };
+
+function routeMessage(): string {
+  return demoMode ? 'Demo loaded: Rain Gate sample strip.' : 'Planner loaded: your local project.';
+}
+
+function announceRoute(): void {
+  const heading = element<HTMLElement>('product-title');
+  element('route-status').textContent = routeMessage();
+  requestAnimationFrame(() => heading.focus({ preventScroll: true }));
+}
+
+function saveRouteState(): void {
+  const active = document.activeElement as HTMLElement | null;
+  const current = history.state as RouteState | null;
+  history.replaceState({ ...current, scrollX: window.scrollX, scrollY: window.scrollY, focusId: active?.id }, '', location.href);
+}
+
+function restoreRouteState(): void {
+  const state = history.state as RouteState | null;
+  if (typeof state?.scrollX === 'number' && typeof state.scrollY === 'number') window.scrollTo(state.scrollX, state.scrollY);
+}
+
 function blobUrl(blob: Blob): string {
   const existing = mediaUrls.get(blob);
   if (existing) return existing;
@@ -580,7 +603,18 @@ function registerEvents(): void {
   element('about-art').addEventListener('click', () => { guideDialog.showModal(); element('guide-title').textContent = 'Artwork provenance'; const list = guideDialog.querySelector('ol'); if (list) list.innerHTML = '<li><b>Original scene.</b><span>Generated for this product with the Param Factory image model on 28 August 2026.</span></li><li><b>Purpose.</b><span>The blue-hour cutting room establishes the planning context; it does not depict product output.</span></li><li><b>No stock library.</b><span>All interface marks are authored SVG strokes. No third-party art or fonts are loaded.</span></li>'; });
   window.addEventListener('online', () => { setOnlineStatus(); if (!demoMode) { const token = localStorage.getItem(LICENSE_KEY); if (token) void verifyLicense(token); } });
   window.addEventListener('offline', setOnlineStatus);
-  window.addEventListener('pageshow', setOnlineStatus);
+  window.addEventListener('pageshow', (event) => {
+    setOnlineStatus();
+    if (event.persisted) {
+      restoreRouteState();
+      announceRoute();
+    }
+  });
+  window.addEventListener('pagehide', saveRouteState);
+  window.addEventListener('popstate', () => {
+    restoreRouteState();
+    announceRoute();
+  });
   setTimeout(setOnlineStatus, 250);
 }
 
@@ -632,6 +666,7 @@ async function start(): Promise<void> {
     announceError(`${error instanceof Error ? error.message : 'Local storage is unavailable.'} You can still work and export from this tab.`);
   }
   render();
+  announceRoute();
   saveStatus.textContent = demoMode ? 'Demo only' : 'Saved locally';
   if (demoMode) renderLicense('The demo uses the free planner and does not read saved licenses.');
   else await initializeLicense();

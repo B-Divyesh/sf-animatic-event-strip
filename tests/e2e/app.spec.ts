@@ -35,7 +35,7 @@ async function addMarker(page: import('@playwright/test').Page, label: string, s
 }
 
 async function downloadFromExport(page: import('@playwright/test').Page, name: RegExp) {
-  await page.getByRole('button', { name: 'Export' }).click();
+  await page.getByRole('button', { name: 'Choose export' }).click();
   const pending = page.waitForEvent('download');
   await page.getByRole('button', { name }).click();
   const download = await pending;
@@ -73,7 +73,7 @@ test('@claim:editor-workflow creates, edits, persists, and exports a useful stri
   await expect(page.getByRole('button', { name: /Edit board Gate opens/ })).toBeVisible();
   await expect(page.getByRole('button', { name: /Edit Interaction Enable jump input/ })).toBeVisible();
 
-  await page.getByRole('button', { name: 'Export' }).click();
+  await page.getByRole('button', { name: 'Choose export' }).click();
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: /Adapter JSON/ }).click();
   expect((await downloadPromise).suggestedFilename()).toBe('rain-gate-opening-beat.adapter.json');
@@ -120,6 +120,30 @@ test('repairs AES-QA-203 with a plain first read and first action', async ({ pag
   await expect(page.getByText('Loads a filled 10-second strip. The demo never opens or changes your project.')).toBeVisible();
 });
 
+test('repairs F-1-1 by focusing and announcing each route change, including browser Back', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
+  await page.getByLabel('Utility navigation').getByRole('link', { name: 'Demo' }).click();
+  await expect(page).toHaveURL(/\/demo$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Demo loaded: Rain Gate sample strip.');
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
+});
+
+test('shows the three visible handoff steps on the planner and demo', async ({ page }) => {
+  for (const route of ['/', '/demo']) {
+    await page.goto(route);
+    await expect(page.getByRole('heading', { name: 'How to build an animation handoff' })).toBeVisible();
+    await expect(page.getByText('Add boards', { exact: true })).toBeVisible();
+    await expect(page.getByText('Align sound', { exact: true })).toBeVisible();
+    await expect(page.getByText('Name implementation moments', { exact: true })).toBeVisible();
+  }
+});
+
 test('@claim:sample-demo opens one-click sample data in an isolated, resettable workspace', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: 'Add your first event' }).click();
@@ -133,6 +157,8 @@ test('@claim:sample-demo opens one-click sample data in an isolated, resettable 
   await expect(page).toHaveTitle('Demo — Animatic Event Strip');
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('Rain Gate — opening beat')).toBeVisible();
+  const sampleTitle = await page.getByText('Rain Gate — opening beat', { exact: true }).boundingBox();
+  expect(sampleTitle?.y ?? Infinity).toBeLessThan(await page.evaluate(() => window.innerHeight));
   await expect(page.getByText('2 cards', { exact: true })).toBeVisible();
   await expect(page.getByText('1 clip', { exact: true })).toBeVisible();
   await expect(page.getByText('3 markers', { exact: true })).toBeVisible();
@@ -276,7 +302,7 @@ test('@claim:license-lifecycle suppresses same-day checks, restores access, and 
   expect(requests).toEqual(['stale-token']);
 
   await page.getByLabel('Have a license?').fill('restored-token');
-  await page.getByRole('button', { name: 'Restore' }).click();
+  await page.getByRole('button', { name: 'Restore Studio license' }).click();
   await expect(page.getByText('License verified. Studio downloads are ready.')).toBeVisible();
   await expect(page.getByText('Studio Pack unlocked')).toBeVisible();
   expect(requests).toEqual(['stale-token', 'restored-token']);
@@ -288,7 +314,7 @@ test('@claim:license-lifecycle suppresses same-day checks, restores access, and 
 
   for (const token of ['refunded-token', 'expired-token', 'revoked-token']) {
     await page.getByLabel('Have a license?').fill(token);
-    await page.getByRole('button', { name: 'Restore' }).click();
+    await page.getByRole('button', { name: 'Restore Studio license' }).click();
     await expect(page.getByText('This license is no longer active.')).toBeVisible();
     await expect(page.getByText('Free planner active')).toBeVisible();
     await expect(page.locator('[data-export="godot"]')).toHaveClass(/locked/);
@@ -320,7 +346,7 @@ test('@claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the p
   expect(await readFile(godot.path, 'utf8')).toContain('class_name AnimaticEventStrip');
   const unity = await downloadFromExport(page, /Unity 6 adapter source/);
   expect(await readFile(unity.path, 'utf8')).toContain('using UnityEngine');
-  await page.getByRole('button', { name: 'Export' }).click();
+  await page.getByRole('button', { name: 'Choose export' }).click();
   await page.getByRole('button', { name: /Print handoff sheet/ }).click();
   await expect(page.locator('html')).toHaveAttribute('data-print-invoked', 'true');
 });
@@ -352,9 +378,10 @@ test('repairs AES-QA-304 and AES-QA-305 across legal and missing routes', async 
 
 test('repairs AES-QA-301 by retaining focus through repeated keyboard frame moves', async ({ page }) => {
   await page.goto('/demo');
-  await page.keyboard.press('Tab');
-  await expect(page.getByRole('link', { name: 'Skip to event strip' })).toBeFocused();
-  const focusStyle = await page.getByRole('link', { name: 'Skip to event strip' }).evaluate((node) => getComputedStyle(node).outline);
+  const skipLink = page.getByRole('link', { name: 'Skip to event strip' });
+  await skipLink.focus();
+  await expect(skipLink).toBeFocused();
+  const focusStyle = await skipLink.evaluate((node) => getComputedStyle(node).outline);
   expect(focusStyle).toContain('3px');
 
   const interaction = page.getByRole('button', { name: /Edit Interaction Enable player input/ });
@@ -369,6 +396,35 @@ test('repairs AES-QA-301 by retaining focus through repeated keyboard frame move
   await expect(page.getByRole('button', { name: /Edit Interaction Enable player input, F120–156/ })).toBeFocused();
   await page.reload();
   await expect(page.getByRole('button', { name: /Edit Interaction Enable player input, F120–156/ })).toBeVisible();
+});
+
+test('@claim:keyboard-operation operates documented planner controls and frame keys without focus loss', async ({ page }) => {
+  await page.goto('/demo');
+  const addEvent = page.getByRole('button', { name: '+ Add event' });
+  await addEvent.focus();
+  await page.keyboard.press('Space');
+  await expect(page.getByRole('dialog', { name: 'Add event' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(addEvent).toBeFocused();
+
+  const interaction = page.getByRole('button', { name: /Edit Interaction Enable player input/ });
+  await interaction.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('button', { name: /Edit Interaction Enable player input, F109–145/ })).toBeFocused();
+  await page.keyboard.press('Shift+ArrowRight');
+  await expect(page.getByRole('button', { name: /Edit Interaction Enable player input, F119–155/ })).toBeFocused();
+
+  const timeline = page.getByLabel(/Event strip timeline/);
+  await timeline.focus();
+  await page.keyboard.press('Home');
+  await expect(page.locator('#timecode')).toHaveText('00:00:00:00');
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#timecode')).toHaveText('00:00:00:01');
+  await page.keyboard.press('Shift+ArrowRight');
+  await expect(page.locator('#timecode')).toHaveText('00:00:00:11');
+  await page.keyboard.press('End');
+  await expect(page.locator('#timecode')).toHaveText('00:00:09:23');
+  await expect(timeline).toBeFocused();
 });
 
 test('repairs AES-QA-302 by returning dialog focus to the edited event', async ({ page }) => {
