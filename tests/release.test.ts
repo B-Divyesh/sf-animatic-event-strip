@@ -54,11 +54,12 @@ describe('release policy', () => {
     const page = await readFile(new URL('public/404.html', root), 'utf8');
     const config = JSON.parse(await readFile(new URL('public/staticwebapp.config.json', root), 'utf8')) as {
       routes: Array<{ route: string; rewrite?: string; statusCode?: number }>;
+      responseOverrides: Record<string, { rewrite: string }>;
     };
     expect(page).toContain('<title>Page not found — Animatic Event Strip</title>');
     expect(page).toContain('That frame is <i>not on this strip.</i>');
     expect(page).toContain('href="/"');
-    expect(config.routes.find((entry) => entry.route === '/*')).toEqual(expect.objectContaining({ rewrite: '/404.html', statusCode: 404 }));
+    expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html' });
   });
 
   test('repairs AES-QA-305 with route metadata and the shared site skeleton', async () => {
