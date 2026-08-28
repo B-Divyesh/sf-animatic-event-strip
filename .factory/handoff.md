@@ -1,5 +1,28 @@
 # Animatic Event Strip — handoff
 
+## Adversarial first-read review 5 — FAIL
+
+Reviewed live candidate `36b37945e91177de3ee1444c649c5658cd5514e9` on 2026-08-28 at 390 × 844 and 1440 × 900. No product source was changed. The complete report is `.factory/review-5.md`.
+
+The cold first screen, isolated one-click Rain Gate demo, reset/exit behavior, real-data preservation, offline reload, same-origin request policy, routes, accessibility baseline, visual identity, imports/exports, and all declared claims passed. The review remains **FAIL** because zero findings is the acceptance threshold:
+
+- F-5-1: free Project JSON / Adapter JSON / CSV access is publicly promised but not stated in `claims.json`; “core exports” is also vague.
+- F-5-2: the README’s stacked-controls/horizontally-scrollable phone-layout promise has no declared claim and its current untagged test checks only body overflow.
+- F-5-3: the README’s no-embedded-provider-ID clause is not represented or tested by `studio-checkout`.
+- F-5-4 through F-5-7: **Three passes**, **Take it with you**, **The stage is offline**, and **That frame is not on this strip** violate the supplied no-mood/no-metaphor copy rule.
+
+Verification used a disposable clean clone at `/tmp/animatic-review-5-clean.QK30Jo/repo` after `npm ci`:
+
+- all 17 exact `.factory/claims.json` commands passed;
+- `npm test` passed 18/18; lint and typecheck passed;
+- `npm run build` produced `dist/` with 10.63 kB gzip initial JavaScript;
+- `npm run test:e2e` passed 51 tests with 3 intentional profile skips;
+- `npm run test:pwa-update` passed;
+- the live route crawl, per-route Axe scans, touch-target checks, Back/focus checks, dead-link crawl, and `verify-url.sh` passed;
+- live service-worker-controlled demo reload succeeded offline with Rain Gate and the demo banner intact.
+
+Next: implement the seven exact remedies in `.factory/review-5.md`, rerun the 17 claim commands and full browser suite, and perform another from-scratch review. The brief’s five-person pilot remains unclaimed product research, not a release promise.
+
 ## Perfection-loop polish 4 — PASS (deployed)
 
 Work order `animatic-event-strip-polish-4` closes every finding in `.factory/review-1.md` through `.factory/review-4.md`. Product repair commit `962da03b50453cdfd1cb3b0e6058ed2bb32bc750` was pushed to `origin/main`. Azure Static Web Apps deployment `eb86db5f-fd3b-4b58-9ea9-24c7bdf5e714` serves <https://animatic-event-strip.sociobot.in>.
