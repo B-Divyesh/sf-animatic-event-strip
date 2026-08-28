@@ -389,7 +389,7 @@ async function exportFile(kind: string): Promise<void> {
     if (kind === 'csv') download(createCsvExport(project), `${base}.markers.csv`, 'text/csv;charset=utf-8');
     if (['godot', 'unity', 'print'].includes(kind) && !licensed) {
       exportDialog.close();
-      element('license-note').textContent = 'The Studio adapters need a one-time license. The project, adapter JSON, and CSV remain free.';
+      element('license-note').textContent = 'The Studio adapters need a one-time license. Project JSON, Adapter JSON, and CSV exports remain free.';
       element('studio-title').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       return;
     }

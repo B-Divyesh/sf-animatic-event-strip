@@ -12,7 +12,7 @@ One-click demo: <https://animatic-event-strip.sociobot.in/?demo=1>. It opens a f
 - Stores board images, audio files, calculated waveform snippets, markers, and notes in IndexedDB.
 - Previews the timeline and aligned browser-supported audio locally.
 - Exports a complete `.aes.json` backup with embedded media.
-- Exports stable adapter v1 JSON and UTF-8 CSV without a license.
+- Exports Project JSON, Adapter JSON, and UTF-8 CSV without a license.
 - Imports and validates project backups before replacing local data.
 - Installs as a PWA and reopens the editor offline.
 - Optionally unlocks Godot 4 / Unity 6 starter adapters and a print handoff sheet through a one-time Sociobot license.
@@ -70,7 +70,7 @@ Project JSON is the backup and reopen format. Adapter JSON and CSV include local
 
 ## Privacy and payment
 
-No analytics, cookies, remote fonts, or third-party runtime scripts are present. The only optional request is a Studio Pack license check to the Sociobot billing API. Checkout is hosted by Sociobot/Dodo; no product or payment-provider IDs are embedded here. See [`public/privacy/index.html`](public/privacy/index.html) and [`public/terms/index.html`](public/terms/index.html).
+No analytics, cookies, remote fonts, or third-party runtime scripts are present. The only optional request is a Studio Pack license check to the Sociobot billing API. Checkout is hosted by Sociobot/Dodo. See [`public/privacy/index.html`](public/privacy/index.html) and [`public/terms/index.html`](public/terms/index.html).
 
 Production response policy is declared in [`public/staticwebapp.config.json`](public/staticwebapp.config.json). The policy restricts content sources and framing. It also disables unused browser capabilities. Versioned assets use a one-year immutable cache.
 

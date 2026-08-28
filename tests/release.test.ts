@@ -80,7 +80,7 @@ describe('release policy', () => {
       responseOverrides: Record<string, { rewrite: string }>;
     };
     expect(page).toContain('<title>Page not found — Animatic Event Strip</title>');
-    expect(page).toContain('That frame is <i>not on this strip.</i>');
+    expect(page).toContain('>Page not found.</h1>');
     expect(page).toContain('href="/"');
     expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html' });
     expect(config.routes.find((entry) => entry.route === '/404.html')?.statusCode).toBe(404);
@@ -97,7 +97,7 @@ describe('release policy', () => {
       expect(page).toContain('class="skip-link"');
       expect(page).toContain('Animatic Event Strip home');
       expect(page).toContain('Built by Param Factory');
-      expect(page).toContain('Version 1.0.0, polish 4');
+      expect(page).toContain('Version 1.0.0, polish 5');
       expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
       expect(page).toContain('<main');
     }
@@ -202,5 +202,37 @@ describe('release policy', () => {
     expect(app).not.toMatch(/else \{\s*project = demoMode \? sampleProject\(\) : newProject\(\);/);
     expect(demo).toContain('Demo mode never opens the real `animatic-event-strip` database');
     expect(JSON.parse(claims).filter((claim: { id: string }) => claim.id === 'sample-demo')).toHaveLength(1);
+  });
+
+  test('repairs F-5-1 through F-5-7 with listed free exports, tested mobile layout, and plain labels', async () => {
+    const [claimsText, home, readme, offline, missing] = await Promise.all([
+      readFile(new URL('.factory/claims.json', root), 'utf8'),
+      readFile(new URL('index.html', root), 'utf8'),
+      readFile(new URL('README.md', root), 'utf8'),
+      readFile(new URL('public/offline.html', root), 'utf8'),
+      readFile(new URL('public/404.html', root), 'utf8'),
+    ]);
+    const claims = JSON.parse(claimsText) as Array<{ id: string; claim: string; test: string }>;
+    const freeExports = claims.filter((claim) => claim.id === 'free-core-exports');
+    expect(freeExports).toHaveLength(1);
+    expect(freeExports[0].claim).toBe('Project JSON, Adapter JSON, and CSV export without a Studio license.');
+    expect(freeExports[0].test).toContain('@claim:free-core-exports');
+    const mobileLayout = claims.filter((claim) => claim.id === 'mobile-layout');
+    expect(mobileLayout).toHaveLength(1);
+    expect(mobileLayout[0].claim).toContain('time axis stays horizontally scrollable');
+    expect(mobileLayout[0].test).toContain('@claim:mobile-layout');
+    expect(home).toContain('Project JSON, Adapter JSON, and CSV exports are free.');
+    expect(home).toContain('The full planner, Project JSON, Adapter JSON, and CSV exports are free.');
+    expect(home).toContain('>Three steps</p>');
+    expect(home).toContain('>Export options</p>');
+    expect(home).not.toContain('Core exports are free');
+    expect(home).not.toContain('core export');
+    expect(home).not.toContain('Three passes');
+    expect(home).not.toContain('Take it with you');
+    expect(readme).toContain('Exports Project JSON, Adapter JSON, and UTF-8 CSV without a license.');
+    expect(readme).toContain('Checkout is hosted by Sociobot/Dodo.');
+    expect(readme).not.toContain('payment-provider IDs are embedded');
+    expect(offline).toContain('>You are <i>offline.</i></h1>');
+    expect(missing).toContain('>Page not found.</h1>');
   });
 });

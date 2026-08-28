@@ -44,6 +44,15 @@ async function downloadFromExport(page: import('@playwright/test').Page, name: R
   return { download, path: path! };
 }
 
+async function downloadFreeCoreExports(page: import('@playwright/test').Page) {
+  const exports = [];
+  for (const name of [/^Export Project JSON\b/, /^Export Adapter JSON\b/, /^Export Marker CSV\b/]) {
+    const { download, path } = await downloadFromExport(page, name);
+    exports.push({ filename: download.suggestedFilename(), path });
+  }
+  return exports;
+}
+
 test('@claim:editor-workflow creates, edits, persists, and exports a useful strip', async ({ page }) => {
   const consoleErrors: string[] = [];
   page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
@@ -371,6 +380,37 @@ test('@claim:csv-export exports one UTF-8 row per sample event', async ({ page }
   expect(rows).toHaveLength(7);
 });
 
+test('@claim:free-core-exports downloads Project JSON, Adapter JSON, and CSV without a license or after revocation', async ({ page }) => {
+  await page.goto('/?demo=1');
+  await page.getByRole('button', { name: 'Start for real' }).click();
+  await expect(page).toHaveURL(/\/$/);
+  expect(await page.evaluate(() => Object.keys(localStorage).filter((key) => key.startsWith('sb_license:')))).toEqual([]);
+
+  const beforeRevocation = await downloadFreeCoreExports(page);
+  expect(beforeRevocation.map((entry) => entry.filename)).toEqual([
+    'untitled-scene.aes.json',
+    'untitled-scene.adapter.json',
+    'untitled-scene.markers.csv',
+  ]);
+  for (const entry of beforeRevocation) expect(await readFile(entry.path)).not.toHaveLength(0);
+
+  await page.route(/https:\/\/api\.sociobot\.in\/api\/v1\/products\/animatic-event-strip\/verify\?license=.*/, (route) => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify({ valid: false, reason: 'revoked' }),
+  }));
+  await page.getByLabel('Have a license?').fill('revoked-export-token');
+  await page.getByRole('button', { name: 'Restore Studio license' }).click();
+  await expect(page.getByText('This license is no longer active.')).toBeVisible();
+  await expect(page.locator('[data-export="godot"]')).toHaveClass(/locked/);
+  await expect(page.locator('[data-export="project"]')).not.toHaveClass(/locked/);
+  await expect(page.locator('[data-export="json"]')).not.toHaveClass(/locked/);
+  await expect(page.locator('[data-export="csv"]')).not.toHaveClass(/locked/);
+
+  const afterRevocation = await downloadFreeCoreExports(page);
+  expect(afterRevocation.map((entry) => entry.filename)).toEqual(beforeRevocation.map((entry) => entry.filename));
+  for (const entry of afterRevocation) expect(await readFile(entry.path)).not.toHaveLength(0);
+});
+
 test('@claim:cached-license-offline keeps a cached Studio verdict available offline', async ({ page, context }) => {
   await page.goto('/?demo=1');
   await page.evaluate(() => navigator.serviceWorker.ready);
@@ -498,7 +538,7 @@ test('repairs AES-QA-304, AES-QA-305, and F-3-3 across every public route', asyn
   const response = await page.goto('/qa-definitely-missing-repair-3');
   expect(response?.status()).toBe(404);
   await expect(page).toHaveTitle('Page not found — Animatic Event Strip');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('That frame is not on this strip.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found.');
   await expect(page.getByRole('link', { name: 'Return to the planner' })).toBeVisible();
 });
 
@@ -595,6 +635,37 @@ test('keeps the 390px page viewport free of body overflow', async ({ page }, tes
   expect(dimensions.body).toBeLessThanOrEqual(dimensions.viewport);
   await page.getByRole('button', { name: '+ Add event' }).click();
   await expect(page.getByRole('dialog', { name: 'Add event' })).toBeVisible();
+});
+
+test('@claim:mobile-layout stacks project controls and keeps the time axis scrollable at 390px', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'mobile-only layout claim');
+  await page.goto('/?demo=1');
+  const layout = await page.evaluate(() => {
+    const projectBar = document.querySelector<HTMLElement>('.project-bar');
+    const title = document.querySelector<HTMLElement>('#rename-project');
+    const facts = document.querySelector<HTMLElement>('.project-facts');
+    const actions = document.querySelector<HTMLElement>('.bar-actions');
+    const timeline = document.querySelector<HTMLElement>('#timeline-viewport');
+    if (!projectBar || !title || !facts || !actions || !timeline) throw new Error('Mobile layout controls are missing');
+    const columns = getComputedStyle(projectBar).gridTemplateColumns.trim().split(/\s+/).filter(Boolean);
+    const titleBox = title.getBoundingClientRect();
+    const factsBox = facts.getBoundingClientRect();
+    const actionsBox = actions.getBoundingClientRect();
+    return {
+      columnCount: columns.length,
+      factsBelowTitle: factsBox.top >= titleBox.bottom,
+      actionsBelowFacts: actionsBox.top >= factsBox.bottom,
+      timelineScrollWidth: timeline.scrollWidth,
+      timelineClientWidth: timeline.clientWidth,
+      bodyScrollWidth: document.body.scrollWidth,
+      viewportWidth: document.documentElement.clientWidth,
+    };
+  });
+  expect(layout.columnCount).toBe(1);
+  expect(layout.factsBelowTitle).toBe(true);
+  expect(layout.actionsBelowFacts).toBe(true);
+  expect(layout.timelineScrollWidth).toBeGreaterThan(layout.timelineClientWidth);
+  expect(layout.bodyScrollWidth).toBeLessThanOrEqual(layout.viewportWidth);
 });
 
 test('repairs F-3-2 and AES-QA-003 with 44px targets on every public route', async ({ page }, testInfo) => {

@@ -1,6 +1,6 @@
 # Copy audit
 
-Audited 2026-08-28 for polish 4. Counts treat hyphenated terms, versions, file names, and prices as one word. No sentence exceeds 22 words. No sentence uses a banned marketing word. “Unlocks” appears only for the literal paid-license result.
+Audited 2026-08-28 for polish 5. Counts treat hyphenated terms, versions, file names, and prices as one word. No sentence exceeds 22 words. No sentence uses a banned marketing word. “Unlocks” appears only for the literal paid-license result.
 
 ## First screen
 
@@ -14,7 +14,7 @@ Audited 2026-08-28 for polish 4. Counts treat hyphenated terms, versions, file n
 | 7 | Your project is not opened or changed. |
 | 6 | Your project stays on this device. |
 | 6 | Reopens offline after your first visit. |
-| 4 | Core exports are free. |
+| 9 | Project JSON, Adapter JSON, and CSV exports are free. |
 | 5 | Studio Pack costs $12 once. |
 
 The first screen states the job, audience, first action, sample result, privacy, offline behavior, and price. The landing route does not open project storage.
@@ -36,7 +36,7 @@ The first screen states the job, audience, first action, sample result, privacy,
 | 14 | Adapter JSON and CSV export frame data for Godot, Unity, or your own tools. |
 | 6 | Both formats have a version number. |
 | 5 | Turn markers into starter code. |
-| 9 | The full planner and every core export are free. |
+| 12 | The full planner, Project JSON, Adapter JSON, and CSV exports are free. |
 | 18 | A one-time Studio Pack adds direct Godot 4 and Unity 6 adapter source plus a printable handoff sheet. |
 | 7 | Licenses are checked at most once daily. |
 | 4 | Cached access works offline. |
@@ -45,7 +45,7 @@ The first screen states the job, audience, first action, sample result, privacy,
 | 4 | AI-generated environmental scene. |
 | 2 | No analytics. |
 | 4 | Built by Param Factory. |
-| 4 | Version 1.0.0, polish 4. |
+| 4 | Version 1.0.0, polish 5. |
 
 ## State, dialog, and error copy
 
@@ -67,7 +67,7 @@ The first screen states the job, audience, first action, sample result, privacy,
 | 5 | Give this project a name. |
 | 12 | Duration must be at least 12 frames to contain the current events. |
 | 7 | The Studio adapters need a one-time license. |
-| 8 | The project, Adapter JSON, and CSV remain free. |
+| 9 | Project JSON, Adapter JSON, and CSV exports remain free. |
 | 6 | The export could not be created. |
 | 7 | This replaces “Untitled scene” on this device. |
 | 10 | Export a backup first if you want to keep both. |
@@ -128,7 +128,7 @@ The first screen states the job, audience, first action, sample result, privacy,
 
 The result-naming controls are: **Try it with sample data**, **Add your own event**, **Import project**, **Choose export**, **Add event**, **Open quick guide**, **Move to previous frame**, **Move to next frame**, **Delete event**, **Export Project JSON**, **Export Adapter JSON**, **Export Marker CSV**, **Download Godot 4 adapter**, **Download Unity 6 adapter**, **Open printable handoff**, **Restore Studio license**, and **Show artwork provenance**.
 
-Headings name their sections: **How to build an animation handoff**, **Name engine events**, **Add the first board image**, **Export formats for engine handoff**, **Build an animation handoff**, and **Artwork provenance**.
+Headings and labels name their sections: **Three steps**, **How to build an animation handoff**, **Name engine events**, **Add the first board image**, **Export formats for engine handoff**, **Export options**, **Build an animation handoff**, **Artwork provenance**, **You are offline**, and **Page not found**.
 
 ## README sentences
 
@@ -143,7 +143,7 @@ Headings name their sections: **How to build an animation handoff**, **Name engi
 | 13 | Stores board images, audio files, calculated waveform snippets, markers, and notes in IndexedDB. |
 | 8 | Previews the timeline and aligned browser-supported audio locally. |
 | 8 | Exports a complete `.aes.json` backup with embedded media. |
-| 11 | Exports stable adapter v1 JSON and UTF-8 CSV without a license. |
+| 11 | Exports Project JSON, Adapter JSON, and UTF-8 CSV without a license. |
 | 9 | Imports and validates project backups before replacing local data. |
 | 9 | Installs as a PWA and reopens the editor offline. |
 | 19 | Optionally unlocks Godot 4 / Unity 6 starter adapters and a print handoff sheet through a one-time Sociobot license. |
@@ -175,7 +175,7 @@ Headings name their sections: **How to build an animation handoff**, **Name engi
 | 14 | Adapter JSON and CSV include local filenames, but they exclude image and audio files. |
 | 11 | No analytics, cookies, remote fonts, or third-party runtime scripts are present. |
 | 15 | The only optional request is a Studio Pack license check to the Sociobot billing API. |
-| 14 | Checkout is hosted by Sociobot/Dodo; no product or payment-provider IDs are embedded here. |
+| 5 | Checkout is hosted by Sociobot/Dodo. |
 | 7 | The policy restricts content sources and framing. |
 | 6 | It also disables unused browser capabilities. |
 | 7 | Versioned assets use a one-year immutable cache. |

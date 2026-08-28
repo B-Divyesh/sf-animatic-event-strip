@@ -1,5 +1,5 @@
-/* Animatic Event Strip service worker — app shell v11 */
-const VERSION = 'aes-shell-v11';
+/* Animatic Event Strip service worker — app shell v12 */
+const VERSION = 'aes-shell-v12';
 const SHELL = ['/', '/index.html', '/mode.js', '/route-shell.js', '/offline.html', '/manifest.webmanifest', '/icons/icon.d996dad9.svg', '/icons/icon-192.d8a89c52.png', '/icons/icon-512.50176303.png', '/icons/icon-maskable-512.50176303.png', '/icons/apple-touch.af9970c1.png', '/assets/cutting-room-960.c6872b74.webp', '/assets/cutting-room-1536.2f79d519.webp', '/assets/cutting-room-960.641304ed.jpg', '/assets/social-preview.db2b289c.jpg', '/privacy/', '/terms/', '/assets/legal.e9ff892f.css'];
 
 self.addEventListener('install', (event) => {

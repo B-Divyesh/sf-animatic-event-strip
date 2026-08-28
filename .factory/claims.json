@@ -72,6 +72,12 @@
     "test": "npm run test:e2e -- --grep @claim:csv-export --project=chromium"
   },
   {
+    "id": "free-core-exports",
+    "claim": "Project JSON, Adapter JSON, and CSV export without a Studio license.",
+    "where": "landing first screen, Studio Pack section, locked export notice, README",
+    "test": "npm run test:e2e -- --grep @claim:free-core-exports --project=chromium"
+  },
+  {
     "id": "cached-license-offline",
     "claim": "A cached valid Studio license keeps paid downloads available offline.",
     "where": "license panel, README",
@@ -100,5 +106,11 @@
     "claim": "The production build supports Node.js 20.19.x and Node.js 22.12 or newer.",
     "where": "README run locally",
     "test": "npm run test:node-support -- --claim @claim:node-support"
+  },
+  {
+    "id": "mobile-layout",
+    "claim": "On a phone, project controls stack while the time axis stays horizontally scrollable without page overflow.",
+    "where": "README keyboard and mobile section, planner",
+    "test": "npm run test:e2e -- --grep @claim:mobile-layout --project=mobile"
   }
 ]

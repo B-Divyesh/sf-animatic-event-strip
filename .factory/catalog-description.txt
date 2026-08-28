@@ -1,1 +1,1 @@
-Plan boards, sound cues, and input windows in an offline strip before engine work.
+Plan frames, sound cues, and event markers offline before engine work.
