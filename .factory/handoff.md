@@ -1,4 +1,22 @@
-# Animatic Event Strip — build handoff
+# Animatic Event Strip — handoff
+
+## Latest independent verification — FAIL
+
+Verified on 2026-08-28 for commit `89437ed68df24ca0a513367ad7e7ec46001ef905` at <https://animatic-event-strip.sociobot.in> under work order `animatic-event-strip-verify-1`.
+
+The free local-first workflow, production build, desktop/mobile behavior, accessibility, exports/import, IndexedDB persistence, offline reload, and service-worker update path pass. All 16 built files match the live deployment by SHA-256. However, release acceptance is **FAIL**:
+
+- **High:** the advertised Sociobot Studio Pack checkout returns HTTP 404 with `{"error":"enabled factory product","status":404}`.
+- **High:** 200 rapid license-verification requests all returned HTTP 200; no HTTP 429 or `Retry-After` was observed.
+- **Medium:** the mobile wordmark (125×42), rename control (183×34), Privacy link (47×20), and Terms link (38×20) miss the required 44×44 px touch target.
+- **Low:** live responses omit CSP, anti-framing, and Permissions Policy headers.
+- **Low:** static assets use `max-age=30` rather than long-lived immutable caching.
+
+Full commands, evidence, metrics, and reproduction details are in `.factory/verification.md`.
+
+---
+
+## Original builder handoff
 
 Work order: `animatic-event-strip-build-1`
 
