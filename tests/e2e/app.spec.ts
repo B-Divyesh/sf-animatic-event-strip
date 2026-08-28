@@ -175,6 +175,11 @@ test('@claim:sample-demo opens one-click sample data in an isolated, resettable 
   await expect(page.getByRole('button', { name: /Real project only/ })).toBeVisible();
   await page.goto('/demo');
   await expect(page.getByRole('button', { name: /Discard on exit/ })).toHaveCount(0);
+
+  await page.goto('/?demo=1');
+  await expect(page).toHaveTitle('Demo — Animatic Event Strip');
+  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
+  await expect(page.getByText('Rain Gate — opening beat')).toBeVisible();
 });
 
 test('@claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage', async ({ page }) => {
