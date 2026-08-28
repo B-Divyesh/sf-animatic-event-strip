@@ -66,6 +66,12 @@
     "test": "npm run test:e2e -- --grep @claim:cached-license-offline --project=chromium"
   },
   {
+    "id": "license-lifecycle",
+    "claim": "Studio license checks use a local verdict for at most one day, never cache verification responses, restore access on another device, and lock paid downloads when a license is refunded, expired, or revoked while the free planner stays available.",
+    "where": "license panel, privacy, terms",
+    "test": "npm run test:e2e -- --grep @claim:license-lifecycle --project=chromium"
+  },
+  {
     "id": "studio-outputs",
     "claim": "The Studio Pack adds Godot 4 and Unity 6 adapter source plus a printable handoff sheet.",
     "where": "Studio Pack section, terms, README",

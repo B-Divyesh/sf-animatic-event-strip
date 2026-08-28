@@ -417,6 +417,14 @@ function cacheLicense(valid: boolean): void {
   localStorage.setItem(LICENSE_CACHE_KEY, JSON.stringify({ valid, checkedAt: Date.now() }));
 }
 
+function saveLicenseToken(token: string): void {
+  // A verdict belongs to the license that produced it. Keep the token and its
+  // short-lived verdict separately, then discard the verdict before accepting
+  // a replacement token from checkout or the restore form.
+  localStorage.setItem(LICENSE_KEY, token);
+  localStorage.removeItem(LICENSE_CACHE_KEY);
+}
+
 function renderLicense(note?: string): void {
   const state = element('license-state');
   state.innerHTML = `<span class="status-dot" style="background:${licensed ? 'var(--success)' : 'var(--paper-dim)'}"></span>${licensed ? 'Studio Pack unlocked' : 'Free planner active'}`;
@@ -448,7 +456,7 @@ async function initializeLicense(): Promise<void> {
   const params = new URLSearchParams(location.search);
   const incoming = params.get('license');
   if (incoming) {
-    localStorage.setItem(LICENSE_KEY, incoming);
+    saveLicenseToken(incoming);
     params.delete('license');
     history.replaceState({}, '', `${location.pathname}${params.size ? `?${params}` : ''}${location.hash}`);
   }
@@ -565,7 +573,7 @@ function registerEvents(): void {
     if (demoMode) { element('license-note').textContent = 'Start for real before restoring a license. The demo does not read your saved access.'; return; }
     const token = element<HTMLInputElement>('license-token').value.trim();
     if (!token) { element('license-note').textContent = 'Paste the license token from your receipt.'; return; }
-    localStorage.setItem(LICENSE_KEY, token);
+    saveLicenseToken(token);
     void verifyLicense(token, true);
   });
   element('save-status').addEventListener('click', () => void persist('Saved locally'));

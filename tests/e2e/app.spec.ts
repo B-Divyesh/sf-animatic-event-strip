@@ -242,6 +242,72 @@ test('@claim:cached-license-offline keeps a cached Studio verdict available offl
   await context.setOffline(false);
 });
 
+test('@claim:license-lifecycle suppresses same-day checks, restores access, and reconciles inactive licenses from recorded fixtures', async ({ page }) => {
+  const fixtures = JSON.parse(await readFile(new URL('../fixtures/license-verdicts.json', import.meta.url), 'utf8')) as Record<string, { valid: boolean; reason: string }>;
+  const requests: string[] = [];
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('sb_license:animatic-event-strip')) {
+      localStorage.setItem('sb_license:animatic-event-strip', 'same-day-token');
+      localStorage.setItem('sb_license:animatic-event-strip:verdict', JSON.stringify({ valid: true, checkedAt: Date.now() }));
+    }
+  });
+  await page.route(/https:\/\/api\.sociobot\.in\/api\/v1\/products\/animatic-event-strip\/verify\?license=.*/, async (route) => {
+    const token = new URL(route.request().url()).searchParams.get('license') ?? '';
+    requests.push(token);
+    const fixture = fixtures[token] ?? { valid: true, reason: 'ok' };
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      headers: { 'access-control-allow-origin': '*', 'cache-control': 'no-store' },
+      body: JSON.stringify(fixture),
+    });
+  });
+
+  await page.goto('/');
+  await expect(page.getByText('Studio access was checked within the last day.')).toBeVisible();
+  expect(requests).toEqual([]);
+
+  await page.evaluate(() => {
+    localStorage.setItem('sb_license:animatic-event-strip', 'stale-token');
+    localStorage.setItem('sb_license:animatic-event-strip:verdict', JSON.stringify({ valid: true, checkedAt: Date.now() - 86_400_001 }));
+  });
+  await page.reload();
+  await expect(page.getByText('License verified. Studio downloads are ready.')).toBeVisible();
+  expect(requests).toEqual(['stale-token']);
+
+  await page.getByLabel('Have a license?').fill('restored-token');
+  await page.getByRole('button', { name: 'Restore' }).click();
+  await expect(page.getByText('License verified. Studio downloads are ready.')).toBeVisible();
+  await expect(page.getByText('Studio Pack unlocked')).toBeVisible();
+  expect(requests).toEqual(['stale-token', 'restored-token']);
+
+  await page.goto('/?license=return-token');
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByText('Studio Pack unlocked')).toBeVisible();
+  expect(requests).toEqual(['stale-token', 'restored-token', 'return-token']);
+
+  for (const token of ['refunded-token', 'expired-token', 'revoked-token']) {
+    await page.getByLabel('Have a license?').fill(token);
+    await page.getByRole('button', { name: 'Restore' }).click();
+    await expect(page.getByText('This license is no longer active.')).toBeVisible();
+    await expect(page.getByText('Free planner active')).toBeVisible();
+    await expect(page.locator('[data-export="godot"]')).toHaveClass(/locked/);
+    await expect(page.locator('[data-export="json"]')).not.toHaveClass(/locked/);
+  }
+  expect(requests).toEqual(['stale-token', 'restored-token', 'return-token', 'refunded-token', 'expired-token', 'revoked-token']);
+
+  const stored = await page.evaluate(async () => ({
+    token: localStorage.getItem('sb_license:animatic-event-strip'),
+    verdict: JSON.parse(localStorage.getItem('sb_license:animatic-event-strip:verdict') ?? '{}') as Record<string, unknown>,
+    cachedVerification: await caches.match('https://api.sociobot.in/api/v1/products/animatic-event-strip/verify?license=revoked-token'),
+  }));
+  expect(stored.token).toBe('revoked-token');
+  expect(stored.verdict).toMatchObject({ valid: false });
+  expect(Object.keys(stored.verdict).sort()).toEqual(['checkedAt', 'valid']);
+  expect(typeof stored.verdict.checkedAt).toBe('number');
+  expect(stored.cachedVerification).toBeUndefined();
+});
+
 test('@claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the print handoff', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('sb_license:animatic-event-strip', 'sandbox-studio-license');

@@ -1,0 +1,8 @@
+{
+  "stale-token": { "valid": true, "reason": "ok" },
+  "restored-token": { "valid": true, "reason": "ok" },
+  "return-token": { "valid": true, "reason": "ok" },
+  "refunded-token": { "valid": false, "reason": "refunded" },
+  "expired-token": { "valid": false, "reason": "expired" },
+  "revoked-token": { "valid": false, "reason": "revoked" }
+}

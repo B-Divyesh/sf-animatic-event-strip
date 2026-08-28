@@ -42,6 +42,20 @@ describe('release policy', () => {
     }
   });
 
+  test('repairs AES-QA-501 and AES-QA-502 with a declared license lifecycle and accurate local-data disclosure', async () => {
+    const claims = JSON.parse(await readFile(new URL('.factory/claims.json', root), 'utf8')) as Array<{ id: string; claim: string; where: string; test: string }>;
+    const lifecycle = claims.filter((claim) => claim.id === 'license-lifecycle');
+    expect(lifecycle).toHaveLength(1);
+    expect(lifecycle[0]).toMatchObject({ where: 'license panel, privacy, terms' });
+    expect(lifecycle[0].claim).toContain('at most one day');
+    expect(lifecycle[0].claim).toContain('never cache verification responses');
+    expect(lifecycle[0].claim).toContain('refunded, expired, or revoked');
+    expect(lifecycle[0].test).toContain('@claim:license-lifecycle');
+    const privacy = await readFile(new URL('public/privacy/index.html', root), 'utf8');
+    expect(privacy).toContain('The current project’s name');
+    expect(privacy).not.toContain('project history');
+  });
+
   test('repairs AES-QA-401 by building before Playwright starts the production preview', async () => {
     const config = await readFile(new URL('playwright.config.ts', root), 'utf8');
     const serverCommand = config.match(/command:\s*'([^']+)'/)?.[1];
@@ -82,7 +96,7 @@ describe('release policy', () => {
       expect(page).toContain('class="skip-link"');
       expect(page).toContain('Animatic Event Strip home');
       expect(page).toContain('Built by Param Factory');
-      expect(page).toContain('Version 1.0.0, repair 4');
+      expect(page).toContain('Version 1.0.0, repair 5');
       expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
       expect(page).toContain('<main');
     }

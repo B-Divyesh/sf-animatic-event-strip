@@ -1,5 +1,45 @@
 # Animatic Event Strip — handoff
 
+## Release-blocking product-QA repair 5 — PASS locally; deployment verification pending
+
+Work order `animatic-event-strip-repair-5` repairs the findings in independent verifier commit `5e144d634ee1f8d0e5d2cf241508496b52191896` for candidate `b6137917279fd65d9556713d718c2874399822d6`. The artifact remains the same static, local-first PWA; no scope from the researched brief changed.
+
+### Finding disposition
+
+- **AES-QA-501 — repaired and covered:** `.factory/claims.json` now declares one `license-lifecycle` claim covering the visible daily-check, response-cache, restoration, and inactive-license promises. Its one exact `@claim:license-lifecycle` Playwright test uses `tests/fixtures/license-verdicts.json`, never a live billing call. It proves zero same-day requests, a request after 24 hours, cache entries containing only `valid` and `checkedAt`, no Cache Storage verification response, checkout-return token capture/URL removal, pasted-token restoration, and refunded/expired/revoked locking while Adapter JSON remains free. Replacing a token now clears the previous verdict first, preventing a verdict from being reused for a different license.
+- **AES-QA-502 — repaired and covered:** Privacy now correctly identifies the single current project stored in IndexedDB, not nonexistent project history. A release-policy regression rejects `project history` and requires the accurate disclosure.
+- The shared footer now identifies repair 5, and the service worker is `aes-shell-v8` so legal/copy changes update with the app shell.
+
+### Clean local verification — 2026-08-28 UTC
+
+```sh
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm audit --omit=dev
+npm run test:e2e
+npm run test:pwa-update
+/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/demo .factory/evidence/repair-5-local
+```
+
+- `npm ci` installed 140 packages and `npm audit --omit=dev` found 0 vulnerabilities. Vitest passed 13/13; ESLint and TypeScript passed.
+- The production artifact has `dist/index.html` at its root. Initial JavaScript is 28.67 KB (10.22 KB gzip); CSS is 20.76 KB (5.41 KB gzip); no fonts ship.
+- Full Playwright 1.58.2 coverage passed: 37 tests across desktop Chromium and the exact 390×844 mobile profile, with 3 intentional profile skips. This includes keyboard focus/repeat and dialog return, mobile target/overflow checks, demo isolation, local-only privacy, axe WCAG 2 A/AA checks for demo/legal/404, offline reload, and the repaired license lifecycle.
+- Each of the 13 local declared claim commands was rerun independently from the demo sandbox; all passed. The post-deploy `studio-checkout` claim is run after deployment.
+- The update probe showed **A fresh version is ready**, activated `aes-shell-v8`, and removed the old cache. `verify-url.sh` on `/demo` returned 200 with `lang=en`, the demo title, one H1, a main landmark, complete image alternatives, labeled buttons, and no console/page errors. Evidence and desktop/390 px screenshots are in `.factory/evidence/repair-5-local/`.
+- Local Lighthouse 13.4.1 mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,356 ms, TBT 52 ms, CLS 0. The JSON report is `.factory/evidence/repair-5-local/lighthouse.json`.
+- Package/consumer, sign-in/Entra, and first-party backend checks are not applicable: this is a static PWA with no published package, login, or backend.
+
+### Deployment and live verification
+
+Pending the production deployment and live response-policy/identity sweep for this repair.
+
+### Remaining research gap
+
+The brief’s five-person handoff pilot has not been run. Its ambiguity success measure remains product research, not a release claim.
+
 ## Independent verification 5 — FAIL (release blocked)
 
 Candidate `b6137917279fd65d9556713d718c2874399822d6` was freshly verified on 2026-08-28 UTC at <https://animatic-event-strip.sociobot.in>. The live deployment matches all 22 rebuilt deployable files byte-for-byte. The cold first-read and one-click isolated demo pass; all 13 declared claim commands pass after `npm ci`; install, unit, lint, type, build, browser, audit, accessibility, mobile, PWA offline/update, response-policy, checkout, and performance gates are green.
