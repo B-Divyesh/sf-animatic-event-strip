@@ -124,7 +124,10 @@ test('repairs F-1-1 by focusing and announcing each route change, including brow
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
-  await page.getByLabel('Utility navigation').getByRole('link', { name: 'Demo' }).click();
+  const demoNavigation = page.getByLabel('Utility navigation').getByRole('link', { name: 'Demo' });
+  await expect(demoNavigation).toBeVisible();
+  await expect(demoNavigation).toHaveCSS('min-height', '44px');
+  await demoNavigation.click();
   await expect(page).toHaveURL(/\/demo$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect(page.locator('#route-status')).toHaveText('Demo loaded: Rain Gate sample strip.');
@@ -132,6 +135,31 @@ test('repairs F-1-1 by focusing and announcing each route change, including brow
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
+});
+
+test('repairs F-2-1 with predictable Demo, Privacy, and Terms links in every footer', async ({ page }) => {
+  for (const route of ['/', '/demo', '/privacy/', '/terms/']) {
+    await page.goto(route);
+    const footer = page.locator('footer');
+    await expect(footer.getByRole('link', { name: 'Demo', exact: true })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Privacy', exact: true })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Terms', exact: true })).toBeVisible();
+  }
+  await page.goto('/privacy/');
+  await expect(page.locator('footer a[aria-current="page"]')).toHaveText('Privacy');
+  await page.goto('/terms/');
+  await expect(page.locator('footer a[aria-current="page"]')).toHaveText('Terms');
+});
+
+test('repairs F-2-2 through F-2-4 with specific copy and action names', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Export formats for engine handoff.' })).toBeVisible();
+  await expect(page.getByText('Plan scene timing before engine implementation.')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Open quick guide', includeHidden: true })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Show artwork provenance' })).toBeVisible();
+  await expect(page.locator('#save-status')).toHaveJSProperty('tagName', 'SPAN');
+  await expect(page.getByText('Adapter JSON and CSV export frame data for Godot, Unity, or your own tools.')).toBeVisible();
+  await expect(page.getByText('Both formats have a version number.')).toBeVisible();
 });
 
 test('shows the three visible handoff steps on the planner and demo', async ({ page }) => {

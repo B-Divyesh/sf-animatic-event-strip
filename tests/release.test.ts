@@ -96,7 +96,7 @@ describe('release policy', () => {
       expect(page).toContain('class="skip-link"');
       expect(page).toContain('Animatic Event Strip home');
       expect(page).toContain('Built by Param Factory');
-      expect(page).toContain('Version 1.0.0, polish 1');
+      expect(page).toContain('Version 1.0.0, polish 2');
       expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
       expect(page).toContain('<main');
     }
@@ -124,5 +124,28 @@ describe('release policy', () => {
     expect(home).toContain('>Import project</button>');
     expect(home).toContain('>Choose export</button>');
     expect(home).toContain('>Restore Studio license</button>');
+  });
+
+  test('repairs F-2-1 through F-2-4 in shared navigation, semantics, and copy', async () => {
+    const [home, privacy, terms] = await Promise.all([
+      readFile(new URL('index.html', root), 'utf8'),
+      readFile(new URL('public/privacy/index.html', root), 'utf8'),
+      readFile(new URL('public/terms/index.html', root), 'utf8'),
+    ]);
+    for (const legal of [privacy, terms]) {
+      expect(legal).toContain('href="/demo"');
+      expect(legal).toContain('href="/privacy/"');
+      expect(legal).toContain('href="/terms/"');
+    }
+    expect(privacy).toContain('href="/privacy/" aria-current="page"');
+    expect(terms).toContain('href="/terms/" aria-current="page"');
+    expect(home).toContain('Export formats for engine handoff.');
+    expect(home).toContain('Plan scene timing before engine implementation.');
+    expect(home).toContain('>Open quick guide</button>');
+    expect(home).toContain('>Show artwork provenance</button>');
+    expect(home).toContain('<span class="status-pill" id="save-status" role="status"');
+    expect(home).toContain('Adapter JSON and CSV export frame data for Godot, Unity, or your own tools.');
+    expect(home).not.toContain('implementation-neutral');
+    expect(home).not.toContain('schema versions');
   });
 });

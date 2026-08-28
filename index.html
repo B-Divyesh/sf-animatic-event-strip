@@ -34,8 +34,8 @@
       </a>
       <nav aria-label="Utility navigation">
         <a class="text-button" href="/demo">Demo</a>
-        <button class="text-button" id="open-guide" type="button">Quick guide</button>
-        <button class="status-pill" id="save-status" type="button" aria-label="Local save status">Loading locally…</button>
+        <button class="text-button" id="open-guide" type="button">Open quick guide</button>
+        <span class="status-pill" id="save-status" role="status" aria-live="polite">Loading locally…</span>
       </nav>
     </header>
 
@@ -126,8 +126,8 @@
         </div>
 
         <section class="handoff" aria-labelledby="handoff-title">
-          <div><p class="eyebrow">Export this strip for engine work</p><h2 id="handoff-title">One strip, several handoffs.</h2></div>
-          <p>Project JSON reopens here with local media. Adapter JSON and CSV stay implementation-neutral, with stable schema versions for Godot, Unity, or your own tools.</p>
+          <div><p class="eyebrow">Export this strip for engine work</p><h2 id="handoff-title">Export formats for engine handoff.</h2></div>
+          <p>Project JSON reopens here with local media. Adapter JSON and CSV export frame data for Godot, Unity, or your own tools. Both formats have a version number.</p>
           <div class="format-stamps" aria-label="Export formats"><span>PROJECT<br /><b>AES 1</b></span><span>JSON<br /><b>ADAPTER 1</b></span><span>CSV<br /><b>UTF-8</b></span></div>
         </section>
       </section>
@@ -141,7 +141,7 @@
       </section>
     </main>
 
-    <footer><p>Built for sketches before systems. Your project and media stay on this device.</p><nav aria-label="Footer navigation"><a href="/demo">Demo</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><button class="text-button" id="about-art" type="button">Artwork provenance</button></nav><p class="credit">Original AI-generated environmental artwork · No analytics · Built by Param Factory · Version 1.0.0, polish 1</p></footer>
+    <footer><p>Plan scene timing before engine implementation. Your project and media stay on this device.</p><nav aria-label="Footer navigation"><a href="/demo">Demo</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><button class="text-button" id="about-art" type="button">Show artwork provenance</button></nav><p class="credit">Original AI-generated environmental artwork · No analytics · Built by Param Factory · Version 1.0.0, polish 2</p></footer>
 
     <div class="toast" id="update-toast" role="status" hidden><span>A fresh version is ready.</span><button type="button" id="reload-app">Update app</button></div>
     <input type="file" id="import-file" accept="application/json,.json" hidden />

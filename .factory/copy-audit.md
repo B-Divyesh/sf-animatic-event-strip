@@ -1,6 +1,6 @@
 # Copy audit
 
-Audited 2026-08-28 for polish 1. Counts treat hyphenated terms and numbers as one word. No sentence exceeds 22 words, and none uses the banned marketing terms except “unlocked” for the literal paid-license state.
+Audited 2026-08-28 for polish 2. Counts treat hyphenated terms and numbers as one word. No sentence exceeds 22 words. No visible sentence uses a banned marketing term. “Unlocks” appears only for the literal paid-license result.
 
 ## First screen
 
@@ -26,7 +26,8 @@ The first screen states the job, audience, first action, demo result, privacy, o
 | Add a board image, then mark the sounds and implementation moments around it. | 13 |
 | Everything is stored locally. | 4 |
 | Project JSON reopens here with local media. | 7 |
-| Adapter JSON and CSV stay implementation-neutral, with stable schema versions for Godot, Unity, or your own tools. | 16 |
+| Adapter JSON and CSV export frame data for Godot, Unity, or your own tools. | 13 |
+| Both formats have a version number. | 6 |
 | The full planner and every core export are free. | 9 |
 | A one-time Studio Pack adds direct Godot 4 and Unity 6 adapter source plus a printable handoff sheet. | 19 |
 | Licenses are checked at most once daily. | 7 |
@@ -34,13 +35,20 @@ The first screen states the job, audience, first action, demo result, privacy, o
 | Your project and media stay on this device. | 8 |
 | No analytics. | 2 |
 | Built by Param Factory. | 4 |
-| Version 1.0.0, polish 1. | 4 |
+| Version 1.0.0, polish 2. | 4 |
 | Add boards. | 2 |
 | Place each visual range on the strip. | 7 |
 | Align sound. | 2 |
 | Add local clips where the scene needs them. | 8 |
 | Name implementation moments. | 3 |
 | Mark beats, cues, and input windows. | 7 |
+| Export formats for engine handoff. | 5 |
+| Plan scene timing before engine implementation. | 6 |
+| Open quick guide. | 3 |
+| Show artwork provenance. | 3 |
+| Loading locally. | 2 |
+| Saved locally. | 2 |
+| Demo only. | 2 |
 
 ## Dialog and state guidance
 
@@ -64,7 +72,7 @@ The first screen states the job, audience, first action, demo result, privacy, o
 | Editable timeline document | project |
 | Horizontal planning view | strip |
 | Board, sound, or marker item | event |
-| Engine-neutral machine handoff | Adapter JSON |
+| Frame-data handoff for engines | Adapter JSON |
 | Full reopenable backup | Project JSON |
 | Isolated sample workspace | demo |
 | Paid adapter bundle | Studio Pack |

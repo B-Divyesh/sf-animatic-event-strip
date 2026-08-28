@@ -1,1 +1,1 @@
-Plan animation events before engine work with a local-first strip for boards, sound cues, and input windows.
+Plan boards, sound cues, and input windows before engine work in a local event strip.

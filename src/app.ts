@@ -48,7 +48,7 @@ const audioLane = element<HTMLDivElement>('audio-lane');
 const markersLane = element<HTMLDivElement>('markers-lane');
 const playhead = element<HTMLDivElement>('playhead');
 const emptyState = element<HTMLDivElement>('empty-state');
-const saveStatus = element<HTMLButtonElement>('save-status');
+const saveStatus = element<HTMLSpanElement>('save-status');
 const workspaceError = element<HTMLDivElement>('workspace-error');
 const eventDialog = element<HTMLDialogElement>('event-dialog');
 const settingsDialog = element<HTMLDialogElement>('settings-dialog');
@@ -599,7 +599,6 @@ function registerEvents(): void {
     saveLicenseToken(token);
     void verifyLicense(token, true);
   });
-  element('save-status').addEventListener('click', () => void persist('Saved locally'));
   element('about-art').addEventListener('click', () => { guideDialog.showModal(); element('guide-title').textContent = 'Artwork provenance'; const list = guideDialog.querySelector('ol'); if (list) list.innerHTML = '<li><b>Original scene.</b><span>Generated for this product with the Param Factory image model on 28 August 2026.</span></li><li><b>Purpose.</b><span>The blue-hour cutting room establishes the planning context; it does not depict product output.</span></li><li><b>No stock library.</b><span>All interface marks are authored SVG strokes. No third-party art or fonts are loaded.</span></li>'; });
   window.addEventListener('online', () => { setOnlineStatus(); if (!demoMode) { const token = localStorage.getItem(LICENSE_KEY); if (token) void verifyLicense(token); } });
   window.addEventListener('offline', setOnlineStatus);
