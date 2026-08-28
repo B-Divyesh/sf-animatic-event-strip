@@ -1,6 +1,6 @@
 # Animatic Event Strip — handoff
 
-## Release-blocking product-QA repair 5 — PASS locally; deployment verification pending
+## Release-blocking product-QA repair 5 — repaired; external checkout service currently blocks full release acceptance
 
 Work order `animatic-event-strip-repair-5` repairs the findings in independent verifier commit `5e144d634ee1f8d0e5d2cf241508496b52191896` for candidate `b6137917279fd65d9556713d718c2874399822d6`. The artifact remains the same static, local-first PWA; no scope from the researched brief changed.
 
@@ -32,9 +32,13 @@ npm run test:pwa-update
 - Local Lighthouse 13.4.1 mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,356 ms, TBT 52 ms, CLS 0. The JSON report is `.factory/evidence/repair-5-local/lighthouse.json`.
 - Package/consumer, sign-in/Entra, and first-party backend checks are not applicable: this is a static PWA with no published package, login, or backend.
 
-### Deployment and live verification
+### Deployment and live verification — 2026-08-28 UTC
 
-Pending the production deployment and live response-policy/identity sweep for this repair.
+- Commit `393c8de` was pushed to `origin/main` and deployed with the factory static deployment configuration to the existing Azure Static Web App `sf-animatic-event-strip` in Central US. The live custom domain is <https://animatic-event-strip.sociobot.in> and reports `Version 1.0.0, repair 5`.
+- Every one of the 22 served production files rebuilt from `dist/` matches the custom-domain response by SHA-256; `staticwebapp.config.json` is correctly excluded because Azure consumes it rather than serving it. `/`, `/demo`, `/privacy/`, and `/terms/` return 200; an unknown route returns the designed HTTP 404.
+- Live `verify-url.sh` on `/demo` passed with the expected title, `lang=en`, one H1, main landmark, complete image alternatives, labeled buttons, and no console/page errors. Live Chromium checks passed 3/3 for demo axe WCAG 2 A/AA, legal/404 route accessibility, and keyboard focus/repeated event movement. Live 390×844 checks passed 4/4 for the sample demo, offline reload, no body overflow, and all named 44 px targets.
+- Live Lighthouse 13.4.1 mobile: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,052 ms, TBT 4 ms, CLS 0. Evidence is in `.factory/evidence/repair-5-live/`. Live root policy retains HSTS, restrictive CSP including `frame-ancestors 'none'`, `X-Frame-Options: DENY`, Permissions Policy, `nosniff`, and strict-origin referrer policy.
+- **External release gate currently failing:** the required `studio-checkout` live-policy command was rerun after deployment and the unrelated Sociobot endpoint `GET https://api.sociobot.in/api/v1/products/animatic-event-strip/checkout` returned HTTP 500 twice (`{"error":"Internal server error","status":500}`), including a retry 15 seconds later. This is outside this static product repository; the page still correctly links to that documented hosted-checkout URL. Because the claim intentionally verifies the live merchant redirect, it cannot pass until the Sociobot billing service restores its expected hosted-checkout 303 response. The verifier’s original AES-QA-501/AES-QA-502 blockers are repaired and covered locally/live where applicable.
 
 ### Remaining research gap
 
