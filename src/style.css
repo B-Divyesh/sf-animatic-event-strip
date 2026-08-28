@@ -72,10 +72,11 @@ h1 i { color: var(--signal); font-weight: 400; }
 .scene-plate img { width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .76; }
 
 /* The sandbox opens on the filled strip, not on a second marketing screen. */
-.demo-mode .intro { min-height: 0; display: block; }
-.demo-mode .intro::after, .demo-mode .scene-plate, .demo-mode .intro-copy .eyebrow, .demo-mode .lede, .demo-mode .hero-actions, .demo-mode .action-note, .demo-mode .hero-facts { display: none; }
-.demo-mode .intro-copy { max-width: none; padding: 28px clamp(16px, 3vw, 48px); }
-.demo-mode h1 { font-size: clamp(32px, 4vw, 52px); }
+:is(.demo-route, .demo-mode) .intro { min-height: 0; display: block; }
+:is(.demo-route, .demo-mode) .intro::after, :is(.demo-route, .demo-mode) .scene-plate, :is(.demo-route, .demo-mode) .intro-copy .eyebrow, :is(.demo-route, .demo-mode) .lede, :is(.demo-route, .demo-mode) .hero-actions, :is(.demo-route, .demo-mode) .action-note, :is(.demo-route, .demo-mode) .hero-facts { display: none; }
+:is(.demo-route, .demo-mode) .intro-copy { max-width: none; padding: 28px clamp(16px, 3vw, 48px); }
+:is(.demo-route, .demo-mode) h1 { font-size: clamp(32px, 4vw, 52px); }
+.demo-route .empty-state { display: none; }
 
 .workspace { padding: 40px clamp(16px, 3vw, 48px) 0; max-width: 1800px; margin: 0 auto; }
 .project-bar { display: grid; grid-template-columns: minmax(220px, 1fr) auto auto; align-items: center; gap: 24px; margin-bottom: 24px; }
@@ -245,8 +246,8 @@ body.printing .masthead, body.printing .intro, body.printing .transport, body.pr
   .demo-actions { width: 100%; }
   .demo-actions > * { flex: 1; }
   .intro { min-height: 620px; }
-  .demo-mode .intro { min-height: 0; }
-  .demo-mode .intro-copy { padding: 24px 20px; }
+  :is(.demo-route, .demo-mode) .intro { min-height: 0; }
+  :is(.demo-route, .demo-mode) .intro-copy { padding: 24px 20px; }
   .intro-copy { padding: 44px 20px; align-self: end; }
   .hero-actions { display: grid; }
   .intro::after { background: linear-gradient(0deg, var(--ink) 4%, rgba(17,25,29,.84) 68%, rgba(17,25,29,.3)); }
