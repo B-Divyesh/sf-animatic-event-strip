@@ -1,5 +1,27 @@
 # Animatic Event Strip — handoff
 
+## Polish round 3 — PASS locally and live
+
+Work order `animatic-event-strip-polish-3` closes every finding in the three adversarial review reports. Product commit `3afe8ad38737892f988eb370e83208ad8e4ca5e4` was pushed to `origin/main`. Azure Static Web Apps deployment `44069a8c-9f18-4082-9538-73c0cac59c50` serves <https://animatic-event-strip.sociobot.in>.
+
+- Legal, offline, and 404 routes now focus and announce their h1 on entry and Back/Forward. All routes share Demo, Privacy, and Terms navigation, complete metadata, skip navigation, footer identity, and at least 44×44 px touch targets. `/demo` and `?demo=1` now set demo-specific title, description, canonical, Open Graph, and Twitter metadata.
+- The first screen retains the tested job, audience, one-click sample action, result note, privacy, offline, free-core, and one-time-price facts. The isolated Rain Gate sample uses `demo:animatic-event-strip`, supports Reset demo and Start for real, never reads real project data or licenses, and reloads offline.
+- Every cited heading, error, event term, and export control now uses plain, result-naming language. README states the supported Node range and uses direct storage/export wording. The verb-first catalog line is 94 characters.
+- `.factory/claims.json` now has 17 claims. Added provenance and Node-runtime tests close the review's unlisted claims; unverifiable ambiguity and update-safety wording was removed. `.factory/polish-3.md` maps every cumulative finding to its change and local/live evidence.
+- The charcoal, parchment, signal-cyan cutting-room identity, original scene, timeline rails, single dark treatment, and offline static-PWA deployment class are unchanged.
+
+### Verification evidence
+
+- Clean clone `/tmp/animatic-polish-3-clean.RlgFnB/repo` at `3afe8ad`: `npm ci` installed 140 packages with zero vulnerabilities. All 17 exact claim commands passed independently. Evidence: `.factory/evidence/polish-3-local/clean-clone-claims.log`.
+- Clean full suite: `npm test` passed 17/17; lint, typecheck, build, `npm audit --omit=dev`, and `npm run test:pwa-update` passed. Full Playwright passed 51 checks across desktop and 390×844 mobile, with three intended profile skips. This includes axe, privacy, offline, keyboard, focus, dialog, demo-isolation, routing, 404, overflow, and all-target geometry coverage. Evidence: `clean-clone-full-suite.log`.
+- `dist/index.html` is at the artifact root. Initial JavaScript is 29.66 kB (10.41 kB gzip), CSS is 22.63 kB (5.72 kB gzip), no fonts ship, and the mobile scene is 36.14 kB.
+- Local `verify-url.sh` passed with no console or page errors. Local Lighthouse 13.4.1 scored 100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO; LCP 1.4 s, TBT 0 ms, CLS 0.
+- The full 51-check browser matrix passed again against the cold live custom domain. Structured mobile route checks show correct titles, canonicals, focused h1s, announcements, zero overflow, and minimum 44×44 px targets on home, query demo, `/demo`, Privacy, Terms, offline, and the true 404. Evidence: `.factory/evidence/polish-3-live/cold-routes.json` and `browser-suite.log`.
+- Live `verify-url.sh` returned HTTP 200 with `Demo — Animatic Event Strip`, `lang=en`, one h1, a main landmark, complete image alternatives, named buttons, and no errors. Live Lighthouse scored 100/100/100/100; LCP 1.1 s, TBT 30 ms, CLS 0.
+- All 23 deployable files match the custom domain byte-for-byte. Home, demo, Privacy, Terms, and offline return 200; an unknown route returns the designed HTTP 404. The post-deploy checkout claim passed with checkout 303, rate limit 429, `Retry-After: 4`, security headers, and immutable asset caching.
+
+Known gaps: none. The brief's five-person pilot remains unclaimed product research, not unfinished release work.
+
 ## Adversarial first-read review 3 — FAIL
 
 Work order `animatic-event-strip-review-3` reviewed candidate `d593b232bc6db1cbfd22d7149eafa75e41f74fbd` at <https://animatic-event-strip.sociobot.in> on 2026-08-28. No product code was changed. The complete report is [`.factory/review-3.md`](review-3.md).
