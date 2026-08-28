@@ -1,5 +1,35 @@
 # Animatic Event Strip — handoff
 
+## Perfection-loop polish 4 — PASS (deployed)
+
+Work order `animatic-event-strip-polish-4` closes every finding in `.factory/review-1.md` through `.factory/review-4.md`. Product repair commit `962da03b50453cdfd1cb3b0e6058ed2bb32bc750` was pushed to `origin/main`. Azure Static Web Apps deployment `eb86db5f-fd3b-4b58-9ea9-24c7bdf5e714` serves <https://animatic-event-strip.sociobot.in>.
+
+### What changed
+
+- The landing route is now a storage-free entry surface. It neither opens nor creates `animatic-event-strip` before an explicit real-project action.
+- **Try it with sample data** now uses `/?demo=1`. That route opens only `demo:animatic-event-strip`, shows the persistent demo/reset/exit banner, and never reads saved project or license data.
+- **Start for real** clears demo data and explicitly opens the existing real project. All ordinary real-project controls also initialize real storage before acting.
+- The first-screen promise now says, “Your project is not opened or changed.” The untouched landing status says, “Project unopened.” README, demo documentation, claims, copy audit, catalog description, metadata canonicals, navigation, sitemap, PWA cache version, and build IDs match the behavior.
+- The cutting-room visual system, static offline-PWA class, local exports, and optional Sociobot license flow are unchanged.
+
+### Exact verification
+
+- Clean clone `/tmp/animatic-polish-4-clean.ycav6H/repo` at `962da03`: `npm ci` installed 140 packages with zero audit findings.
+- All 17 exact commands in `.factory/claims.json` passed independently. The repaired `sample-demo` test instruments IndexedDB, proves no real-database open with a sentinel or blank profile, and verifies seed/reset/discard/exit.
+- Aggregate clean suite: `npm test` 18/18; lint, typecheck, build, and PWA update passed; Playwright 51 passed with 3 intentional cross-profile skips; `npm audit --omit=dev` found zero vulnerabilities.
+- Production build: `dist/index.html`; JavaScript 30.62 kB raw / 10.63 kB gzip; CSS 22.63 kB raw / 5.72 kB gzip; no fonts; mobile scene 36.14 kB.
+- Local Lighthouse: 100/100/100/100; LCP 1.354 s, TBT 0 ms, CLS 0.0003. Live Lighthouse: 100/100/100/100; LCP 944 ms, TBT 0 ms, CLS 0.0012.
+- Local and live URL verification: correct per-route titles, `lang=en`, one h1, main landmark, complete alternatives, named buttons, and zero console/page errors. Axe found zero serious/critical findings.
+- Full Playwright matrix passed again against the live custom domain, including desktop and 390 × 844 mobile, query-demo isolation, offline reload, privacy, focus/Back, 44 px targets, legal routes, metadata, and HTTP 404.
+- Live checkout policy: checkout 303, verification 429, `Retry-After: 4`, expected security headers, and immutable hashed-asset caching.
+- All 23 public files match the deployed custom domain byte-for-byte. Evidence and the complete finding map are in `.factory/polish-4.md` and `.factory/evidence/polish-4-{local,live}/`.
+
+### Known gaps and next steps
+
+No release acceptance gap or review finding remains. The brief’s five-person ambiguity pilot is future product research and is not presented as a product claim.
+
+---
+
 ## Adversarial first-read review 4 — FAIL
 
 - Added `.factory/review-4.md`; no product source, assets, configuration, or deployment state was changed.
