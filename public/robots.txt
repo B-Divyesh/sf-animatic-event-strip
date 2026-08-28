@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://animatic-event-strip.sociobot.in/sitemap.xml
