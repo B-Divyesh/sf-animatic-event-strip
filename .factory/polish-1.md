@@ -16,7 +16,7 @@ Live: <https://animatic-event-strip.sociobot.in/demo>
 | F-1-9 | Renamed the ambiguous workflow and handoff labels to `Start your first strip` and `Export this strip for engine work`. | `release policy > repairs F-1-4 through F-1-10`; live screenshot `evidence/polish-1-live/demo-mobile-390.png`. |
 | F-1-10 | Renamed toolbar and license controls to `Import project`, `Choose export`, and `Restore Studio license`. | `release policy > repairs F-1-4 through F-1-10`; `@claim:studio-outputs`; live mobile screenshot. |
 
-The demo now also condenses its route-only introduction so the filled Rain Gate project is inside the first phone viewport. This is asserted in `@claim:sample-demo` and visible in `evidence/polish-1-live/demo-mobile-390.png`.
+The demo now also condenses its route-only introduction so the filled Rain Gate project is inside the first phone viewport. `@claim:sample-demo` verifies both `/demo` and `?demo=1`, and the result is visible in `evidence/polish-1-live/demo-mobile-390.png`.
 
 ## Verification
 

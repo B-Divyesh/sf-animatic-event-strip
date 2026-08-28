@@ -2,7 +2,7 @@
 
 ## Polish round 1 — PASS locally and live
 
-Work order `animatic-event-strip-polish-1` repaired every finding in adversarial review `bb107d004e76bba7058e07286b3170baf759e6fa`. Product repair commit: `e05fc9cf03b964e1337bdf4e308154b6076216ad`; production deployment: <https://animatic-event-strip.sociobot.in/demo>.
+Work order `animatic-event-strip-polish-1` repaired every finding in adversarial review `bb107d004e76bba7058e07286b3170baf759e6fa`. Product repair commit: `e05fc9cf03b964e1337bdf4e308154b6076216ad`; query-demo coverage commit: `dcb9968`; production deployment: <https://animatic-event-strip.sociobot.in/demo>.
 
 - Route navigation now focuses and announces the page `<h1>`, including browser Back. The first visible demo viewport now contains the seeded Rain Gate project, while its separate `demo:animatic-event-strip` storage, banner, Reset demo, and Start for real controls remain intact.
 - Added the visible three-step handoff explanation, exact `keyboard-operation` declared claim/test, result-naming toolbar and license controls, and all adversarially flagged README and heading rewrites. `.factory/polish-1.md` maps F-1-1 through F-1-10 to evidence.
