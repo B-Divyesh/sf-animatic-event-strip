@@ -1,8 +1,8 @@
 # Animatic Event Strip — handoff
 
-## Release-blocking product-QA repair 2 — local PASS
+## Release-blocking product-QA repair 2 — PASS (deployed)
 
-Work order `animatic-event-strip-repair-2` repairs every blocker recorded in verifier commit `7c859f8c1a1110429c4496027094314f872ffc3d` for candidate `ae964e0113269aecfbdf888a3f239e27f200a280`. The product remains a static, local-first PWA. Deployment and final live-policy evidence are recorded below after the repair commit.
+Work order `animatic-event-strip-repair-2` repairs every blocker recorded in verifier commit `7c859f8c1a1110429c4496027094314f872ffc3d` for candidate `ae964e0113269aecfbdf888a3f239e27f200a280`. The product remains a static, local-first PWA. Repair commits: `a56bc16` and `9624e95`.
 
 ### Finding disposition
 
@@ -33,6 +33,16 @@ node -e "const c=require('./.factory/claims.json'); for (const x of c.filter(x=>
 - Local `verify-url.sh`: HTTP 200, title `Demo — Animatic Event Strip`, `lang=en`, one H1, main landmark, 0 images missing alternatives, 0 unlabeled buttons, and 0 console/page errors. Desktop and 390 px visual review found no body overflow, collision, clipping, or unreadable controls.
 - Lighthouse 13.4.1 mobile completed its report before the known post-audit Chromium crash: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,366 ms, TBT 0 ms, CLS 0.014. A blocking, same-origin route marker reserves the demo banner before first paint and sets the demo canonical URL. INP is not represented as measured by a lab navigation.
 - Package/consumer and first-party backend checks do not apply: this artifact is an application with no published package and no first-party backend. Response-policy, checkout, rate-limit, deployment identity, and live privacy checks are run against the deployed custom domain.
+
+### Final deployment and live evidence
+
+- Factory static deployment `b73647df-59fd-4af8-a8a1-6c5cd20ea35e` succeeded in the existing Central US Azure Static Web App. The custom domain returned HTTPS 200.
+- All 19 served files in the final `dist/` matched the live custom-domain responses byte-for-byte by SHA-256; `staticwebapp.config.json` was excluded because Azure consumes it rather than serving it.
+- The exact `@claim:studio-checkout` live command passed: checkout HTTP 303 to the Dodo-hosted session, verification HTTP 429 with `Retry-After: 4`, live product HTTP 200, and immutable hashed assets.
+- Live policy includes HSTS, restrictive CSP with `frame-ancestors 'none'`, `X-Frame-Options: DENY`, Permissions Policy, Referrer Policy, and `nosniff`. Hashed assets return one-year immutable caching; the demo shell remains revalidatable.
+- Live `/demo` at 390×844 loaded six sample events into only `demo:animatic-event-strip`, used only the product origin, had no console/page errors or body overflow, and exposed the `/demo` canonical URL. Offline reload retained the sample and displayed the offline banner with an active controller.
+- Live axe WCAG 2 A/AA found 0 serious/critical violations. The first Tab reached the skip link with a 3 px cyan outline; reduced-motion transitions measured `0.00001s`. `verify-url.sh` again reported `lang=en`, one H1, main, complete image alternatives, labeled buttons, and no browser errors.
+- Final live Lighthouse 13.4.1 mobile completed its report before the same post-audit Chromium crash: Performance 94, Accessibility 100, Best Practices 100, SEO 100; LCP 1,058 ms, TBT 280 ms, CLS 0.014. The pre-paint route marker repaired the initially observed live CLS of 0.192.
 
 ### Known research gap
 
