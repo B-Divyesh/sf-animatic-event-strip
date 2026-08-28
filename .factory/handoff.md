@@ -1,5 +1,27 @@
 # Animatic Event Strip — handoff
 
+## Polish round 2 — PASS locally and live
+
+Work order `animatic-event-strip-polish-2` closes every finding in `.factory/review-1.md` and `.factory/review-2.md`. Product commits are `9713e7e` and `31cc790`; Azure Static Web Apps deployment `585e014a-0a31-4d10-801e-097beb829733` serves <https://animatic-event-strip.sociobot.in>.
+
+- The mobile header retains a visible 44 px Demo route. Demo navigation and browser Back focus the route h1 and announce the destination. The isolated `/demo` and `?demo=1` paths retain the sample banner, reset, Start for real, separate IndexedDB namespace, and offline behavior.
+- Both legal footers now contain Demo, Privacy, and Terms, with the current legal destination marked using `aria-current`. The export heading, footer one-liner, guide/provenance actions, and adapter explanation now use direct wording. Save feedback is a non-interactive live status instead of a misleading button.
+- The visual identity remains the original charcoal, parchment, signal-cyan cutting-room system. An early demo-route style prevents startup layout movement without changing the art direction.
+- `.factory/polish-2.md` maps F-1-1 through F-1-10 and F-2-1 through F-2-4 to the exact change, regression test, screenshot, and live URL check. `.factory/copy-audit.md` has the final wording and counts. `.factory/catalog-description.txt` is an 85-character verb-first description.
+
+### Exact verification evidence
+
+- Final fresh clone: `/tmp/animatic-polish-2-final.dUBh3B/repo` at `31cc790c66285d91e922daf60523909ca4cf391d`. `npm ci` installed 140 packages with 0 vulnerabilities. All 15 exact `.factory/claims.json` commands passed independently, including the live checkout policy claim.
+- Clean-clone gates: `npm test` passed 15/15; ESLint and TypeScript passed; `npm run build` emitted `dist/index.html`; `npm run test:pwa-update` activated v9 and removed the old cache; full Playwright passed 47 tests with 3 intentional cross-profile skips.
+- Build budgets: initial JS 29.26 KB (10.42 KB gzip), CSS 22.43 KB (5.69 KB gzip), no fonts, and the mobile artwork is 36.14 KB.
+- Accessibility/privacy/offline: Playwright AxeBuilder passed desktop and 390 px with no serious findings. Same-origin request interception, demo/real storage isolation, keyboard operation, dialogs, offline reload, no body overflow, and 44 px target checks passed. Local URL evidence is in `.factory/evidence/polish-2-local/`.
+- Production: the live URL verifier on `/demo` returned 200, `Demo — Animatic Event Strip`, `lang=en`, one h1, a main landmark, no missing alternatives, no unlabeled buttons, and zero console errors. Screenshots and JSON are in `.factory/evidence/polish-2-live/`.
+- Production browser checks: all desktop tests passed. The first combined live run had an infrastructure headless-shell crash before one mobile test; that test passed on immediate retry, then all 25 mobile tests passed together. Live Lighthouse scored 100/100/100/100 with LCP 1.1 s, TBT 0 ms, and CLS 0.
+- Live routing/policy: home, demo, Privacy, Terms, robots, sitemap, and manifest returned 200; an unknown route returned 404. CSP, anti-framing, permissions, referrer, and `nosniff` headers are present. Root HTML, final CSS/JS, legal pages, and service worker match the deployed responses by SHA-256.
+- Final live policy: checkout 303, verification rate limit 429 with `Retry-After: 4`, product 200, and immutable hashed asset policy passed.
+
+Known release gaps: none. The brief's five-person handoff pilot remains future product research, not a shipped claim or unresolved defect.
+
 ## Adversarial first-read review 2 — FAIL
 
 Work order `animatic-event-strip-review-2` reviewed the live product without changing product code. The review report is [`.factory/review-2.md`](review-2.md).
