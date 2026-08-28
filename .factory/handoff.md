@@ -1,18 +1,48 @@
 # Animatic Event Strip — handoff
 
-## Latest independent verification — FAIL
+## Release-blocking verification repair — PASS
 
-Verified on 2026-08-28 for commit `89437ed68df24ca0a513367ad7e7ec46001ef905` at <https://animatic-event-strip.sociobot.in> under work order `animatic-event-strip-verify-1`.
+Work order `animatic-event-strip-repair-1` repaired the findings recorded in verifier commit `faba9b140f8d742e77f42a5a2fea708c0c61572d` for candidate `89437ed68df24ca0a513367ad7e7ec46001ef905`. The artifact remains a static, local-first PWA at <https://animatic-event-strip.sociobot.in>. Product repair commit: `b87f80a`.
 
-The free local-first workflow, production build, desktop/mobile behavior, accessibility, exports/import, IndexedDB persistence, offline reload, and service-worker update path pass. All 16 built files match the live deployment by SHA-256. However, release acceptance is **FAIL**:
+### Finding disposition
 
-- **High:** the advertised Sociobot Studio Pack checkout returns HTTP 404 with `{"error":"enabled factory product","status":404}`.
-- **High:** 200 rapid license-verification requests all returned HTTP 200; no HTTP 429 or `Retry-After` was observed.
-- **Medium:** the mobile wordmark (125×42), rename control (183×34), Privacy link (47×20), and Terms link (38×20) miss the required 44×44 px touch target.
-- **Low:** live responses omit CSP, anti-framing, and Permissions Policy headers.
-- **Low:** static assets use `max-age=30` rather than long-lived immutable caching.
+- **AES-QA-001 — repaired upstream and covered:** the Sociobot product is registered/enabled. A fresh checkout request now returns HTTP 303 to `https://checkout.dodopayments.com/session/...`. `tests/live-policy.mjs` fails if checkout stops returning a hosted-payment redirect.
+- **AES-QA-002 — repaired upstream and covered:** a controlled 220-request reproduction before the artifact repair produced 31 HTTP 200 and 189 HTTP 429 responses. The post-deploy contract test again reached HTTP 429 and received numeric `Retry-After: 4`; it fails if 200 requests can pass without throttling or the header is omitted.
+- **AES-QA-003 — repaired in CSS and covered in-browser:** the wordmark, rename control, Privacy link, and Terms link now have explicit 44 px minimum geometry. At exactly 390×844 they measured 125.20×44, 183.20×44, 47.08×44, and 44×44 CSS px. The four exact targets are asserted in Playwright.
+- **AES-QA-004 — repaired in deployment policy and covered locally/live:** `public/staticwebapp.config.json` now sends a restrictive resource CSP with `frame-ancestors 'none'`, `X-Frame-Options: DENY`, and a Permissions Policy disabling camera, geolocation, microphone, payment, and USB. The live browser loaded with no CSP or console errors.
+- **AES-QA-005 — repaired at the asset pipeline and covered locally/live:** Vite now emits hashed JS/CSS instead of an inlined shell; artwork, icons, and legal CSS use content-addressed filenames. `/assets/*` and `/icons/*` return `Cache-Control: public, max-age=31536000, immutable`; update-sensitive HTML, manifest, legal routes, and service worker remain revalidatable.
 
-Full commands, evidence, metrics, and reproduction details are in `.factory/verification.md`.
+During repeated offline verification, a pre-existing edge was also found and repaired: Vite's `crossorigin` asset requests could miss otherwise-present Cache Storage entries because of `Vary: Origin`. Service-worker cache reads now ignore that irrelevant variance, the shell is versioned `aes-shell-v4`, and five consecutive parallelized mobile offline reloads passed. A two-version local update test observed **A fresh version is ready**, activated **Update app**, reloaded, and left only `aes-shell-v4`.
+
+### Exact verification evidence
+
+Clean verification on 2026-08-28 UTC:
+
+```sh
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm audit --omit=dev
+npm run test:e2e
+npm run test:live-policy
+```
+
+- `npm ci`: 140 packages; 0 vulnerabilities. `npm test`: 7/7. ESLint and TypeScript: clean. Production build: PASS, with `dist/index.html` at the root.
+- Playwright 1.58.2: 7 passed / 3 intentional cross-profile skips across desktop and an exact 390×844 mobile viewport. The workflow covers creation, edit, IndexedDB persistence, export, axe, offline reload, body overflow, and the four verifier-named touch targets.
+- Accessibility/keyboard: axe WCAG 2 A/AA found 0 serious or critical issues locally and live. `/opt/fleet/lib/verify-url.sh` found HTTP 200, `lang=en`, one `<h1>`, `<main>`, 0 missing image alternatives, 0 unlabeled buttons, and 0 console errors. First Tab exposes the skip link with a solid focus outline; reduced-motion transition duration was `0.00001s`.
+- Privacy: a fresh free-flow browser session made no cross-origin requests and produced no browser errors. No analytics, remote fonts, ads, or third-party runtime scripts were introduced. The optional checkout/license requests remain the documented exception.
+- Performance: production JS 25.36 KB (9.22 KB gzip), CSS 19.67 KB (5.17 KB gzip), no fonts, mobile artwork 36.14 KB. Lighthouse 12.8.2 locally scored 100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO (LCP 1.4 s, TBT 0 ms, CLS 0); live scored 100/100/100/100 (LCP 1.1 s, TBT 0 ms, CLS 0).
+- Live deployment: Azure Static Web Apps deployment `46b996ae-afae-4667-8cfd-04e9f69bebfd` succeeded. All 18 public files in `dist/` (excluding the consumed SWA configuration file) matched their live responses byte-for-byte by SHA-256. HTTPS/HSTS, CSP, anti-framing, Permissions Policy, immutable asset caching, manifest, legal routes, IndexedDB persistence, offline shell, and cache `aes-shell-v4` were verified on the custom domain.
+- Package/consumer and first-party backend tests are not applicable: this artifact is an application, not a published package, and has no first-party backend. The two billing checks target the documented external Sociobot API contract.
+
+### Remaining product research
+
+- The five-person handoff pilot in the brief has not yet been run; the “fewer than one ambiguous implementation question per scene” success measure still needs real-user validation.
+- Audio decoding/playback remains dependent on browser codec support. Unsupported files stay stored/exportable and use the neutral waveform fallback.
+
+The original independent verifier report remains unchanged in `.factory/verification.md` as historical evidence of the repaired candidate failure.
 
 ---
 
