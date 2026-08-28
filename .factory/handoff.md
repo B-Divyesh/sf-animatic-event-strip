@@ -1,5 +1,15 @@
 # Animatic Event Strip — handoff
 
+## Independent verification 2 — FAIL (release blocked)
+
+Candidate `ae964e0113269aecfbdf888a3f239e27f200a280` at <https://animatic-event-strip.sociobot.in> was freshly verified on 2026-08-28 UTC. The live deployment matches all 18 deployable files rebuilt from this exact commit, and its repaired checkout, rate limit, security headers, caching, editor flow, PWA offline reload/update, accessibility baseline, and quality gates pass.
+
+It is nevertheless **not releasable**. The required `.factory/claims.json` is missing (therefore no required claim tests could be run); no `@claim:` test tags exist; there is no documented or isolated sample-data demo; `/demo` is just the normal empty editor; and the cold first screen neither names the target users nor offers **Try it with sample data**. These are release-blocking acceptance defects. See `.factory/verification-2.md` for exact commands, output, evidence, and the full severity-ranked report.
+
+Required next work: add the demo sandbox and documentation, list and test every live claim against it, then rewrite the first screen in plain words and re-run independent verification.
+
+---
+
 ## Release-blocking verification repair — PASS
 
 Work order `animatic-event-strip-repair-1` repaired the findings recorded in verifier commit `faba9b140f8d742e77f42a5a2fea708c0c61572d` for candidate `89437ed68df24ca0a513367ad7e7ec46001ef905`. The artifact remains a static, local-first PWA at <https://animatic-event-strip.sociobot.in>. Product repair commit: `b87f80a`.
