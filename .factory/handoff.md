@@ -1,5 +1,16 @@
 # Animatic Event Strip — handoff
 
+## Polish round 1 — PASS locally and live
+
+Work order `animatic-event-strip-polish-1` repaired every finding in adversarial review `bb107d004e76bba7058e07286b3170baf759e6fa`. Product repair commit: `e05fc9cf03b964e1337bdf4e308154b6076216ad`; production deployment: <https://animatic-event-strip.sociobot.in/demo>.
+
+- Route navigation now focuses and announces the page `<h1>`, including browser Back. The first visible demo viewport now contains the seeded Rain Gate project, while its separate `demo:animatic-event-strip` storage, banner, Reset demo, and Start for real controls remain intact.
+- Added the visible three-step handoff explanation, exact `keyboard-operation` declared claim/test, result-naming toolbar and license controls, and all adversarially flagged README and heading rewrites. `.factory/polish-1.md` maps F-1-1 through F-1-10 to evidence.
+- Fresh local verification: `npm ci`; `npm test` (14 tests); `npm run lint`; `npm run typecheck`; `npm run build`; `npm audit --omit=dev`; `npm run test:pwa-update`; every local claim command independently; desktop/mobile Playwright coverage; `verify-url.sh`; and Playwright AxeBuilder WCAG 2 A/AA all passed. Build output is `dist/index.html`; JS is 29.33 KB / 10.43 KB gzip, CSS 22.16 KB / 5.67 KB gzip.
+- Production verification: live `verify-url.sh`, focused route/demo/workflow/keyboard/legal/404 Axe Playwright checks, 390 px offline/overflow/44 px target checks, and `npm run test:live-policy -- --claim @claim:studio-checkout` passed. The latter reported checkout 303, verification 429 with numeric `Retry-After: 4`, live 200, and an immutable asset response. Screenshots and smoke output are in `.factory/evidence/polish-1-local/` and `.factory/evidence/polish-1-live/`.
+
+Known release gaps: none. The brief's five-person handoff pilot is future product research, not a release claim.
+
 ## Adversarial first-read review 1 — FAIL
 
 Review commit pending. No product code changed. The live core flow, isolated one-click demo, all 14 declared claim commands, `npm test`, lint, typecheck, and build passed. The fresh review found ten remaining release-quality findings: route changes leave focus on `body` and do not announce the destination; the landing lacks a visible three-step workflow; README keyboard promises are not a declared executable claim; four README sentences exceed the 22-word cap; two headings are vague; and three toolbar buttons do not name their result. See [`.factory/review-1.md`](review-1.md) for evidence and exact fixes. Re-run the listed claims and cold mobile/desktop checks after repair.

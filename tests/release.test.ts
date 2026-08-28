@@ -106,4 +106,23 @@ describe('release policy', () => {
     expect(await readFile(new URL('public/assets/social-preview.db2b289c.jpg', root))).not.toHaveLength(0);
     expect(await readFile(new URL('public/icons/apple-touch.af9970c1.png', root))).not.toHaveLength(0);
   });
+
+  test('repairs F-1-4 through F-1-10 with plain README copy and result-naming interface labels', async () => {
+    const [readme, home] = await Promise.all([
+      readFile(new URL('README.md', root), 'utf8'),
+      readFile(new URL('index.html', root), 'utf8'),
+    ]);
+    expect(readme).toContain('Keep storyboard ranges, audio clips, and named moments in one strip.');
+    expect(readme).not.toContain('semantic beats');
+    expect(readme).not.toContain('engine-neutral strip before code');
+    expect(readme).toContain('Each claim command builds the production artifact first.');
+    expect(readme).toContain('The live-policy check calls the deployed product and Sociobot API.');
+    expect(readme).toContain('Left and Right move the selected event or playhead one frame.');
+    expect(readme).toContain('The policy restricts content sources and framing.');
+    expect(home).toContain('Start your first strip');
+    expect(home).toContain('Export this strip for engine work');
+    expect(home).toContain('>Import project</button>');
+    expect(home).toContain('>Choose export</button>');
+    expect(home).toContain('>Restore Studio license</button>');
+  });
 });
