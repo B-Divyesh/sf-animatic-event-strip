@@ -1,0 +1,24 @@
+{
+  "homeStatus": 200,
+  "title": "Animatic Event Strip — plan animation events",
+  "heroFreeExports": true,
+  "coreCopyAbsent": true,
+  "demoHref": "/?demo=1",
+  "demoUrl": "https://animatic-event-strip.sociobot.in/?demo=1",
+  "demoBanner": true,
+  "resetDemo": true,
+  "sampleVisible": true,
+  "mobileLayout": {
+    "columns": 1,
+    "scrollWidth": 783,
+    "clientWidth": 284,
+    "bodyScrollWidth": 390,
+    "viewportWidth": 390
+  },
+  "exportOptions": true,
+  "offlineStatus": 200,
+  "offlineHeading": "You are offline.",
+  "missingStatus": 404,
+  "missingHeading": "Page not found.",
+  "releaseBadge": true
+}

@@ -1,5 +1,21 @@
 # Animatic Event Strip — handoff
 
+## Perfection-loop polish 5 — PASS (deployed)
+
+Work order `animatic-event-strip-polish-5` closes every finding in `.factory/review-1.md` through `.factory/review-5.md`. Product repair commit `1215e9153619046277a4b74c7ab00fe6e10828f6` was pushed to `origin/main` and deployed to the configured Azure Static Web App `sf-animatic-event-strip` with Static Web Apps CLI 2.0.10. The live product is <https://animatic-event-strip.sociobot.in>.
+
+- The first screen now names Project JSON, Adapter JSON, and CSV as free. `free-core-exports` downloads all three before and after a revoked fixture verdict.
+- `mobile-layout` now proves the 390 px control stack, horizontal time-axis scroll, and no page overflow. The README’s untested provider-ID statement was removed.
+- Replaced the remaining decorative labels with **Three steps**, **Export options**, **You are offline**, and **Page not found**. The original cutting-room visual identity and static offline-PWA class remain unchanged.
+- A clean clone at `/tmp/animatic-polish5-clean.OBn3qc` ran `npm ci`, `npm test` (19/19), lint, typecheck, build, PWA update, Node 20.19 support, and zero-vulnerability audit. Full local Playwright passed 58 tests with three intended cross-profile skips.
+- Every one of the 19 exact `.factory/claims.json` commands passed from that clean clone. The post-deploy hosted-checkout command returned checkout 303, verification 429 with numeric `Retry-After: 1`, live 200, and an immutable asset.
+- Local and live `verify-url.sh` checks passed on home, demo, Privacy, Terms, and offline with route titles, `lang=en`, one h1, main, complete alternatives, named buttons, and no console/page errors. Live Playwright AxeBuilder passed demo and every public route on desktop and 390 px mobile.
+- The final live mobile recheck confirms `/?demo=1`, its banner and Reset demo button, Rain Gate, named free exports, one-column controls, 783 px timeline scroll width in a 284 px viewport, no body overflow, export label, offline h1, and designed 404. Evidence: `.factory/evidence/polish-5-live/recheck.json`.
+- Build output remains `dist/index.html`. Initial JavaScript is 30,627 B raw / 10,638 B gzip; CSS is 22,627 B raw / 5,698 B gzip; no fonts ship. Local Lighthouse report records 100/100/100/100 with LCP 1,357 ms, TBT 76.5 ms, and CLS 0.0012.
+- Azure serves 22 deployable files byte-for-byte from `dist/`; the status-coded 404 document and Azure-consumed `staticwebapp.config.json` are intentionally excluded. The complete finding map and screenshot paths are in `.factory/polish-5.md`.
+
+Known gaps: none. The brief’s five-person pilot is future research and is not represented as a product claim.
+
 ## Adversarial first-read review 5 — FAIL
 
 Reviewed live candidate `36b37945e91177de3ee1444c649c5658cd5514e9` on 2026-08-28 at 390 × 844 and 1440 × 900. No product source was changed. The complete report is `.factory/review-5.md`.

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#11191d" />
+    <meta name="description" content="Plan frames, sound cues, and input windows in a local event strip for animation handoff." />
+    <link rel="canonical" href="https://animatic-event-strip.sociobot.in/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Animatic Event Strip" />
+    <meta property="og:title" content="Animatic Event Strip — plan animation events" />
+    <meta property="og:description" content="Plan frames, sound cues, and input windows in a local event strip for animation handoff." />
+    <meta property="og:url" content="https://animatic-event-strip.sociobot.in/" />
+    <meta property="og:image" content="https://animatic-event-strip.sociobot.in/assets/social-preview.db2b289c.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A lamplit storyboard desk facing a rain-dark soundstage" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Animatic Event Strip — plan animation events" />
+    <meta name="twitter:description" content="Plan frames, sound cues, and input windows in a local event strip for animation handoff." />
+    <meta name="twitter:image" content="https://animatic-event-strip.sociobot.in/assets/social-preview.db2b289c.jpg" />
+    <script src="/mode.js"></script>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/icon.d996dad9.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch.af9970c1.png" />
+    <title>Animatic Event Strip — plan animation events</title>
+    <script type="module" crossorigin src="/assets/index-C8NfWcV9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DCYW1Kmf.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to event strip</a>
+    <header class="masthead">
+      <a class="wordmark" href="/" aria-label="Animatic Event Strip home">
+        <svg aria-hidden="true" viewBox="0 0 44 44"><path d="M5 9h34v26H5zM12 9v6m8-6v6m8-6v6m8-6v6M12 29h7l4-7 5 9 4-6"/></svg>
+        <span>Animatic<br /><em>Event Strip</em></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a class="text-button" href="/?demo=1">Demo</a>
+        <a class="text-button" href="/privacy/">Privacy</a>
+        <a class="text-button" href="/terms/">Terms</a>
+      </nav>
+      <span class="status-pill" id="save-status" role="status" aria-live="polite">Loading locally…</span>
+    </header>
+
+    <aside class="demo-banner" id="demo-banner" aria-label="Demo mode">
+      <div><strong>Demo — sample data, nothing is saved to your project</strong><span>Demo edits stay separate until you reset or leave.</span></div>
+      <div class="demo-actions"><button class="text-button" id="reset-demo" type="button">Reset demo</button><button class="button secondary" id="leave-demo" type="button">Start for real</button></div>
+      <p class="sr-only" id="demo-status" aria-live="polite"></p>
+    </aside>
+
+    <p class="sr-only" id="route-status" aria-live="polite" aria-atomic="true"></p>
+    <main id="main" tabindex="-1">
+      <section class="intro" aria-labelledby="product-title">
+        <div class="intro-copy">
+          <p class="eyebrow">Animation handoff planner</p>
+          <h1 id="product-title" tabindex="-1">Plan animation events <i>before engine work.</i></h1>
+          <p class="lede">For solo 2D animators and small game teams planning frames, sound cues, and input windows before engine work.</p>
+          <div class="hero-actions"><a class="button primary" id="try-demo" href="/?demo=1">Try it with sample data</a><button class="button secondary" id="start-project" type="button">Add your own event</button></div>
+          <p class="action-note">Loads a filled 10-second strip. Your project is not opened or changed.</p>
+          <ul class="hero-facts"><li>Your project stays on this device.</li><li>Reopens offline after your first visit.</li><li>Project JSON, Adapter JSON, and CSV exports are free. Studio Pack costs $12 once.</li></ul>
+        </div>
+        <picture class="scene-plate">
+          <source srcset="/assets/cutting-room-960.c6872b74.webp 960w, /assets/cutting-room-1536.2f79d519.webp 1536w" type="image/webp" sizes="(max-width: 760px) 100vw, 46vw" />
+          <img src="/assets/cutting-room-960.641304ed.jpg" width="960" height="640" alt="A lamplit storyboard desk overlooking a misty soundstage of painted forest flats" decoding="async" fetchpriority="high" />
+        </picture>
+      </section>
+
+      <section class="workspace" aria-labelledby="workspace-title">
+        <div class="project-bar">
+          <div>
+            <p class="eyebrow">Current strip</p>
+            <h2 id="workspace-title"><button type="button" id="rename-project" aria-label="Rename project"><span id="project-name">Untitled scene</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 16-.7 4 4-.7L18 8.6 14.4 5 4 16ZM12.8 6.6l3.6 3.6"/></svg></button></h2>
+          </div>
+          <div class="project-facts" aria-label="Project timing">
+            <span><b id="duration-label">10.0s</b> duration</span>
+            <span><b id="fps-label">24</b> fps</span>
+            <button class="icon-button" id="project-settings" type="button" aria-label="Edit project timing"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="m19.4 15 .1.1 1.3 2.2-2.5 2.5-2.2-1.3-.1-.1a7.9 7.9 0 0 1-2 .8V23h-4v-2.8a8.2 8.2 0 0 1-2-.8l-.1.1-2.3 1.3-2.5-2.5 1.3-2.2.1-.1a8.2 8.2 0 0 1-.8-2H3v-4h2.7a8.2 8.2 0 0 1 .8-2l-.1-.1-1.3-2.2 2.5-2.5 2.3 1.3.1.1a8.2 8.2 0 0 1 2-.8V1h4v2.8a8.2 8.2 0 0 1 2 .8l.1-.1 2.2-1.3 2.5 2.5-1.3 2.2-.1.1a8.2 8.2 0 0 1 .8 2H23v4h-2.8a8.2 8.2 0 0 1-.8 2Z"/></svg></button>
+          </div>
+          <div class="bar-actions">
+            <button class="button secondary" id="import-project" type="button">Import project</button>
+            <button class="button secondary" id="export-menu" type="button" aria-haspopup="dialog">Choose export</button>
+            <button class="button primary" id="add-event" type="button">+ Add event</button>
+          </div>
+        </div>
+
+        <div class="offline-banner" id="offline-banner" role="status" hidden><span>Offline</span> Your strip is available and every edit stays on this device.</div>
+        <div class="workspace-error" id="workspace-error" role="alert" hidden></div>
+
+        <div class="transport" aria-label="Timeline transport">
+          <button class="transport-button" id="jump-start" type="button" aria-label="Jump to first frame"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5v14M18 6l-9 6 9 6V6Z"/></svg></button>
+          <button class="transport-button play" id="play-preview" type="button" aria-label="Play strip preview"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7V5Z"/></svg></button>
+          <button class="transport-button" id="step-back" type="button" aria-label="Move to previous frame"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 6-8 6 8 6V6Z"/></svg></button>
+          <button class="transport-button" id="step-forward" type="button" aria-label="Move to next frame"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 8 6-8 6V6Z"/></svg></button>
+          <output class="timecode" id="timecode" aria-live="off">00:00:00:00</output>
+          <label class="zoom-control">Zoom <input id="timeline-zoom" type="range" min="1" max="3" value="1" step="0.25" /></label>
+        </div>
+
+        <div class="strip-shell" id="strip-shell">
+          <div class="lane-labels" aria-hidden="true">
+            <div class="label-ruler">Frame</div>
+            <div><span>Boards</span><small id="shot-count">0 boards</small></div>
+            <div><span>Sound</span><small id="audio-count">0 clips</small></div>
+            <div><span>Events</span><small id="marker-count">0 markers</small></div>
+          </div>
+          <div class="timeline-viewport" id="timeline-viewport" tabindex="0" aria-label="Event strip timeline. Use left and right arrows to move the playhead.">
+            <div class="timeline-stage" id="timeline-stage">
+              <div class="ruler" id="ruler"></div>
+              <div class="lane boards-lane" id="boards-lane" role="group" aria-label="Boards"></div>
+              <div class="lane audio-lane" id="audio-lane" role="group" aria-label="Audio clips"></div>
+              <div class="lane markers-lane" id="markers-lane" role="group" aria-label="Event markers"></div>
+              <div class="playhead" id="playhead" aria-hidden="true"><span></span></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="how-it-works" aria-labelledby="how-it-works-title">
+          <div><p class="eyebrow">Three steps</p><h2 id="how-it-works-title">How to build an animation handoff</h2><button class="button secondary guide-action" id="open-guide" type="button">Open quick guide</button></div>
+          <ol>
+            <li><b>Add boards</b><span>Place each board on the strip.</span></li>
+            <li><b>Align sound</b><span>Add local clips where the scene needs them.</span></li>
+            <li><b>Name engine events</b><span>Mark beats, cues, and input windows.</span></li>
+          </ol>
+        </section>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-number">01</div>
+          <div><p class="eyebrow">Start your first strip</p><h2>Add the first board image.</h2><p>Add a board image, then mark the sounds and engine events around it. Everything is stored locally.</p></div>
+          <button class="button primary" id="empty-add" type="button">Add your first event</button>
+        </div>
+
+        <section class="handoff" aria-labelledby="handoff-title">
+          <div><p class="eyebrow">Export this strip for engine work</p><h2 id="handoff-title">Export formats for engine handoff.</h2></div>
+          <p>Project JSON reopens here with local media. Adapter JSON and CSV export frame data for Godot, Unity, or your own tools. Both formats have a version number.</p>
+          <div class="format-stamps" aria-label="Export formats"><span>PROJECT<br /><b>AES 1</b></span><span>JSON<br /><b>ADAPTER 1</b></span><span>CSV<br /><b>UTF-8</b></span></div>
+        </section>
+      </section>
+
+      <section class="studio" aria-labelledby="studio-title">
+        <div class="studio-copy"><p class="eyebrow">Optional Studio Pack</p><h2 id="studio-title">Turn markers into starter code.</h2><p>The full planner, Project JSON, Adapter JSON, and CSV exports are free. A one-time Studio Pack adds direct Godot 4 and Unity 6 adapter source plus a printable handoff sheet.</p><p class="price">$12 <small>one-time purchase</small></p><a class="button primary" id="buy-link" href="https://api.sociobot.in/api/v1/products/animatic-event-strip/checkout">Buy Studio Pack</a></div>
+        <div class="license-panel">
+          <p id="license-state"><span class="status-dot"></span> Free planner active</p>
+          <form id="license-form"><label for="license-token">Have a license?</label><div><input id="license-token" type="text" autocomplete="off" spellcheck="false" placeholder="Paste license token" /><button class="button secondary" type="submit">Restore Studio license</button></div><p class="field-note" id="license-note" aria-live="polite">Licenses are checked at most once daily. Cached access works offline.</p></form>
+        </div>
+      </section>
+    </main>
+
+    <footer><p>Plan scene timing before engine implementation. Your project and media stay on this device.</p><nav aria-label="Footer navigation"><a href="/?demo=1">Demo</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><button class="text-button" id="about-art" type="button">Show artwork provenance</button></nav><p class="credit">AI-generated environmental scene · No analytics · Built by Param Factory · Version 1.0.0, polish 5</p></footer>
+
+    <div class="toast" id="update-toast" role="status" hidden><span>A fresh version is ready.</span><button type="button" id="reload-app">Update app</button></div>
+    <input type="file" id="import-file" accept="application/json,.json" hidden />
+    <input type="file" id="image-file" accept="image/png,image/jpeg,image/webp,image/gif" hidden />
+    <input type="file" id="audio-file" accept="audio/*" hidden />
+
+    <dialog id="event-dialog" aria-labelledby="event-dialog-title">
+      <form method="dialog" id="event-form">
+        <div class="dialog-head"><div><p class="eyebrow">Place on strip</p><h2 id="event-dialog-title">Add event</h2></div><button class="icon-button close-dialog" value="cancel" aria-label="Close dialog" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div>
+        <input type="hidden" id="event-id" />
+        <fieldset class="type-picker"><legend>Event type</legend><label><input type="radio" name="event-type" value="shot" checked /><span>Board</span></label><label><input type="radio" name="event-type" value="audio" /><span>Sound</span></label><label><input type="radio" name="event-type" value="marker" /><span>Marker</span></label></fieldset>
+        <div class="form-grid">
+          <label>Label <input id="event-label" required maxlength="80" /></label>
+          <label id="marker-kind-wrap" hidden>Marker kind <select id="marker-kind"><option value="beat">Visual beat</option><option value="sound">Sound cue</option><option value="interaction">Interaction window</option><option value="note">Implementation note</option></select></label>
+          <label>Start frame <input id="event-start" type="number" min="0" value="0" required /></label>
+          <label id="event-end-wrap">End frame <input id="event-end" type="number" min="1" value="24" required /></label>
+          <label class="full">Notes <textarea id="event-notes" rows="3" maxlength="500" placeholder="What must the implementer understand?"></textarea></label>
+          <div class="media-field full" id="image-picker"><span>Board image <small>PNG, JPEG, WebP or GIF; stored only here</small></span><button class="button secondary" type="button" id="choose-image">Choose image</button><output id="image-picked">No image chosen</output></div>
+          <div class="media-field full" id="audio-picker" hidden><span>Audio clip <small>Any browser-supported format; stored only here</small></span><button class="button secondary" type="button" id="choose-audio">Choose audio</button><output id="audio-picked">No audio chosen</output></div>
+        </div>
+        <p class="form-error" id="event-error" role="alert" hidden></p>
+        <div class="dialog-actions"><button class="button danger" id="delete-event" type="button" hidden>Delete event</button><span></span><button class="button secondary close-dialog" value="cancel" type="submit">Cancel</button><button class="button primary" id="save-event" value="default" type="submit">Add to strip</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="settings-dialog" aria-labelledby="settings-title"><form method="dialog" id="settings-form"><div class="dialog-head"><div><p class="eyebrow">Project setup</p><h2 id="settings-title">Scene timing</h2></div><button class="icon-button close-dialog" value="cancel" aria-label="Close dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><div class="form-grid"><label class="full">Project name <input id="settings-name" required maxlength="80" /></label><label>Frames per second <select id="settings-fps"><option>12</option><option>15</option><option>24</option><option>25</option><option>30</option><option>60</option></select></label><label>Duration (frames) <input id="settings-duration" type="number" min="12" max="216000" required /></label></div><p class="form-error" id="settings-error" role="alert" hidden></p><div class="dialog-actions"><span></span><span></span><button class="button secondary close-dialog" value="cancel">Cancel</button><button class="button primary" value="default">Save timing</button></div></form></dialog>
+
+    <dialog id="export-dialog" aria-labelledby="export-title"><div class="dialog-head"><div><p class="eyebrow">Export options</p><h2 id="export-title">Export strip</h2></div><button class="icon-button close-dialog" aria-label="Close dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><div class="export-list"><button type="button" data-export="project"><b>Export Project JSON</b><span>Complete backup with embedded local media · AES project 1</span></button><button type="button" data-export="json"><b>Export Adapter JSON</b><span>Event list for Godot, Unity, or custom tools · adapter 1</span></button><button type="button" data-export="csv"><b>Export Marker CSV</b><span>Frame ranges, seconds, kinds, and notes · UTF-8</span></button><button type="button" data-export="godot" class="pro-export"><b>Download Godot 4 adapter <em>Studio</em></b><span>Typed GDScript loader for the Adapter JSON</span></button><button type="button" data-export="unity" class="pro-export"><b>Download Unity 6 adapter <em>Studio</em></b><span>C# serializable loader for the Adapter JSON</span></button><button type="button" data-export="print" class="pro-export"><b>Open printable handoff <em>Studio</em></b><span>A clean scene and marker summary for review</span></button></div></dialog>
+
+    <dialog id="guide-dialog" aria-labelledby="guide-title"><div class="dialog-head"><div><p class="eyebrow">Three steps</p><h2 id="guide-title">Build an animation handoff</h2></div><button class="icon-button close-dialog" aria-label="Close dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><ol class="guide-steps"><li><b>Add boards.</b><span>Give each board a plain label.</span></li><li><b>Align sound.</b><span>Add local voice or effect clips and align their waveforms.</span></li><li><b>Name engine events.</b><span>Mark beats, cues, and input windows without naming engine methods.</span></li></ol><p class="shortcut-note"><kbd>←</kbd> <kbd>→</kbd> moves the playhead. On a selected item, it moves one frame; hold <kbd>Shift</kbd> for ten.</p></dialog>
+
+    <dialog id="art-dialog" aria-labelledby="art-title"><div class="dialog-head"><div><p class="eyebrow">Scene credit</p><h2 id="art-title">Artwork provenance</h2></div><button class="icon-button close-dialog" aria-label="Close dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg></button></div><div class="art-details"><p><strong>AI-generated cutting-room scene.</strong> Created for this product on 28 August 2026.</p><p>The scene sets the planning context. It does not show app output.</p><p>Prompt and source details are recorded in the product’s visual thesis.</p></div></dialog>
+
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><div class="dialog-head"><div><p class="eyebrow">Please confirm</p><h2 id="confirm-title">Replace this project?</h2></div></div><p id="confirm-copy"></p><div class="dialog-actions"><span></span><span></span><button class="button secondary" value="cancel">Keep current</button><button class="button danger" value="confirm">Replace project</button></div></form></dialog>
+
+  </body>
+</html>
