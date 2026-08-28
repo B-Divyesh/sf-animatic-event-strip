@@ -165,7 +165,7 @@ test('@claim:local-storage-only keeps the complete demo flow same-origin and out
   expect(storage.databases).toContain('demo:animatic-event-strip');
   expect(storage.databases).not.toContain('animatic-event-strip');
   expect(storage.licenseKeys).toEqual([]);
-  expect([...origins]).toEqual(['http://127.0.0.1:4173']);
+  expect([...origins]).toEqual([new URL(page.url()).origin]);
 });
 
 test('@claim:runtime-privacy ships without analytics, cookies, remote fonts, or third-party runtime scripts', async ({ page }) => {
@@ -180,10 +180,11 @@ test('@claim:runtime-privacy ships without analytics, cookies, remote fonts, or 
     styles: [...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].map((link) => link.href),
     fonts: performance.getEntriesByType('resource').map((entry) => entry.name).filter((name) => /\.(?:woff2?|ttf|otf)(?:\?|$)/i.test(name)),
   }));
+  const pageOrigin = new URL(page.url()).origin;
   expect(runtime.cookies).toBe('');
   expect(runtime.fonts).toEqual([]);
-  expect([...runtime.scripts, ...runtime.styles].every((url) => new URL(url).origin === 'http://127.0.0.1:4173')).toBe(true);
-  expect([...origins]).toEqual(['http://127.0.0.1:4173']);
+  expect([...runtime.scripts, ...runtime.styles].every((url) => new URL(url).origin === pageOrigin)).toBe(true);
+  expect([...origins]).toEqual([pageOrigin]);
 });
 
 test('@claim:project-json-roundtrip exports a complete backup that reopens', async ({ page }) => {

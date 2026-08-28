@@ -59,6 +59,7 @@ describe('release policy', () => {
 
   test('repairs AES-QA-304 with a designed 404 and an HTTP 404 catch-all', async () => {
     const page = await readFile(new URL('public/404.html', root), 'utf8');
+    const worker = await readFile(new URL('public/sw.js', root), 'utf8');
     const config = JSON.parse(await readFile(new URL('public/staticwebapp.config.json', root), 'utf8')) as {
       routes: Array<{ route: string; rewrite?: string; statusCode?: number }>;
       responseOverrides: Record<string, { rewrite: string }>;
@@ -67,6 +68,8 @@ describe('release policy', () => {
     expect(page).toContain('That frame is <i>not on this strip.</i>');
     expect(page).toContain('href="/"');
     expect(config.responseOverrides['404']).toEqual({ rewrite: '/404.html' });
+    expect(config.routes.find((entry) => entry.route === '/404.html')?.statusCode).toBe(404);
+    expect(worker).not.toMatch(/const SHELL = \[[^\]]*'\/404\.html'/);
   });
 
   test('repairs AES-QA-305 with route metadata and the shared site skeleton', async () => {
