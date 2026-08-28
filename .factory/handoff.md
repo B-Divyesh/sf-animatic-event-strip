@@ -1,5 +1,9 @@
 # Animatic Event Strip — handoff
 
+## Adversarial first-read review 1 — FAIL
+
+Review commit pending. No product code changed. The live core flow, isolated one-click demo, all 14 declared claim commands, `npm test`, lint, typecheck, and build passed. The fresh review found ten remaining release-quality findings: route changes leave focus on `body` and do not announce the destination; the landing lacks a visible three-step workflow; README keyboard promises are not a declared executable claim; four README sentences exceed the 22-word cap; two headings are vague; and three toolbar buttons do not name their result. See [`.factory/review-1.md`](review-1.md) for evidence and exact fixes. Re-run the listed claims and cold mobile/desktop checks after repair.
+
 ## Independent verification 6 — PASS
 
 Candidate `63faf8ff8aa43eb1f7353254ebef7d6c7fb55ff3` was independently verified on 2026-08-28 UTC at <https://animatic-event-strip.sociobot.in> under work order `animatic-event-strip-verify-6`. It is accepted for release. No product code was changed.
