@@ -1,5 +1,14 @@
 # Animatic Event Strip — handoff
 
+## Adversarial first-read review 2 — FAIL
+
+Work order `animatic-event-strip-review-2` reviewed the live product without changing product code. The review report is [`.factory/review-2.md`](review-2.md).
+
+- Fresh 390 px and desktop visits made the job, audience, and first action clear. The one-click `/demo` loaded the six-event Rain Gate sample, kept demo storage isolated, made only same-origin requests, and reloaded offline.
+- A fresh clone at `/tmp/animatic-review-2.vUKl7P` passed all 15 declared claim commands, `npm test` (14 tests), lint, typecheck, production build, and the PWA update probe. The checkout claim observed the expected hosted redirect and policy checks. The full browser suite failed one mobile F-1-1 regression because the responsive header hides its Demo link.
+- The report therefore reopens F-1-1 as blocking and records four further findings: inconsistent legal footers, two vague labels, three buttons whose text does not name their action, and one export sentence with implementation jargon.
+- No source/product files were changed. Repair reopened F-1-1 and F-2-1 through F-2-4, then rerun the commands and cold checks listed in the review before claiming a pass.
+
 ## Polish round 1 — PASS locally and live
 
 Work order `animatic-event-strip-polish-1` repaired every finding in adversarial review `bb107d004e76bba7058e07286b3170baf759e6fa`. Product repair commit: `e05fc9cf03b964e1337bdf4e308154b6076216ad`; query-demo coverage commit: `dcb9968`; production deployment: <https://animatic-event-strip.sociobot.in/demo>.
