@@ -1,5 +1,13 @@
 # Animatic Event Strip — handoff
 
+## Adversarial first-read review 6 — PASS
+
+Review 6 made no product-code changes. It tested the deployed product cold at 390 px and desktop, followed the one-click demo, read all prior review/polish/handoff history, crawled routes and live links, and ran all 19 declared claim commands from a fresh clone at `/tmp/aes-review6.TlouRm`.
+
+All 19 claims passed. `npm test` (19 tests), lint, typecheck, build, full 58-test Playwright suite, and PWA update test passed. The live first screen clearly states the job, audience, first action, sample outcome, local/offline behavior, named free exports, and price. The demo showed the Rain Gate sample immediately, retained its banner/reset/exit controls, and remains in the separate `demo:animatic-event-strip` namespace. No finding remains; see [review 6](review-6.md) for the complete audit and exact prior-finding recheck.
+
+Known gap: the brief’s five-person pilot success measure is product research rather than a public claim. No next product repair is required by this review.
+
 ## Perfection-loop polish 5 — PASS (deployed)
 
 Work order `animatic-event-strip-polish-5` closes every finding in `.factory/review-1.md` through `.factory/review-5.md`. Product repair commit `1215e9153619046277a4b74c7ab00fe6e10828f6` was pushed to `origin/main` and deployed to the configured Azure Static Web App `sf-animatic-event-strip` with Static Web Apps CLI 2.0.10. The live product is <https://animatic-event-strip.sociobot.in>.
