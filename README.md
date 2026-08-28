@@ -54,7 +54,7 @@ Run every observable product claim from a fresh demo sandbox:
 node -e "for (const c of require('./.factory/claims.json')) console.log(c.test)"
 ```
 
-Playwright is pinned to 1.58.2. The end-to-end test starts `vite preview` automatically when one is not already running. The live-policy check intentionally targets the production Sociobot API and deployed product, so run it after deployment rather than as part of local unit tests.
+Playwright is pinned to 1.58.2. Each end-to-end or local claim command builds the production artifact before starting `vite preview`, so it works after `npm ci` in a clean clone. The live-policy check intentionally targets the production Sociobot API and deployed product, so run it after deployment rather than as part of local unit tests.
 
 ## Keyboard and mobile
 

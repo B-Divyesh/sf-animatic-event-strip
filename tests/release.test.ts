@@ -42,6 +42,13 @@ describe('release policy', () => {
     }
   });
 
+  test('repairs AES-QA-401 by building before Playwright starts the production preview', async () => {
+    const config = await readFile(new URL('playwright.config.ts', root), 'utf8');
+    const serverCommand = config.match(/command:\s*'([^']+)'/)?.[1];
+    expect(serverCommand).toBe('npm run build && npm run preview -- --host 127.0.0.1');
+    expect(serverCommand?.indexOf('npm run build')).toBeLessThan(serverCommand?.indexOf('npm run preview') ?? -1);
+  });
+
   test('documents the isolated demo entry point and storage namespace', async () => {
     const demo = await readFile(new URL('.factory/demo.md', root), 'utf8');
     const storage = await readFile(new URL('src/storage.ts', root), 'utf8');
@@ -72,7 +79,7 @@ describe('release policy', () => {
       expect(page).toContain('class="skip-link"');
       expect(page).toContain('Animatic Event Strip home');
       expect(page).toContain('Built by Param Factory');
-      expect(page).toContain('Version 1.0.0, repair 3');
+      expect(page).toContain('Version 1.0.0, repair 4');
       expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
       expect(page).toContain('<main');
     }
