@@ -1,5 +1,13 @@
 # Animatic Event Strip — handoff
 
+## Adversarial first-read review 4 — FAIL
+
+- Added `.factory/review-4.md`; no product source, assets, configuration, or deployment state was changed.
+- Fresh live review at 390 px and desktop confirms the cold first screen, realistic six-event demo, reset, direct-demo isolation, same-origin runtime traffic, route metadata/focus, link crawl, 404, responsive targets, and distinct visual identity.
+- Fresh-clone checks passed: all 17 exact declared claim commands, `npm test` (17 tests), lint, typecheck, and production build (10.41 kB gzip JS). The live checkout claim observed 303; rate-limit verification observed 429 and `Retry-After: 4`.
+- The aggregate `npm run test:e2e` run encountered a Chromium `SIGSEGV` while creating a later browser context. Individual declared browser claims had already passed; this is recorded in review 4 rather than treated as a product assertion failure.
+- Blocking remaining work: F-4-1. The home page reads/opens `animatic-event-strip` before the visitor clicks **Try it with sample data** and writes an empty real project when none exists. This contradicts the landing/README promise that the demo does not open/read/change the project. Defer real-project loading/persistence from the landing CTA path and add sentinel no-read and blank-context no-write regressions.
+
 ## Polish round 3 — PASS locally and live
 
 Work order `animatic-event-strip-polish-3` closes every finding in the three adversarial review reports. Product commit `3afe8ad38737892f988eb370e83208ad8e4ca5e4` was pushed to `origin/main`. Azure Static Web Apps deployment `44069a8c-9f18-4082-9538-73c0cac59c50` serves <https://animatic-event-strip.sociobot.in>.
