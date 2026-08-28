@@ -1,5 +1,46 @@
 # Animatic Event Strip — handoff
 
+## Release-blocking product-QA repair 3 — PASS locally
+
+Work order `animatic-event-strip-repair-3` repairs every release blocker in verifier commit `d8b60c6e0ebd33537aef2568d68e907f24bbdeff` for candidate `bf3323eb1fb9922deb2e7f7bb1670950d61c1d60`. The artifact remains a static, local-first PWA.
+
+### Finding disposition
+
+- **AES-QA-301 — repaired and covered:** keyboard movement now restores focus to the event node created by each timeline render. The exact regression focuses **Enable player input**, presses Right twice and Shift+Right once, asserts focus after every render, and confirms the persisted range after reload.
+- **AES-QA-302 — repaired and covered:** opening an existing event no longer replaces its trigger before the dialog opens. A dialog close handler also resolves the current event node by stable ID. The regression opens the event with Enter, checks initial field focus, closes with Escape, and checks focus on the opener. The unchanged add-event return path is checked too.
+- **AES-QA-303 — repaired and covered:** `.factory/claims.json` now has 13 unique claims with exactly one matching `@claim:<id>` tag each. New sandbox tests cover all six FPS choices, WAV decoding/waveform/persistence/aligned playback, Godot 4 and Unity 6 source downloads, print invocation, and the absence of cookies, remote fonts, analytics, third-party runtime scripts, and cross-origin requests. The PWA and import claims now assert install-manifest/service-worker state and malformed-file recovery.
+- **AES-QA-304 — repaired and covered:** `public/404.html` is a designed cutting-room 404 with the shared header, navigation, footer, and a return action. Static Web Apps routing returns it with HTTP 404 for unknown paths. Both the release-policy test and Azure Static Web Apps emulator assert the catch-all behavior.
+- **AES-QA-305 — repaired and covered:** home, demo, Privacy, Terms, and 404 now use route-specific titles/canonicals, Open Graph and Twitter metadata where indexable, a 1200×630 social image derived from the original art, and a 180×180 Apple touch icon. Legal and missing routes use the shared skip link, wordmark, navigation, main landmark, and footer. Every footer names Param Factory and version `1.0.0, repair 3`.
+
+### Local verification evidence — 2026-08-28 UTC
+
+```sh
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm run test:e2e
+npm run test:pwa-update
+npm audit --omit=dev
+node -e "const c=require('./.factory/claims.json'); for (const x of c.filter(x=>x.id!=='studio-checkout')) console.log(x.test)" | while IFS= read -r claim_cmd; do bash -lc "$claim_cmd" || exit 1; done
+/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/demo .factory/evidence/repair-3
+```
+
+- Clean install: 140 packages and 0 vulnerabilities. Unit/release tests: 11/11. ESLint and TypeScript: clean.
+- Production build: `dist/index.html` at the root; initial JavaScript 28,640 bytes / 10,215 bytes gzip; CSS 20,756 bytes / 5,413 bytes gzip; fonts 0 bytes; mobile hero 36,138 bytes.
+- Playwright 1.58.2: 35 passed / 3 intentional profile skips across desktop Chromium and 390×844 mobile. The five verifier findings, keyboard focus, dialog return, legal/404 route shell, claims, workflows, persistence, exports, offline reload, mobile geometry, overflow, and axe WCAG 2 A/AA all pass.
+- All 12 local claim commands passed independently from fresh browser contexts. The 13th claim is the post-deploy Sociobot checkout/response-policy/identity gate.
+- The dedicated PWA update probe installed a temporary old worker, showed **A fresh version is ready**, activated **Update app**, reloaded under `aes-shell-v6`, and removed the old cache.
+- The Azure Static Web Apps 2.0.7 emulator returned 200 for `/`, `/demo`, `/privacy`, `/terms`, `sw.js`, and the manifest; `/qa-definitely-missing-repair-3` returned HTTP 404 with the designed page.
+- `verify-url.sh` on `/demo`: HTTP 200; title `Demo — Animatic Event Strip`; `lang=en`; one H1; main present; zero missing image alternatives; zero unlabeled buttons; zero console/page errors.
+- Local Lighthouse 13.4.1 produced a complete report before the known post-report Chromium exit: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,357 ms, TBT 83 ms, CLS 0.014.
+- Visual review of `.factory/evidence/repair-3/demo-desktop.png`, `demo-mobile-390.png`, and `404-mobile-390.png` found no clipping, collisions, horizontal body overflow, or unreadable controls.
+
+### Remaining research gap
+
+The brief’s five-person handoff pilot has not been run. Its ambiguity success measure remains product research, not a release claim.
+
 ## Independent verification 3 — FAIL (release blocked)
 
 Candidate `bf3323eb1fb9922deb2e7f7bb1670950d61c1d60` was independently tested on 2026-08-28 at <https://animatic-event-strip.sociobot.in>. The live deployment matches all 19 served files rebuilt from this exact commit. The cold first-read and one-click isolated demo pass, all nine `.factory/claims.json` commands pass, and install/unit/lint/type/build/e2e/audit gates are clean. The editor, media waveform, import/export, min/max frames, persistence, checkout, cached license, offline reload, service-worker update, response policy, caching, accessibility automation, 390 px layout, and performance budgets all passed fresh checks.

@@ -33,6 +33,8 @@ The first screen states the job, audience, first action, demo result, privacy, o
 | Cached access works offline. | 4 |
 | Your project and media stay on this device. | 8 |
 | No analytics. | 2 |
+| Built by Param Factory. | 4 |
+| Version 1.0.0, repair 3. | 4 |
 
 ## Dialog and state guidance
 

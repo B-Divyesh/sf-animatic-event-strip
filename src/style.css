@@ -44,7 +44,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round
 .wordmark svg { width: 42px; height: 42px; color: var(--gold); stroke-width: 1.35; }
 .wordmark em { font-family: var(--serif); font-size: 15px; text-transform: none; letter-spacing: .025em; font-weight: 400; }
 .masthead nav { display: flex; align-items: center; gap: 16px; }
-.text-button { min-height: 44px; border: 0; padding: 8px 4px; background: transparent; color: var(--paper-dim); cursor: pointer; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; }
+.text-button { min-height: 44px; border: 0; padding: 8px 4px; background: transparent; color: var(--paper-dim); cursor: pointer; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; display: inline-flex; align-items: center; }
 .text-button:hover { color: var(--paper); text-decoration-color: currentColor; }
 .status-pill { border: 1px solid var(--line); min-height: 44px; padding: 8px 14px 8px 32px; border-radius: 24px; background: transparent; position: relative; color: var(--paper-dim); cursor: pointer; }
 .status-pill::before { content: ""; position: absolute; left: 14px; top: 50%; width: 7px; height: 7px; border-radius: 50%; background: var(--success); transform: translateY(-50%); box-shadow: 0 0 12px rgba(155,211,141,.5); }

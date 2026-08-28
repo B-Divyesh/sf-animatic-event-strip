@@ -1,13 +1,12 @@
 {
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": [
-      "/assets/*",
-      "/icons/*",
-      "/*.{css,js,png,jpg,svg,webp,ico,woff2,json,txt,xml,wasm}"
-    ]
-  },
   "routes": [
+    {
+      "route": "/",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/index.html"
+    },
     {
       "route": "/assets/*",
       "headers": {
@@ -19,6 +18,57 @@
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
       }
+    },
+    {
+      "route": "/demo",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/demo/",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/privacy",
+      "rewrite": "/privacy/index.html"
+    },
+    {
+      "route": "/privacy/",
+      "rewrite": "/privacy/index.html"
+    },
+    {
+      "route": "/terms",
+      "rewrite": "/terms/index.html"
+    },
+    {
+      "route": "/terms/",
+      "rewrite": "/terms/index.html"
+    },
+    {
+      "route": "/mode.js"
+    },
+    {
+      "route": "/sw.js"
+    },
+    {
+      "route": "/manifest.webmanifest"
+    },
+    {
+      "route": "/robots.txt"
+    },
+    {
+      "route": "/sitemap.xml"
+    },
+    {
+      "route": "/offline.html"
+    },
+    {
+      "route": "/404.html",
+      "statusCode": 404
+    },
+    {
+      "route": "/*",
+      "rewrite": "/404.html",
+      "statusCode": 404
     }
   ],
   "globalHeaders": {

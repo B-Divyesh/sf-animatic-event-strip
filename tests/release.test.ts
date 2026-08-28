@@ -49,4 +49,36 @@ describe('release policy', () => {
     expect(demo).toContain('demo:animatic-event-strip');
     expect(storage).toContain("demo: 'demo:animatic-event-strip'");
   });
+
+  test('repairs AES-QA-304 with a designed 404 and an HTTP 404 catch-all', async () => {
+    const page = await readFile(new URL('public/404.html', root), 'utf8');
+    const config = JSON.parse(await readFile(new URL('public/staticwebapp.config.json', root), 'utf8')) as {
+      routes: Array<{ route: string; rewrite?: string; statusCode?: number }>;
+    };
+    expect(page).toContain('<title>Page not found — Animatic Event Strip</title>');
+    expect(page).toContain('That frame is <i>not on this strip.</i>');
+    expect(page).toContain('href="/"');
+    expect(config.routes.find((entry) => entry.route === '/*')).toEqual(expect.objectContaining({ rewrite: '/404.html', statusCode: 404 }));
+  });
+
+  test('repairs AES-QA-305 with route metadata and the shared site skeleton', async () => {
+    const pages = await Promise.all(['index.html', 'public/privacy/index.html', 'public/terms/index.html'].map((path) => readFile(new URL(path, root), 'utf8')));
+    for (const page of pages) {
+      expect(page).toContain('rel="canonical"');
+      expect(page).toContain('property="og:title"');
+      expect(page).toContain('name="twitter:card"');
+      expect(page).toContain('rel="apple-touch-icon"');
+      expect(page).toContain('class="skip-link"');
+      expect(page).toContain('Animatic Event Strip home');
+      expect(page).toContain('Built by Param Factory');
+      expect(page).toContain('Version 1.0.0, repair 3');
+      expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
+      expect(page).toContain('<main');
+    }
+    const home = pages[0];
+    expect(home).toContain('og:image:width" content="1200"');
+    expect(home).toContain('og:image:height" content="630"');
+    expect(await readFile(new URL('public/assets/social-preview.db2b289c.jpg', root))).not.toHaveLength(0);
+    expect(await readFile(new URL('public/icons/apple-touch.af9970c1.png', root))).not.toHaveLength(0);
+  });
 });

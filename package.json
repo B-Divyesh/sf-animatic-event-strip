@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run tests/model.test.ts tests/release.test.ts",
     "test:e2e": "playwright test",
+    "test:pwa-update": "node tests/pwa-update.mjs",
     "test:live-policy": "node tests/live-policy.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."

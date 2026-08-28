@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-// @claim:studio-checkout — the hosted checkout, price path, and live deployment are reachable.
+// @claim:studio-checkout — the hosted checkout, price path, response policy, cache policy, and live deployment are reachable.
 
 const site = process.env.LIVE_URL ?? 'https://animatic-event-strip.sociobot.in';
 const api = 'https://api.sociobot.in/api/v1/products/animatic-event-strip';

@@ -12,20 +12,38 @@
     "test": "npm run test:e2e -- --grep @claim:editor-workflow --project=chromium"
   },
   {
+    "id": "fps-options",
+    "claim": "Plans strips at 12, 15, 24, 25, 30, or 60 frames per second.",
+    "where": "project settings, README",
+    "test": "npm run test:e2e -- --grep @claim:fps-options --project=chromium"
+  },
+  {
+    "id": "audio-preview",
+    "claim": "Stores local audio, calculates its waveform, and starts it at the aligned frame during preview.",
+    "where": "workspace, quick guide, README",
+    "test": "npm run test:e2e -- --grep @claim:audio-preview --project=chromium"
+  },
+  {
     "id": "local-storage-only",
     "claim": "Project data and media stay on this device during planning and export.",
     "where": "landing facts, footer, README",
     "test": "npm run test:e2e -- --grep @claim:local-storage-only --project=chromium"
   },
   {
+    "id": "runtime-privacy",
+    "claim": "Normal planning and export use no analytics, cookies, remote fonts, or third-party runtime scripts.",
+    "where": "footer, privacy, README",
+    "test": "npm run test:e2e -- --grep @claim:runtime-privacy --project=chromium"
+  },
+  {
     "id": "offline-reload",
-    "claim": "Reopens offline after the first visit.",
-    "where": "landing facts, README",
+    "claim": "Installs as a PWA and reopens the editor offline after the first visit.",
+    "where": "landing facts, privacy, README",
     "test": "npm run test:e2e -- --grep @claim:offline-reload --project=mobile"
   },
   {
     "id": "project-json-roundtrip",
-    "claim": "Project JSON exports a complete backup that reopens in the app.",
+    "claim": "Project JSON exports a complete backup; valid backups reopen and invalid files leave the current project unchanged.",
     "where": "export dialog, README",
     "test": "npm run test:e2e -- --grep @claim:project-json-roundtrip --project=chromium"
   },
@@ -48,9 +66,15 @@
     "test": "npm run test:e2e -- --grep @claim:cached-license-offline --project=chromium"
   },
   {
+    "id": "studio-outputs",
+    "claim": "The Studio Pack adds Godot 4 and Unity 6 adapter source plus a printable handoff sheet.",
+    "where": "Studio Pack section, terms, README",
+    "test": "npm run test:e2e -- --grep @claim:studio-outputs --project=chromium"
+  },
+  {
     "id": "studio-checkout",
-    "claim": "The $12 one-time Studio Pack uses Sociobot's hosted checkout.",
-    "where": "landing facts, Studio Pack section, README",
+    "claim": "The $12 one-time Studio Pack uses Sociobot's hosted checkout; production pages enforce the declared security and immutable-asset cache policy.",
+    "where": "landing facts, Studio Pack section, README response policy",
     "test": "npm run test:live-policy -- --claim @claim:studio-checkout"
   }
 ]

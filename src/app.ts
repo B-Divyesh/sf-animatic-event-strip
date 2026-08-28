@@ -405,6 +405,7 @@ async function moveSelected(delta: number): Promise<void> {
   found.endFrame += bounded;
   currentFrame = found.startFrame;
   render();
+  document.querySelector<HTMLElement>(`[data-event-id="${CSS.escape(found.id)}"]`)?.focus();
   await persist('Event moved');
 }
 
@@ -522,7 +523,6 @@ function registerEvents(): void {
       const button = (event.target as Element).closest<HTMLElement>('[data-event-id]');
       if (!button?.dataset.eventId) return;
       selectedId = button.dataset.eventId;
-      renderEvents();
       openEventEditor(selectedId);
     });
     lane.addEventListener('keydown', (event) => {
@@ -537,6 +537,14 @@ function registerEvents(): void {
       }
     });
   }
+  eventDialog.addEventListener('close', () => {
+    const id = element<HTMLInputElement>('event-id').value;
+    if (!id) return;
+    requestAnimationFrame(() => {
+      if (confirmDialog.open || eventDialog.open) return;
+      document.querySelector<HTMLElement>(`[data-event-id="${CSS.escape(id)}"]`)?.focus();
+    });
+  });
   viewport.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); setFrame(currentFrame + (event.key === 'ArrowLeft' ? -1 : 1) * (event.shiftKey ? 10 : 1)); }
     if (event.key === 'Home') { event.preventDefault(); setFrame(0); }

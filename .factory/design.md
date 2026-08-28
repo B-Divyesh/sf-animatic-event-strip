@@ -58,3 +58,8 @@ State changes use 180–240ms opacity and transform transitions: dialogs rise 8p
 - Review checklist: reject accidental text, logos, recognizable characters, malformed furniture, prominent visual seams, or palette drift. Ship only reviewed WebP derivatives, each under 300 KB.
 
 All interface icons are original inline SVG strokes authored for this product. No third-party fonts, clips, scripts, photos, or character assets are included.
+
+### Social and install derivatives
+
+- `social-preview.db2b289c.jpg` is a deterministic 1200×630 center crop of the reviewed cutting-room source. No new model call, text, logo, or synthetic content was added.
+- `apple-touch.af9970c1.png` is a deterministic 180×180 resize of the original product icon.
