@@ -1,5 +1,50 @@
 # Animatic Event Strip — handoff
 
+## Release-blocking product-QA repair 4 — PASS locally and live
+
+Work order `animatic-event-strip-repair-4` repairs the release blocker in verifier commit `7890ad4a7af3ce674a26482d4b3f24408ab17d8d` for candidate `a1d93ec3661e3ddb83d43c513a9fd406f17f0999`. The artifact remains a static, local-first PWA.
+
+### Finding disposition
+
+- **AES-QA-401 — repaired and covered:** Playwright now runs `npm run build` before `vite preview`, with a 60-second server allowance. Every declared local claim command therefore creates its own production artifact after `npm ci`; it no longer depends on a pre-existing `dist/` directory or server. A release-policy regression asserts the exact build-before-preview command and ordering.
+- **Live PWA install edge found during the required sweep — repaired and covered:** Azure intentionally returns HTTP 404 for `/404.html`. Pre-caching that response through `cache.addAll()` rejected the entire fresh service-worker install. The status-coded document is no longer in the precache list, unknown URLs still return the designed 404, and `aes-shell-v7` activates cleanly. The release test protects the 404 policy/precache boundary, and the update probe protects activation and old-cache removal.
+- The privacy claim tests now derive the active page origin instead of hardcoding the local preview origin. The same assertions therefore prove same-origin-only behavior locally and on the production domain.
+- Shared home, Privacy, Terms, and 404 footers identify this release as `Version 1.0.0, repair 4`. The copy audit and exact shell regression were updated with it.
+
+### Clean local verification — 2026-08-28 UTC
+
+```sh
+npm ci
+npm test
+npm run lint
+npm run typecheck
+npm run build
+npm run test:e2e
+npm run test:pwa-update
+npm audit --omit=dev
+/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/demo .factory/evidence/repair-4
+```
+
+- The clean install added 140 packages with 0 vulnerabilities. Vitest passed 12/12 unit and release-policy tests. ESLint and TypeScript passed.
+- Before testing each of the 12 local claim commands, the prior `dist/` was moved aside and no preview server was running. All 12 commands independently built the product and passed from that verifier precondition. The `sample-demo` command was also run first immediately after `npm ci` with no `dist/` present.
+- The final production build contains `dist/index.html` at its root. Initial JavaScript is 28,640 bytes / 10,210 bytes gzip; CSS is 20,756 bytes / 5,410 bytes gzip; fonts are 0 bytes; the mobile hero is 36,138 bytes.
+- Playwright 1.58.2 passed 35 tests with 3 intentional cross-profile skips across desktop Chromium and 390×844 mobile. Coverage includes complete workflows, malformed import recovery, demo isolation, keyboard repeat and dialog focus return, axe WCAG 2 A/AA, 44 px targets, no body overflow, privacy interception, cached licensing, and offline reload.
+- The update probe displayed **A fresh version is ready**, activated `aes-shell-v7`, reloaded, and removed the old shell cache. The local URL smoke check found HTTP 200, the demo title, `lang=en`, one H1, a main landmark, no missing alternatives, no unlabeled buttons, and no console/page errors.
+- Local Lighthouse 13.4.1: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,205 ms, TBT 0 ms, CLS 0.0136. Desktop and 390 px screenshots in `.factory/evidence/repair-4/` were visually reviewed with no clipping, collisions, or horizontal body overflow.
+- Package-consumer, sign-in/Entra, backend health, concurrency, and backend persistence checks are not applicable: this is a static PWA with no published package, sign-in, or first-party backend.
+
+### Deployment and live verification
+
+- Repair commits `6dd44c7` and `a25dc73` were pushed to `origin/main`. Azure Static Web Apps CLI 2.0.10 deployed the final `dist/` to production app `sf-animatic-event-strip` in resource group `sociobot` (default host `salmon-coast-047047110.7.azurestaticapps.net`). The custom domain is <https://animatic-event-strip.sociobot.in>.
+- All 22 deployable files match the final local `dist/` byte-for-byte by SHA-256. Azure consumes `staticwebapp.config.json`, so it is excluded from the served-file comparison. The live footer reports repair 4.
+- The full live desktop/mobile run passed 32 browser checks before exposing the service-worker install edge. After the v7 redeploy, the three affected final checks passed: cached Studio access on desktop and mobile, plus offline installed-demo reload on mobile. The final live URL smoke check has zero console/page errors and no basic accessibility failures.
+- The `studio-checkout` claim passed: hosted checkout returned 303, license verification returned 429 with numeric `Retry-After: 4`, the live product returned 200, and its hashed asset is immutable for one year. Root responses retain HSTS, restrictive CSP/anti-framing, Permissions Policy, `nosniff`, and strict-origin referrer policy. The designed unknown route returns HTTP 404.
+- Live Lighthouse 13.4.1: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,056 ms, TBT 74 ms, CLS 0. Evidence is in `.factory/evidence/repair-4/lighthouse-live.json` and `.factory/evidence/repair-4/live/`.
+
+### Remaining research gap
+
+The brief’s five-person handoff pilot has not been run. Its ambiguity success measure remains product research, not a release claim.
+
 ## Release-blocking product-QA repair 3 — PASS locally
 
 Work order `animatic-event-strip-repair-3` repairs every release blocker in verifier commit `d8b60c6e0ebd33537aef2568d68e907f24bbdeff` for candidate `bf3323eb1fb9922deb2e7f7bb1670950d61c1d60`. The artifact remains a static, local-first PWA.
