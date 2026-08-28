@@ -1,5 +1,17 @@
 # Animatic Event Strip — handoff
 
+## Adversarial first-read review 3 — FAIL
+
+Work order `animatic-event-strip-review-3` reviewed candidate `d593b232bc6db1cbfd22d7149eafa75e41f74fbd` at <https://animatic-event-strip.sociobot.in> on 2026-08-28. No product code was changed. The complete report is [`.factory/review-3.md`](review-3.md).
+
+- Fresh 390 × 844 and 1440 × 900 contexts passed the cold first-read check. The job, audience, one-click sample action, result note, privacy, offline behavior, and price are visible without scrolling.
+- The one-click Rain Gate demo is seeded, immediately useful, isolated in `demo:animatic-event-strip`, resettable, disposable, same-origin in normal use, and available after an offline reload. Real-project data remained unchanged.
+- A clean clone at `/tmp/animatic-review-3.7SWjRo/repo` passed every exact command in `.factory/claims.json`. It also passed `npm test` (15/15), lint, typecheck, build, full Playwright (47 passed, 3 intended skips), PWA update coverage, and the live URL verifier. Initial JavaScript is 29.26 kB / 10.42 kB gzip.
+- The verdict is **FAIL** with six findings. F-3-1/F-1-1 reopens missing h1 focus and announcements on legal navigation and Back. F-3-2/AES-QA-003 reopens sub-44 px legal, 404, and offline touch targets. Additional findings cover the incomplete offline/shared route skeleton, unlisted public claims, non-result action names and inconsistent terminology, and imprecise README runtime/jargon wording.
+- Fresh live confirmation at 17:33 UTC reproduced both blockers: Privacy → Terms → Back left `document.activeElement` on `BODY` with no live region, while 390 px contact/footer/offline targets measured as little as 19 px high or 38.3 px wide. `/offline.html` still lacks the shared header/footer and required metadata.
+
+Repair F-3-1 through F-3-6, extend route and touch-target tests to every public page, add or remove every unlisted claim, then rerun all 15 exact claim commands from a clean clone. A later round must repeat the full cold review; this report cannot pass while any finding remains.
+
 ## Polish round 2 — PASS locally and live
 
 Work order `animatic-event-strip-polish-2` closes every finding in `.factory/review-1.md` and `.factory/review-2.md`. Product commits are `9713e7e` and `31cc790`; Azure Static Web Apps deployment `585e014a-0a31-4d10-801e-097beb829733` serves <https://animatic-event-strip.sociobot.in>.
