@@ -1,0 +1,12 @@
+{
+  "slug": "animatic-event-strip",
+  "title": "Animatic Event Strip",
+  "territory": "games-creative",
+  "user": "Solo 2D animators and small game teams who need to plan visual beats, sound cues, and interaction windows before committing to a full animation package or engine scene.",
+  "smallest_useful_product": "Offline timeline with image cards, waveform snippets, named markers, frame-range labels, and JSON/CSV export for Godot/Unity adapters.",
+  "success_measure": "A five-person pilot can turn a 30-second scene into a marker list with fewer than one ambiguous implementation question per scene during handoff.",
+  "artifact_class": "pwa-offline",
+  "monetization": "one-time",
+  "constraints": "Keep media local by default; adapters must be clearly versioned; do not bundle fonts, clips, or character assets without suitable licenses.",
+  "non_goals": ["tweening", "character animation", "AI image generation", "full project management"]
+}
