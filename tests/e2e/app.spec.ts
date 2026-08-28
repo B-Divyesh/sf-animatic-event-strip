@@ -57,7 +57,7 @@ test('@claim:editor-workflow creates, edits, persists, and exports a useful stri
   await expect(page.locator('#image-picked')).toHaveText('cutting-room-960.c6872b74.webp');
   await page.getByRole('button', { name: 'Add to strip' }).click();
   await expect(page.getByRole('dialog', { name: 'Add event' })).toBeHidden();
-  await expect(page.getByText('3 cards', { exact: true })).toBeVisible();
+  await expect(page.getByText('3 boards', { exact: true })).toBeVisible();
 
   await page.getByRole('button', { name: '+ Add event' }).click();
   await page.getByText('Marker', { exact: true }).click();
@@ -75,7 +75,7 @@ test('@claim:editor-workflow creates, edits, persists, and exports a useful stri
 
   await page.getByRole('button', { name: 'Choose export' }).click();
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: /Adapter JSON/ }).click();
+  await page.getByRole('button', { name: /^Export Adapter JSON\b/ }).click();
   expect((await downloadPromise).suggestedFilename()).toBe('rain-gate-opening-beat.adapter.json');
   expect(consoleErrors).toEqual([]);
 });
@@ -120,11 +120,11 @@ test('repairs AES-QA-203 with a plain first read and first action', async ({ pag
   await expect(page.getByText('Loads a filled 10-second strip. The demo never opens or changes your project.')).toBeVisible();
 });
 
-test('repairs F-1-1 by focusing and announcing each route change, including browser Back', async ({ page }) => {
+test('repairs F-3-1 and F-1-1 by focusing and announcing app and legal routes, including browser Back', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
-  const demoNavigation = page.getByLabel('Utility navigation').getByRole('link', { name: 'Demo' });
+  const demoNavigation = page.getByLabel('Primary navigation').getByRole('link', { name: 'Demo' });
   await expect(demoNavigation).toBeVisible();
   await expect(demoNavigation).toHaveCSS('min-height', '44px');
   await demoNavigation.click();
@@ -135,6 +135,19 @@ test('repairs F-1-1 by focusing and announcing each route change, including brow
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
+
+  await page.getByLabel('Primary navigation').getByRole('link', { name: 'Privacy' }).click();
+  await expect(page).toHaveURL(/\/privacy\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Privacy loaded: local data policy.');
+  await page.getByLabel('Primary navigation').getByRole('link', { name: 'Terms' }).click();
+  await expect(page).toHaveURL(/\/terms\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Terms loaded: product and purchase terms.');
+  await page.goBack();
+  await expect(page).toHaveURL(/\/privacy\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+  await expect(page.locator('#route-status')).toHaveText('Privacy loaded: local data policy.');
 });
 
 test('repairs F-2-1 with predictable Demo, Privacy, and Terms links in every footer', async ({ page }) => {
@@ -168,7 +181,7 @@ test('shows the three visible handoff steps on the planner and demo', async ({ p
     await expect(page.getByRole('heading', { name: 'How to build an animation handoff' })).toBeVisible();
     await expect(page.getByText('Add boards', { exact: true })).toBeVisible();
     await expect(page.getByText('Align sound', { exact: true })).toBeVisible();
-    await expect(page.getByText('Name implementation moments', { exact: true })).toBeVisible();
+    await expect(page.getByText('Name engine events', { exact: true })).toBeVisible();
   }
 });
 
@@ -187,7 +200,7 @@ test('@claim:sample-demo opens one-click sample data in an isolated, resettable 
   await expect(page.getByText('Rain Gate — opening beat')).toBeVisible();
   const sampleTitle = await page.getByText('Rain Gate — opening beat', { exact: true }).boundingBox();
   expect(sampleTitle?.y ?? Infinity).toBeLessThan(await page.evaluate(() => window.innerHeight));
-  await expect(page.getByText('2 cards', { exact: true })).toBeVisible();
+  await expect(page.getByText('2 boards', { exact: true })).toBeVisible();
   await expect(page.getByText('1 clip', { exact: true })).toBeVisible();
   await expect(page.getByText('3 markers', { exact: true })).toBeVisible();
   await expect(page.getByText('Real project only')).toHaveCount(0);
@@ -202,10 +215,14 @@ test('@claim:sample-demo opens one-click sample data in an isolated, resettable 
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('button', { name: /Real project only/ })).toBeVisible();
   await page.goto('/demo');
+  await expect(page).toHaveTitle('Demo — Animatic Event Strip');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://animatic-event-strip.sociobot.in/demo');
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://animatic-event-strip.sociobot.in/demo');
   await expect(page.getByRole('button', { name: /Discard on exit/ })).toHaveCount(0);
 
   await page.goto('/?demo=1');
   await expect(page).toHaveTitle('Demo — Animatic Event Strip');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://animatic-event-strip.sociobot.in/demo');
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('Rain Gate — opening beat')).toBeVisible();
 });
@@ -215,7 +232,7 @@ test('@claim:local-storage-only keeps the complete demo flow same-origin and out
   page.on('request', (request) => origins.add(new URL(request.url()).origin));
   await page.goto('/demo');
   await addMarker(page, 'Check local handoff', 200);
-  const { path } = await downloadFromExport(page, /Project JSON/);
+  const { path } = await downloadFromExport(page, /^Export Project JSON\b/);
   expect(JSON.parse(await readFile(path, 'utf8')).events).toHaveLength(7);
   const storage = await page.evaluate(async () => ({
     databases: (await indexedDB.databases()).map((database) => database.name),
@@ -232,7 +249,7 @@ test('@claim:runtime-privacy ships without analytics, cookies, remote fonts, or 
   page.on('request', (request) => origins.add(new URL(request.url()).origin));
   await page.goto('/demo');
   await addMarker(page, 'Private runtime check', 200);
-  await downloadFromExport(page, /Adapter JSON/);
+  await downloadFromExport(page, /^Export Adapter JSON\b/);
   const runtime = await page.evaluate(() => ({
     cookies: document.cookie,
     scripts: [...document.scripts].map((script) => script.src).filter(Boolean),
@@ -246,10 +263,29 @@ test('@claim:runtime-privacy ships without analytics, cookies, remote fonts, or 
   expect([...origins]).toEqual([pageOrigin]);
 });
 
+test('@claim:asset-provenance records the generated scene source and serves only bundled artwork', async ({ page }) => {
+  const origins = new Set<string>();
+  page.on('request', (request) => origins.add(new URL(request.url()).origin));
+  await page.goto('/demo');
+  await page.getByRole('button', { name: 'Show artwork provenance' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Artwork provenance' });
+  await expect(dialog).toContainText('AI-generated cutting-room scene.');
+  await expect(dialog).toContainText('Created for this product on 28 August 2026.');
+  const [source, thesis] = await Promise.all([
+    readFile(new URL('../../assets/src/cutting-room.png.json', import.meta.url), 'utf8'),
+    readFile(new URL('../../.factory/design.md', import.meta.url), 'utf8'),
+  ]);
+  const metadata = JSON.parse(source) as { deployment?: string; prompt?: string };
+  expect(metadata.deployment).toBe('factory-image');
+  expect(metadata.prompt).toContain('animation cutting room at blue hour');
+  expect(thesis).toContain('Generated with the Param Factory Azure image deployment');
+  expect([...origins]).toEqual([new URL(page.url()).origin]);
+});
+
 test('@claim:project-json-roundtrip exports a complete backup that reopens', async ({ page }) => {
   await page.goto('/demo');
   await addMarker(page, 'Round-trip proof', 200);
-  const { download, path } = await downloadFromExport(page, /Project JSON/);
+  const { download, path } = await downloadFromExport(page, /^Export Project JSON\b/);
   expect(download.suggestedFilename()).toBe('rain-gate-opening-beat.aes.json');
   const exported = JSON.parse(await readFile(path, 'utf8')) as { schema: string; events: unknown[] };
   expect(exported.schema).toBe('aes-project-1');
@@ -266,7 +302,7 @@ test('@claim:project-json-roundtrip exports a complete backup that reopens', asy
 
 test('@claim:adapter-json-v1 exports every sample event with the stable adapter schema', async ({ page }) => {
   await page.goto('/demo');
-  const { path } = await downloadFromExport(page, /Adapter JSON/);
+  const { path } = await downloadFromExport(page, /^Export Adapter JSON\b/);
   const exported = JSON.parse(await readFile(path, 'utf8')) as { schema: string; adapter_version: number; events: Array<{ end_frame_exclusive: number }> };
   expect(exported.schema).toBe('animatic-event-strip/adapter');
   expect(exported.adapter_version).toBe(1);
@@ -276,7 +312,7 @@ test('@claim:adapter-json-v1 exports every sample event with the stable adapter 
 
 test('@claim:csv-export exports one UTF-8 row per sample event', async ({ page }) => {
   await page.goto('/demo');
-  const { path } = await downloadFromExport(page, /Marker CSV/);
+  const { path } = await downloadFromExport(page, /^Export Marker CSV\b/);
   const csv = await readFile(path, 'utf8');
   const rows = csv.trim().split(/\r?\n/);
   expect(csv.charCodeAt(0)).toBe(0xfeff);
@@ -375,12 +411,12 @@ test('@claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the p
   });
   await page.goto('/');
   await expect(page.getByText('Studio Pack unlocked')).toBeVisible();
-  const godot = await downloadFromExport(page, /Godot 4 adapter source/);
+  const godot = await downloadFromExport(page, /Download Godot 4 adapter/);
   expect(await readFile(godot.path, 'utf8')).toContain('class_name AnimaticEventStrip');
-  const unity = await downloadFromExport(page, /Unity 6 adapter source/);
+  const unity = await downloadFromExport(page, /Download Unity 6 adapter/);
   expect(await readFile(unity.path, 'utf8')).toContain('using UnityEngine');
   await page.getByRole('button', { name: 'Choose export' }).click();
-  await page.getByRole('button', { name: /Print handoff sheet/ }).click();
+  await page.getByRole('button', { name: /Open printable handoff/ }).click();
   await expect(page.locator('html')).toHaveAttribute('data-print-invoked', 'true');
 });
 
@@ -390,15 +426,21 @@ test('has no serious accessibility violations', async ({ page }) => {
   expect(results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))).toEqual([]);
 });
 
-test('repairs AES-QA-304 and AES-QA-305 across legal and missing routes', async ({ page }) => {
-  for (const route of ['/privacy/', '/terms/']) {
+test('repairs AES-QA-304, AES-QA-305, and F-3-3 across every public route', async ({ page }) => {
+  for (const route of ['/', '/demo', '/privacy/', '/terms/', '/offline.html']) {
     await page.goto(route);
     await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
     await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
     await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
-    await expect(page.getByRole('link', { name: 'Skip to privacy policy' }).or(page.getByRole('link', { name: 'Skip to terms' }))).toHaveCount(1);
+    await expect(page.locator('a.skip-link')).toHaveCount(1);
     await expect(page.getByRole('link', { name: 'Animatic Event Strip home' })).toBeVisible();
+    const navigation = page.getByLabel('Primary navigation');
+    await expect(navigation.getByRole('link', { name: 'Demo', exact: true })).toBeVisible();
+    await expect(navigation.getByRole('link', { name: 'Privacy', exact: true })).toBeVisible();
+    await expect(navigation.getByRole('link', { name: 'Terms', exact: true })).toBeVisible();
     await expect(page.getByText(/Built by Param Factory/)).toBeVisible();
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('main')).toHaveCount(1);
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
     expect(results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))).toEqual([]);
   }
@@ -504,19 +546,44 @@ test('keeps the 390px page viewport free of body overflow', async ({ page }, tes
   await expect(page.getByRole('dialog', { name: 'Add event' })).toBeVisible();
 });
 
-test('keeps every verifier-identified mobile target at least 44 by 44 CSS pixels', async ({ page }, testInfo) => {
+test('repairs F-3-2 and AES-QA-003 with 44px targets on every public route', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', '390px touch geometry is covered in the mobile profile');
-  await page.goto('/');
-  const targets = [
-    page.getByRole('link', { name: 'Animatic Event Strip home' }),
-    page.getByRole('button', { name: 'Rename project' }),
-    page.getByRole('link', { name: 'Privacy' }),
-    page.getByRole('link', { name: 'Terms' }),
-  ];
-  for (const target of targets) {
-    const box = await target.boundingBox();
-    expect(box, `missing target: ${await target.getAttribute('aria-label') ?? await target.textContent()}`).not.toBeNull();
-    expect(box!.width).toBeGreaterThanOrEqual(44);
-    expect(box!.height).toBeGreaterThanOrEqual(44);
+  for (const route of ['/', '/privacy/', '/terms/', '/qa-definitely-missing-targets', '/offline.html']) {
+    await page.goto(route);
+    const targets = page.locator('a, button').filter({ visible: true });
+    for (let index = 0; index < await targets.count(); index += 1) {
+      const target = targets.nth(index);
+      const box = await target.boundingBox();
+      const name = await target.getAttribute('aria-label') ?? (await target.textContent())?.trim();
+      expect(box, `missing target on ${route}: ${name}`).not.toBeNull();
+      expect(box!.width, `narrow target on ${route}: ${name}`).toBeGreaterThanOrEqual(44);
+      expect(box!.height, `short target on ${route}: ${name}`).toBeGreaterThanOrEqual(44);
+    }
+  }
+});
+
+test('repairs F-3-5 with result-naming controls and one board term', async ({ page }) => {
+  await page.goto('/demo');
+  await expect(page.getByRole('button', { name: 'Move to previous frame', includeHidden: true })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Move to next frame', includeHidden: true })).toHaveCount(1);
+  await expect(page.getByText('2 boards', { exact: true })).toBeVisible();
+  await expect(page.getByRole('group', { name: 'Boards' })).toBeVisible();
+  await expect(page.getByRole('group', { name: 'Event markers' })).toBeVisible();
+  await page.getByRole('button', { name: '+ Add event' }).click();
+  await page.getByLabel('Label').fill(' ');
+  await page.getByRole('button', { name: 'Add to strip' }).click();
+  await expect(page.getByRole('alert')).toHaveText('Give this event a short label that tells the implementer what to build.');
+  await page.getByLabel('Label').fill('Check range');
+  await page.getByLabel('Start frame').fill('10');
+  await page.getByLabel('End frame').fill('5');
+  await page.getByRole('button', { name: 'Add to strip' }).click();
+  await expect(page.getByRole('alert')).toHaveText('Choose a start and end between frames 0 and 239. The end frame itself is not included.');
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: /Edit board Hold on the closed gate/ }).click();
+  await expect(page.getByRole('button', { name: 'Delete event' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Choose export' }).click();
+  for (const name of ['Export Project JSON', 'Export Adapter JSON', 'Export Marker CSV', 'Download Godot 4 adapter', 'Download Unity 6 adapter', 'Open printable handoff']) {
+    await expect(page.getByRole('button', { name: new RegExp(name) })).toBeVisible();
   }
 });

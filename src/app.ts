@@ -54,6 +54,7 @@ const eventDialog = element<HTMLDialogElement>('event-dialog');
 const settingsDialog = element<HTMLDialogElement>('settings-dialog');
 const exportDialog = element<HTMLDialogElement>('export-dialog');
 const guideDialog = element<HTMLDialogElement>('guide-dialog');
+const artDialog = element<HTMLDialogElement>('art-dialog');
 const confirmDialog = element<HTMLDialogElement>('confirm-dialog');
 const eventForm = element<HTMLFormElement>('event-form');
 const playButton = element<HTMLButtonElement>('play-preview');
@@ -62,6 +63,22 @@ type RouteState = { scrollX?: number; scrollY?: number; focusId?: string };
 
 function routeMessage(): string {
   return demoMode ? 'Demo loaded: Rain Gate sample strip.' : 'Planner loaded: your local project.';
+}
+
+function configureRouteMetadata(): void {
+  const title = demoMode ? 'Demo — Animatic Event Strip' : 'Animatic Event Strip — plan animation events';
+  const description = demoMode
+    ? 'Try a filled animation event strip with sample boards, sound, and event markers.'
+    : 'Plan frames, sound cues, and input windows in a local event strip for animation handoff.';
+  const canonical = `https://animatic-event-strip.sociobot.in${demoMode ? '/demo' : '/'}`;
+  document.title = title;
+  document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute('href', canonical);
+  document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute('content', description);
+  document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.setAttribute('content', title);
+  document.querySelector<HTMLMetaElement>('meta[property="og:description"]')?.setAttribute('content', description);
+  document.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.setAttribute('content', canonical);
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:title"]')?.setAttribute('content', title);
+  document.querySelector<HTMLMetaElement>('meta[name="twitter:description"]')?.setAttribute('content', description);
 }
 
 function announceRoute(): void {
@@ -129,7 +146,7 @@ function renderEvents(): void {
   }).join('');
   audioLane.innerHTML = sounds.map((event) => `<button class="timeline-item audio-card${selectedId === event.id ? ' selected' : ''}" style="left:${percent(event.startFrame)}%;width:${eventWidth(event)}%" data-event-id="${event.id}" type="button" aria-label="Edit sound ${escapeHtml(event.label)}, ${frameRange(event)}"><strong>${escapeHtml(event.label)}</strong><small>${frameRange(event)}</small>${waveformSvg(event.waveform)}</button>`).join('');
   markersLane.innerHTML = markers.map((event) => `<button class="marker-item${selectedId === event.id ? ' selected' : ''}" style="left:${percent(event.startFrame)}%;width:${eventWidth(event)}%" data-event-id="${event.id}" data-kind="${event.kind}" type="button" aria-label="Edit ${markerLabel(event.kind)} ${escapeHtml(event.label)}, ${frameRange(event)}"><strong>${escapeHtml(event.label)}</strong><span>${markerLabel(event.kind)} · ${frameRange(event)}</span></button>`).join('');
-  element('shot-count').textContent = `${shots.length} ${shots.length === 1 ? 'card' : 'cards'}`;
+  element('shot-count').textContent = `${shots.length} ${shots.length === 1 ? 'board' : 'boards'}`;
   element('audio-count').textContent = `${sounds.length} ${sounds.length === 1 ? 'clip' : 'clips'}`;
   element('marker-count').textContent = `${markers.length} ${markers.length === 1 ? 'marker' : 'markers'}`;
   emptyState.hidden = project.events.length > 0;
@@ -248,9 +265,9 @@ async function saveEventFromForm(): Promise<void> {
   const endFrame = usesRange ? Math.round(Number(element<HTMLInputElement>('event-end').value)) : startFrame + 1;
   const notes = element<HTMLTextAreaElement>('event-notes').value.trim();
   const error = element('event-error');
-  if (!label) { error.textContent = 'Give this event a short, implementation-ready label.'; error.hidden = false; return; }
+  if (!label) { error.textContent = 'Give this event a short label that tells the implementer what to build.'; error.hidden = false; return; }
   if (!Number.isInteger(startFrame) || !Number.isInteger(endFrame) || startFrame < 0 || endFrame <= startFrame || endFrame > project.durationFrames) {
-    error.textContent = `Use a range inside frames 0–${project.durationFrames - 1}; the end frame is exclusive.`;
+    error.textContent = `Choose a start and end between frames 0 and ${project.durationFrames - 1}. The end frame itself is not included.`;
     error.hidden = false;
     return;
   }
@@ -599,7 +616,7 @@ function registerEvents(): void {
     saveLicenseToken(token);
     void verifyLicense(token, true);
   });
-  element('about-art').addEventListener('click', () => { guideDialog.showModal(); element('guide-title').textContent = 'Artwork provenance'; const list = guideDialog.querySelector('ol'); if (list) list.innerHTML = '<li><b>Original scene.</b><span>Generated for this product with the Param Factory image model on 28 August 2026.</span></li><li><b>Purpose.</b><span>The blue-hour cutting room establishes the planning context; it does not depict product output.</span></li><li><b>No stock library.</b><span>All interface marks are authored SVG strokes. No third-party art or fonts are loaded.</span></li>'; });
+  element('about-art').addEventListener('click', () => artDialog.showModal());
   window.addEventListener('online', () => { setOnlineStatus(); if (!demoMode) { const token = localStorage.getItem(LICENSE_KEY); if (token) void verifyLicense(token); } });
   window.addEventListener('offline', setOnlineStatus);
   window.addEventListener('pageshow', (event) => {
@@ -651,7 +668,7 @@ async function registerServiceWorker(): Promise<void> {
 async function start(): Promise<void> {
   registerEvents();
   setOnlineStatus();
-  document.title = demoMode ? 'Demo — Animatic Event Strip' : 'Animatic Event Strip — plan animation events';
+  configureRouteMetadata();
   element('demo-banner').hidden = !demoMode;
   document.body.classList.toggle('demo-mode', demoMode);
   try {

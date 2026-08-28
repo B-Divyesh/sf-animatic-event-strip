@@ -1,1 +1,1 @@
-Plan boards, sound cues, and input windows before engine work in a local event strip.
+Plan boards, sound cues, and input windows before engine work in a local, offline event strip.

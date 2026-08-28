@@ -1,6 +1,6 @@
 # Animatic Event Strip
 
-Animatic Event Strip is an offline-first timing board for solo 2D animators and small game teams. Keep storyboard ranges, audio clips, and named moments in one strip. Plan them before code and final assets lock the scene.
+Animatic Event Strip is a timing board that works offline for solo 2D animators and small game teams. Keep boards, audio clips, and named events in one strip. Plan them before code and final assets lock the scene.
 
 Live product: <https://animatic-event-strip.sociobot.in>
 
@@ -9,7 +9,7 @@ One-click demo: <https://animatic-event-strip.sociobot.in/demo>. It opens a fill
 ## What it does
 
 - Builds a frame-accurate strip at 12, 15, 24, 25, 30, or 60 fps.
-- Stores board images, audio blobs, calculated waveform snippets, markers, and notes in IndexedDB.
+- Stores board images, audio files, calculated waveform snippets, markers, and notes in IndexedDB.
 - Previews the timeline and aligned browser-supported audio locally.
 - Exports a complete `.aes.json` backup with embedded media.
 - Exports stable adapter v1 JSON and UTF-8 CSV without a license.
@@ -23,7 +23,7 @@ The demo stores edits in the separate `demo:animatic-event-strip` IndexedDB data
 
 ## Run locally
 
-Requires Node.js 20 or newer.
+Requires Node.js 20.19 or newer, or 22.12 or newer.
 
 ```sh
 npm install
@@ -64,15 +64,15 @@ Use Tab to reach planner controls. Enter or Space opens the focused button. Left
 
 ## Data and export schemas
 
-The active project is held under the `animatic-event-strip` IndexedDB database. There is no server sync. `.aes.json` uses `aes-project-1` and embeds selected media as data URLs. Adapter JSON and CSV identify `animatic-event-strip/adapter` version `1`; ranges are represented as `start_frame` plus an exclusive `end_frame_exclusive`.
+The active project is held under the `animatic-event-strip` IndexedDB database. There is no server sync. `.aes.json` uses `aes-project-1` and embeds selected media as data URLs. Adapter JSON and CSV identify `animatic-event-strip/adapter` version `1`. A range uses `start_frame` and `end_frame_exclusive` fields.
 
-Project JSON is the backup/reopen format. Adapter JSON and CSV are deliberately media-light handoff formats; they include the original local filename but not file contents.
+Project JSON is the backup and reopen format. Adapter JSON and CSV include local filenames, but they exclude image and audio files.
 
 ## Privacy and payment
 
 No analytics, cookies, remote fonts, or third-party runtime scripts are present. The only optional request is a Studio Pack license check to the Sociobot billing API. Checkout is hosted by Sociobot/Dodo; no product or payment-provider IDs are embedded here. See [`public/privacy/index.html`](public/privacy/index.html) and [`public/terms/index.html`](public/terms/index.html).
 
-Production response policy is declared in [`public/staticwebapp.config.json`](public/staticwebapp.config.json). The policy restricts content sources and framing. It also disables unused browser capabilities. Versioned assets use a one-year immutable cache. The HTML, manifest, service worker, and legal documents remain revalidatable so updates are discovered safely.
+Production response policy is declared in [`public/staticwebapp.config.json`](public/staticwebapp.config.json). The policy restricts content sources and framing. It also disables unused browser capabilities. Versioned assets use a one-year immutable cache.
 
 ## Project notes
 

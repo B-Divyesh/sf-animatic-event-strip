@@ -34,6 +34,7 @@ describe('release policy', () => {
     const sources = [
       await readFile(new URL('tests/e2e/app.spec.ts', root), 'utf8'),
       await readFile(new URL('tests/live-policy.mjs', root), 'utf8'),
+      await readFile(new URL('tests/node-support.mjs', root), 'utf8'),
     ].join('\n');
     for (const claim of claims) {
       const tag = `@claim:${claim.id}`;
@@ -87,7 +88,7 @@ describe('release policy', () => {
   });
 
   test('repairs AES-QA-305 with route metadata and the shared site skeleton', async () => {
-    const pages = await Promise.all(['index.html', 'public/privacy/index.html', 'public/terms/index.html'].map((path) => readFile(new URL(path, root), 'utf8')));
+    const pages = await Promise.all(['index.html', 'public/privacy/index.html', 'public/terms/index.html', 'public/offline.html', 'public/404.html'].map((path) => readFile(new URL(path, root), 'utf8')));
     for (const page of pages) {
       expect(page).toContain('rel="canonical"');
       expect(page).toContain('property="og:title"');
@@ -96,7 +97,7 @@ describe('release policy', () => {
       expect(page).toContain('class="skip-link"');
       expect(page).toContain('Animatic Event Strip home');
       expect(page).toContain('Built by Param Factory');
-      expect(page).toContain('Version 1.0.0, polish 2');
+      expect(page).toContain('Version 1.0.0, polish 3');
       expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
       expect(page).toContain('<main');
     }
@@ -112,7 +113,7 @@ describe('release policy', () => {
       readFile(new URL('README.md', root), 'utf8'),
       readFile(new URL('index.html', root), 'utf8'),
     ]);
-    expect(readme).toContain('Keep storyboard ranges, audio clips, and named moments in one strip.');
+    expect(readme).toContain('Keep boards, audio clips, and named events in one strip.');
     expect(readme).not.toContain('semantic beats');
     expect(readme).not.toContain('engine-neutral strip before code');
     expect(readme).toContain('Each claim command builds the production artifact first.');
@@ -147,5 +148,44 @@ describe('release policy', () => {
     expect(home).toContain('Adapter JSON and CSV export frame data for Godot, Unity, or your own tools.');
     expect(home).not.toContain('implementation-neutral');
     expect(home).not.toContain('schema versions');
+  });
+
+  test('repairs F-3-1 through F-3-6 in route behavior, interface copy, and runtime support', async () => {
+    const publicPaths = ['index.html', 'public/privacy/index.html', 'public/terms/index.html', 'public/offline.html', 'public/404.html'];
+    const pages = await Promise.all(publicPaths.map((path) => readFile(new URL(path, root), 'utf8')));
+    for (const page of pages) {
+      expect(page).toContain('aria-label="Primary navigation"');
+      expect(page).toContain('href="/demo"');
+      expect(page).toContain('href="/privacy/"');
+      expect(page).toContain('href="/terms/"');
+    }
+    for (const page of pages.slice(1)) {
+      expect(page).toContain('id="route-title" tabindex="-1"');
+      expect(page).toContain('id="route-status" aria-live="polite"');
+      expect(page).toContain('src="/route-shell.js"');
+    }
+    const home = pages[0];
+    for (const oldCopy of ['Build an unambiguous handoff', 'Start with the beat you can see.', 'implementation-ready', 'end frame is exclusive', 'aria-label="Previous frame"', 'aria-label="Next frame"', '>Delete</button>', 'Semantic event markers', 'Optional studio pack']) {
+      expect(home).not.toContain(oldCopy);
+    }
+    for (const newCopy of ['Build an animation handoff', 'Add the first board image.', 'Move to previous frame', 'Move to next frame', 'Delete event', 'Download Godot 4 adapter', 'Download Unity 6 adapter', 'Open printable handoff', 'Event markers', 'Optional Studio Pack']) {
+      expect(home).toContain(newCopy);
+    }
+    const manifest = JSON.parse(await readFile(new URL('package.json', root), 'utf8')) as { engines?: { node?: string } };
+    expect(manifest.engines?.node).toBe('^20.19.0 || >=22.12.0');
+    const readme = await readFile(new URL('README.md', root), 'utf8');
+    expect(readme).toContain('Requires Node.js 20.19 or newer, or 22.12 or newer.');
+    expect(readme).not.toContain('offline-first');
+    expect(readme).not.toContain('audio blobs');
+    expect(readme).not.toContain('media-light');
+    expect(readme).not.toContain('updates are discovered safely');
+  });
+
+  test('gives the real and demo routes distinct titles, descriptions, and canonical URLs', async () => {
+    const app = await readFile(new URL('src/app.ts', root), 'utf8');
+    expect(app).toContain("'Demo — Animatic Event Strip'");
+    expect(app).toContain("'/demo' : '/'");
+    expect(app).toContain('meta[property="og:url"]');
+    expect(app).toContain('meta[name="twitter:description"]');
   });
 });

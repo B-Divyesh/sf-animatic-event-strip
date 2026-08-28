@@ -36,6 +36,12 @@
     "test": "npm run test:e2e -- --grep @claim:runtime-privacy --project=chromium"
   },
   {
+    "id": "asset-provenance",
+    "claim": "The environmental scene was generated for this product with recorded prompt and model provenance.",
+    "where": "footer, artwork provenance dialog, visual thesis",
+    "test": "npm run test:e2e -- --grep @claim:asset-provenance --project=chromium"
+  },
+  {
     "id": "offline-reload",
     "claim": "Installs as a PWA and reopens the editor offline after the first visit.",
     "where": "landing facts, privacy, README",
@@ -88,5 +94,11 @@
     "claim": "The $12 one-time Studio Pack uses Sociobot's hosted checkout; production pages enforce the declared security and immutable-asset cache policy.",
     "where": "landing facts, Studio Pack section, README response policy",
     "test": "npm run test:live-policy -- --claim @claim:studio-checkout"
+  },
+  {
+    "id": "node-support",
+    "claim": "The production build supports Node.js 20.19.x and Node.js 22.12 or newer.",
+    "where": "README run locally",
+    "test": "npm run test:node-support -- --claim @claim:node-support"
   }
 ]

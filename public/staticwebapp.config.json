@@ -35,6 +35,9 @@
       "route": "/mode.js"
     },
     {
+      "route": "/route-shell.js"
+    },
+    {
       "route": "/sw.js"
     },
     {

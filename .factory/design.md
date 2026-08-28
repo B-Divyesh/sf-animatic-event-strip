@@ -2,7 +2,7 @@
 
 ## Direction
 
-**Cinematic environmental art: the cutting room at blue hour.** The interface feels like a practical location-scout notebook laid over a dim projection desk: charcoal rails, warm paper labels, a signal-cyan playhead, and coral sound cues. The scene art establishes a quiet, pre-production world—a rain-dark stage, distant flats, and a work light—without pretending the product animates anything. Chrome stays restrained so frame cards, timing, and semantic markers remain the subject.
+**Cinematic environmental art: the cutting room at blue hour.** The interface feels like a practical location-scout notebook laid over a dim projection desk: charcoal rails, warm paper labels, a signal-cyan playhead, and coral sound cues. The scene art establishes a quiet, pre-production world—a rain-dark stage, distant flats, and a work light—without pretending the product animates anything. Chrome stays restrained so boards, timing, and event markers remain the subject.
 
 This is intentionally a single dark treatment. Animatic review is usually done alongside image and audio work where stable luminance matters; painting every surface explicitly avoids unpredictable OS theme shifts. Contrast is maintained with warm off-white type rather than pure white.
 
@@ -32,12 +32,12 @@ Fine timeline rules use semi-transparent paper, but state is never communicated 
 
 ## Spacing and shape
 
-An 8px base rhythm with 4px for optical nudges. Major gutters are 24px desktop and 16px phone. Surfaces use 2–12px corner radii: small radii keep the utility feeling like edited film stock rather than soft consumer cards. All controls are at least 44px tall. Borders are 1px warm-gray; selected items gain a 2px signal edge and subtle inner light.
+An 8px base rhythm with 4px for optical nudges. Major gutters are 24px desktop and 16px phone. Surfaces use 2–12px corner radii: small radii keep the utility feeling like edited film stock rather than soft consumer cards. All controls are at least 44×44px. Borders are 1px warm-gray; selected items gain a 2px signal edge and subtle inner light.
 
 ## Interaction grammar
 
 - The playhead is the visual spine: scrubbing or keyboard stepping updates it immediately.
-- Frame cards are independent shots and therefore use physical cards; marker rows remain compact rails rather than nested cards.
+- Boards are independent shots and therefore use physical tiles; marker rows remain compact rails rather than nested tiles.
 - Add actions originate beside the rail they affect. Editing opens a focused dialog and returns focus to the originating item.
 - Timeline items can be selected with click or Tab; Arrow Left/Right moves selected items by one frame, Shift+Arrow by ten. Reorder controls have explicit labels for non-pointer paths.
 - Destructive changes require a named confirmation; project replacement via import also confirms.
