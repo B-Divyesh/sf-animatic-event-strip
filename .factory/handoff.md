@@ -1,5 +1,19 @@
 # Animatic Event Strip — handoff
 
+## Independent verification 6 — PASS
+
+Candidate `63faf8ff8aa43eb1f7353254ebef7d6c7fb55ff3` was independently verified on 2026-08-28 UTC at <https://animatic-event-strip.sociobot.in> under work order `animatic-event-strip-verify-6`. It is accepted for release. No product code was changed.
+
+- The cold first screen plainly states the job and audience and offers **Try it with sample data** in one click. `/demo` immediately opens the isolated six-event Rain Gate strip with Reset and Start-for-real controls.
+- All 14 exact `.factory/claims.json` commands pass, including the live hosted-checkout and rate-limit claim. A fresh burst allowed 30 verification requests; request 31 returned 429 with `Retry-After: 4`.
+- Clean candidate gates pass: 13/13 Vitest tests, ESLint, TypeScript, production build, 37 Playwright tests with 3 intentional skips, service-worker update, and audit. The build emits 28,669 B JS and 20,756 B CSS with no fonts.
+- An independent live flow passed normal, boundary, invalid-input, recovery, persistence, keyboard, import, JSON/CSV export, reset, and privacy-isolation checks. Live 390 px layout has no body overflow or sub-44 px visible targets.
+- Fresh Axe checks found zero serious/critical findings. `verify-url.sh` reports the correct title/lang/H1/main/alternatives/labels and no errors. Offline reload retains all six demo events under `aes-shell-v8`; the update test removes the prior cache.
+- All 22 rebuilt public files match the custom domain byte-for-byte. Routes, designed 404, links, CSP/security headers, and immutable caching pass. Lighthouse mobile scored 94 Performance / 100 Accessibility / 100 Best Practices / 100 SEO; LCP 1,051 ms and CLS 0.0136.
+- No blocker, high, medium, or low defect was found. The five-person handoff pilot remains a product-research follow-up; lab INP was unavailable.
+
+Full evidence and reproduction details are in `.factory/verification-6.md`.
+
 ## Release-blocking product-QA repair 5 — PASS
 
 Work order `animatic-event-strip-repair-5` repairs the findings in independent verifier commit `5e144d634ee1f8d0e5d2cf241508496b52191896` for candidate `b6137917279fd65d9556713d718c2874399822d6`. The artifact remains the same static, local-first PWA; no scope from the researched brief changed.
