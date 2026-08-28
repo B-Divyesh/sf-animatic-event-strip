@@ -48,7 +48,8 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round
 .text-button:hover { color: var(--paper); text-decoration-color: currentColor; }
 .status-pill { border: 1px solid var(--line); min-height: 44px; padding: 8px 14px 8px 32px; border-radius: 24px; background: transparent; position: relative; color: var(--paper-dim); cursor: pointer; }
 .status-pill::before { content: ""; position: absolute; left: 14px; top: 50%; width: 7px; height: 7px; border-radius: 50%; background: var(--success); transform: translateY(-50%); box-shadow: 0 0 12px rgba(155,211,141,.5); }
-.demo-banner { padding: 10px clamp(16px, 3vw, 48px); border-bottom: 1px solid rgba(101,227,209,.45); background: #14272a; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.demo-banner { padding: 10px clamp(16px, 3vw, 48px); border-bottom: 1px solid rgba(101,227,209,.45); background: #14272a; display: none; align-items: center; justify-content: space-between; gap: 20px; }
+.demo-route .demo-banner { display: flex; }
 .demo-banner > div:first-child { display: flex; flex-wrap: wrap; gap: 4px 12px; }
 .demo-banner strong { color: var(--signal); }
 .demo-banner span { color: var(--paper-dim); }

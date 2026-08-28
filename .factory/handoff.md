@@ -27,11 +27,11 @@ node -e "const c=require('./.factory/claims.json'); for (const x of c.filter(x=>
 ```
 
 - Clean install: 140 packages, 0 audit vulnerabilities. Unit/release tests: 9/9. ESLint and TypeScript: clean.
-- Production build: `dist/index.html` at the root; initial JS 28,392 bytes / 10,158 bytes gzip; CSS 20,679 bytes / 5,395 bytes gzip; no font files; mobile hero WebP 36,138 bytes.
+- Production build: `dist/index.html` at the root; initial JS 28,392 bytes / 10,158 bytes gzip; CSS 20,717 bytes / 5,407 bytes gzip; no font files; mobile hero WebP 36,138 bytes.
 - Playwright 1.58.2: 23 passed / 3 intentional profile skips across desktop Chromium and 390×844 mobile. Coverage includes the nine claim paths, real/demo storage isolation, reset/exit, import/export contents, persistence, offline shell and cached license, keyboard focus and movement, 44 px targets, body overflow, and axe WCAG 2 A/AA.
 - Every local claim command in `.factory/claims.json` passed independently. Project JSON round-tripped seven events; Adapter JSON reported `animatic-event-strip/adapter` v1 with six events; CSV contained its BOM, header, and six data rows; privacy interception observed only `http://127.0.0.1:4173`.
 - Local `verify-url.sh`: HTTP 200, title `Demo — Animatic Event Strip`, `lang=en`, one H1, main landmark, 0 images missing alternatives, 0 unlabeled buttons, and 0 console/page errors. Desktop and 390 px visual review found no body overflow, collision, clipping, or unreadable controls.
-- Lighthouse 13.4.1 mobile completed its report before the known post-audit Chromium crash: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,356 ms, TBT 65 ms, CLS 0.014. INP is not represented as measured by a lab navigation.
+- Lighthouse 13.4.1 mobile completed its report before the known post-audit Chromium crash: Performance 100, Accessibility 100, Best Practices 100, SEO 100; LCP 1,366 ms, TBT 0 ms, CLS 0.014. A blocking, same-origin route marker reserves the demo banner before first paint and sets the demo canonical URL. INP is not represented as measured by a lab navigation.
 - Package/consumer and first-party backend checks do not apply: this artifact is an application with no published package and no first-party backend. Response-policy, checkout, rate-limit, deployment identity, and live privacy checks are run against the deployed custom domain.
 
 ### Known research gap
