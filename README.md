@@ -4,7 +4,7 @@ Animatic Event Strip is a timing board that works offline for solo 2D animators 
 
 Live product: <https://animatic-event-strip.sociobot.in>
 
-One-click demo: <https://animatic-event-strip.sociobot.in/demo>. It opens a filled 10-second strip without reading or changing your project. **Reset demo** restores the sample, and **Start for real** discards demo edits.
+One-click demo: <https://animatic-event-strip.sociobot.in/?demo=1>. It opens a filled 10-second strip without reading or changing your project. **Reset demo** restores the sample, and **Start for real** discards demo edits.
 
 ## What it does
 
@@ -19,7 +19,7 @@ One-click demo: <https://animatic-event-strip.sociobot.in/demo>. It opens a fill
 
 This is a pre-production tool, not an animation editor: it does not tween, generate art, animate characters, or execute engine events.
 
-The demo stores edits in the separate `demo:animatic-event-strip` IndexedDB database. Real projects use `animatic-event-strip`. The complete claim list and one tagged browser test per claim are in [`.factory/claims.json`](.factory/claims.json).
+The landing page does not open either project database. The demo stores edits in the separate `demo:animatic-event-strip` IndexedDB database. Real projects use `animatic-event-strip`. The complete claim list and one tagged browser test per claim are in [`.factory/claims.json`](.factory/claims.json).
 
 ## Run locally
 

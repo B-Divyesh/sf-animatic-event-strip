@@ -47,7 +47,7 @@ async function downloadFromExport(page: import('@playwright/test').Page, name: R
 test('@claim:editor-workflow creates, edits, persists, and exports a useful strip', async ({ page }) => {
   const consoleErrors: string[] = [];
   page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Plan animation events/);
   await page.getByRole('button', { name: '+ Add event' }).click();
   await page.getByLabel('Label').fill('Gate opens');
@@ -81,7 +81,7 @@ test('@claim:editor-workflow creates, edits, persists, and exports a useful stri
 });
 
 test('@claim:fps-options exposes every documented planning rate', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await page.getByRole('button', { name: 'Edit project timing' }).click();
   await expect(page.getByLabel('Frames per second').locator('option')).toHaveText(['12', '15', '24', '25', '30', '60']);
 });
@@ -94,7 +94,7 @@ test('@claim:audio-preview stores a waveform and starts aligned local playback',
       return Promise.resolve();
     };
   });
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await page.getByRole('button', { name: '+ Add event' }).click();
   await page.getByRole('dialog', { name: 'Add event' }).getByText('Sound', { exact: true }).click();
   await page.getByLabel('Label').fill('Local timing tone');
@@ -117,24 +117,26 @@ test('repairs AES-QA-203 with a plain first read and first action', async ({ pag
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Plan animation events before engine work.');
   await expect(page.getByText(/For solo 2D animators and small game teams/)).toBeVisible();
   await expect(page.getByRole('link', { name: 'Try it with sample data' })).toBeVisible();
-  await expect(page.getByText('Loads a filled 10-second strip. The demo never opens or changes your project.')).toBeVisible();
+  await expect(page.getByText('Loads a filled 10-second strip. Your project is not opened or changed.')).toBeVisible();
+  await expect(page.locator('#save-status')).toHaveText('Project unopened');
+  expect(await page.evaluate(async () => (await indexedDB.databases()).map((database) => database.name))).not.toContain('animatic-event-strip');
 });
 
 test('repairs F-3-1 and F-1-1 by focusing and announcing app and legal routes, including browser Back', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
-  await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
+  await expect(page.locator('#route-status')).toHaveText('Planner ready: your project has not been opened.');
   const demoNavigation = page.getByLabel('Primary navigation').getByRole('link', { name: 'Demo' });
   await expect(demoNavigation).toBeVisible();
   await expect(demoNavigation).toHaveCSS('min-height', '44px');
   await demoNavigation.click();
-  await expect(page).toHaveURL(/\/demo$/);
+  await expect(page).toHaveURL(/\?demo=1$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
   await expect(page.locator('#route-status')).toHaveText('Demo loaded: Rain Gate sample strip.');
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
-  await expect(page.locator('#route-status')).toHaveText('Planner loaded: your local project.');
+  await expect(page.locator('#route-status')).toHaveText('Planner ready: your project has not been opened.');
 
   await page.getByLabel('Primary navigation').getByRole('link', { name: 'Privacy' }).click();
   await expect(page).toHaveURL(/\/privacy\/$/);
@@ -151,7 +153,7 @@ test('repairs F-3-1 and F-1-1 by focusing and announcing app and legal routes, i
 });
 
 test('repairs F-2-1 with predictable Demo, Privacy, and Terms links in every footer', async ({ page }) => {
-  for (const route of ['/', '/demo', '/privacy/', '/terms/']) {
+  for (const route of ['/', '/?demo=1', '/privacy/', '/terms/']) {
     await page.goto(route);
     const footer = page.locator('footer');
     await expect(footer.getByRole('link', { name: 'Demo', exact: true })).toBeVisible();
@@ -176,7 +178,7 @@ test('repairs F-2-2 through F-2-4 with specific copy and action names', async ({
 });
 
 test('shows the three visible handoff steps on the planner and demo', async ({ page }) => {
-  for (const route of ['/', '/demo']) {
+  for (const route of ['/', '/?demo=1']) {
     await page.goto(route);
     await expect(page.getByRole('heading', { name: 'How to build an animation handoff' })).toBeVisible();
     await expect(page.getByText('Add boards', { exact: true })).toBeVisible();
@@ -185,17 +187,54 @@ test('shows the three visible handoff steps on the planner and demo', async ({ p
   }
 });
 
-test('@claim:sample-demo opens one-click sample data in an isolated, resettable workspace', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Add your first event' }).click();
-  await page.getByLabel('Label').fill('Real project only');
-  await page.getByLabel('Start frame').fill('0');
-  await page.getByLabel('End frame').fill('24');
-  await page.getByRole('button', { name: 'Add to strip' }).click();
+test('@claim:sample-demo never opens real storage on the one-click sample path and resets its isolated data', async ({ page }) => {
+  await page.addInitScript(() => {
+    const nativeOpen = indexedDB.open.bind(indexedDB);
+    Object.defineProperty(indexedDB, 'open', {
+      configurable: true,
+      value(name: string, version?: number) {
+        const opens = JSON.parse(sessionStorage.getItem('aes:idb-opens') ?? '[]') as string[];
+        opens.push(name);
+        sessionStorage.setItem('aes:idb-opens', JSON.stringify(opens));
+        return version === undefined ? nativeOpen(name) : nativeOpen(name, version);
+      },
+    });
+  });
 
+  await page.goto('/privacy/');
+  await page.evaluate(async () => {
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.open('animatic-event-strip', 1);
+      request.onupgradeneeded = () => request.result.createObjectStore('projects');
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const transaction = db.transaction('projects', 'readwrite');
+        transaction.objectStore('projects').put({
+          schema: 'aes-project-1',
+          id: 'sentinel-project',
+          name: 'Sentinel real project',
+          fps: 24,
+          durationFrames: 240,
+          events: [],
+          createdAt: '2026-08-28T00:00:00.000Z',
+          updatedAt: '2026-08-28T00:00:00.000Z',
+        }, 'active');
+        transaction.oncomplete = () => { db.close(); resolve(); };
+        transaction.onerror = () => reject(transaction.error);
+      };
+    });
+    sessionStorage.removeItem('aes:idb-opens');
+  });
+
+  await page.goto('/');
+  await expect(page.locator('#save-status')).toHaveText('Project unopened');
+  await expect(page.getByText('Sentinel real project')).toHaveCount(0);
+  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('aes:idb-opens') ?? '[]'))).toEqual([]);
   await page.getByRole('link', { name: 'Try it with sample data' }).click();
-  await expect(page).toHaveURL(/\/demo$/);
+  await expect(page).toHaveURL(/\?demo=1$/);
   await expect(page).toHaveTitle('Demo — Animatic Event Strip');
+  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('aes:idb-opens') ?? '[]'))).not.toContain('animatic-event-strip');
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('Rain Gate — opening beat')).toBeVisible();
   const sampleTitle = await page.getByText('Rain Gate — opening beat', { exact: true }).boundingBox();
@@ -213,24 +252,36 @@ test('@claim:sample-demo opens one-click sample data in an isolated, resettable 
   await addMarker(page, 'Discard on exit', 190);
   await page.getByRole('button', { name: 'Start for real' }).click();
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByRole('button', { name: /Real project only/ })).toBeVisible();
-  await page.goto('/demo');
-  await expect(page).toHaveTitle('Demo — Animatic Event Strip');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://animatic-event-strip.sociobot.in/demo');
-  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://animatic-event-strip.sociobot.in/demo');
-  await expect(page.getByRole('button', { name: /Discard on exit/ })).toHaveCount(0);
-
+  await expect(page.getByText('Sentinel real project', { exact: true })).toBeVisible();
   await page.goto('/?demo=1');
   await expect(page).toHaveTitle('Demo — Animatic Event Strip');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://animatic-event-strip.sociobot.in/demo');
-  await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
-  await expect(page.getByText('Rain Gate — opening beat')).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://animatic-event-strip.sociobot.in/?demo=1');
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://animatic-event-strip.sociobot.in/?demo=1');
+  await expect(page.getByRole('button', { name: /Discard on exit/ })).toHaveCount(0);
+
+  await page.evaluate(async () => {
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.deleteDatabase('animatic-event-strip');
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error('Real project database deletion was blocked'));
+    });
+    sessionStorage.removeItem('aes:idb-opens');
+  });
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Try it with sample data' }).click();
+  const blankState = await page.evaluate(async () => ({
+    databases: (await indexedDB.databases()).map((database) => database.name),
+    opens: JSON.parse(sessionStorage.getItem('aes:idb-opens') ?? '[]') as string[],
+  }));
+  expect(blankState.databases).not.toContain('animatic-event-strip');
+  expect(blankState.opens).not.toContain('animatic-event-strip');
 });
 
 test('@claim:local-storage-only keeps the complete demo flow same-origin and outside real project storage', async ({ page }) => {
   const origins = new Set<string>();
   page.on('request', (request) => origins.add(new URL(request.url()).origin));
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await addMarker(page, 'Check local handoff', 200);
   const { path } = await downloadFromExport(page, /^Export Project JSON\b/);
   expect(JSON.parse(await readFile(path, 'utf8')).events).toHaveLength(7);
@@ -247,7 +298,7 @@ test('@claim:local-storage-only keeps the complete demo flow same-origin and out
 test('@claim:runtime-privacy ships without analytics, cookies, remote fonts, or third-party runtime scripts', async ({ page }) => {
   const origins = new Set<string>();
   page.on('request', (request) => origins.add(new URL(request.url()).origin));
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await addMarker(page, 'Private runtime check', 200);
   await downloadFromExport(page, /^Export Adapter JSON\b/);
   const runtime = await page.evaluate(() => ({
@@ -266,7 +317,7 @@ test('@claim:runtime-privacy ships without analytics, cookies, remote fonts, or 
 test('@claim:asset-provenance records the generated scene source and serves only bundled artwork', async ({ page }) => {
   const origins = new Set<string>();
   page.on('request', (request) => origins.add(new URL(request.url()).origin));
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await page.getByRole('button', { name: 'Show artwork provenance' }).click();
   const dialog = page.getByRole('dialog', { name: 'Artwork provenance' });
   await expect(dialog).toContainText('AI-generated cutting-room scene.');
@@ -283,7 +334,7 @@ test('@claim:asset-provenance records the generated scene source and serves only
 });
 
 test('@claim:project-json-roundtrip exports a complete backup that reopens', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await addMarker(page, 'Round-trip proof', 200);
   const { download, path } = await downloadFromExport(page, /^Export Project JSON\b/);
   expect(download.suggestedFilename()).toBe('rain-gate-opening-beat.aes.json');
@@ -301,7 +352,7 @@ test('@claim:project-json-roundtrip exports a complete backup that reopens', asy
 });
 
 test('@claim:adapter-json-v1 exports every sample event with the stable adapter schema', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   const { path } = await downloadFromExport(page, /^Export Adapter JSON\b/);
   const exported = JSON.parse(await readFile(path, 'utf8')) as { schema: string; adapter_version: number; events: Array<{ end_frame_exclusive: number }> };
   expect(exported.schema).toBe('animatic-event-strip/adapter');
@@ -311,7 +362,7 @@ test('@claim:adapter-json-v1 exports every sample event with the stable adapter 
 });
 
 test('@claim:csv-export exports one UTF-8 row per sample event', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   const { path } = await downloadFromExport(page, /^Export Marker CSV\b/);
   const csv = await readFile(path, 'utf8');
   const rows = csv.trim().split(/\r?\n/);
@@ -321,7 +372,7 @@ test('@claim:csv-export exports one UTF-8 row per sample event', async ({ page }
 });
 
 test('@claim:cached-license-offline keeps a cached Studio verdict available offline', async ({ page, context }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await page.evaluate(() => navigator.serviceWorker.ready);
   await page.getByRole('button', { name: 'Start for real' }).click();
   await page.waitForURL((url) => url.pathname === '/');
@@ -421,13 +472,13 @@ test('@claim:studio-outputs downloads Godot 4 and Unity 6 source and opens the p
 });
 
 test('has no serious accessibility violations', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
   expect(results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))).toEqual([]);
 });
 
 test('repairs AES-QA-304, AES-QA-305, and F-3-3 across every public route', async ({ page }) => {
-  for (const route of ['/', '/demo', '/privacy/', '/terms/', '/offline.html']) {
+  for (const route of ['/', '/?demo=1', '/privacy/', '/terms/', '/offline.html']) {
     await page.goto(route);
     await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
     await expect(page.locator('meta[property="og:title"]')).toHaveCount(1);
@@ -452,7 +503,7 @@ test('repairs AES-QA-304, AES-QA-305, and F-3-3 across every public route', asyn
 });
 
 test('repairs AES-QA-301 by retaining focus through repeated keyboard frame moves', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   const skipLink = page.getByRole('link', { name: 'Skip to event strip' });
   await skipLink.focus();
   await expect(skipLink).toBeFocused();
@@ -474,7 +525,7 @@ test('repairs AES-QA-301 by retaining focus through repeated keyboard frame move
 });
 
 test('@claim:keyboard-operation operates documented planner controls and frame keys without focus loss', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   const addEvent = page.getByRole('button', { name: '+ Add event' });
   await addEvent.focus();
   await page.keyboard.press('Space');
@@ -503,7 +554,7 @@ test('@claim:keyboard-operation operates documented planner controls and frame k
 });
 
 test('repairs AES-QA-302 by returning dialog focus to the edited event', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   const interaction = page.getByRole('button', { name: /Edit Interaction Enable player input/ });
   await interaction.focus();
   await interaction.press('Enter');
@@ -521,7 +572,7 @@ test('repairs AES-QA-302 by returning dialog focus to the edited event', async (
 
 test('@claim:offline-reload reloads the installed demo shell and sample data offline', async ({ page, context }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'offline install path is covered in the mobile PWA profile');
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.ready;
     if (!registration.active) throw new Error('PWA service worker is not active');
@@ -563,7 +614,7 @@ test('repairs F-3-2 and AES-QA-003 with 44px targets on every public route', asy
 });
 
 test('repairs F-3-5 with result-naming controls and one board term', async ({ page }) => {
-  await page.goto('/demo');
+  await page.goto('/?demo=1');
   await expect(page.getByRole('button', { name: 'Move to previous frame', includeHidden: true })).toHaveCount(1);
   await expect(page.getByRole('button', { name: 'Move to next frame', includeHidden: true })).toHaveCount(1);
   await expect(page.getByText('2 boards', { exact: true })).toBeVisible();

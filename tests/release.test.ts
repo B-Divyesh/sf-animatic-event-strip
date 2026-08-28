@@ -67,7 +67,7 @@ describe('release policy', () => {
   test('documents the isolated demo entry point and storage namespace', async () => {
     const demo = await readFile(new URL('.factory/demo.md', root), 'utf8');
     const storage = await readFile(new URL('src/storage.ts', root), 'utf8');
-    expect(demo).toContain('https://animatic-event-strip.sociobot.in/demo');
+    expect(demo).toContain('https://animatic-event-strip.sociobot.in/?demo=1');
     expect(demo).toContain('demo:animatic-event-strip');
     expect(storage).toContain("demo: 'demo:animatic-event-strip'");
   });
@@ -97,7 +97,7 @@ describe('release policy', () => {
       expect(page).toContain('class="skip-link"');
       expect(page).toContain('Animatic Event Strip home');
       expect(page).toContain('Built by Param Factory');
-      expect(page).toContain('Version 1.0.0, polish 3');
+      expect(page).toContain('Version 1.0.0, polish 4');
       expect(page.match(/<h1[\s>]/g)).toHaveLength(1);
       expect(page).toContain('<main');
     }
@@ -134,7 +134,7 @@ describe('release policy', () => {
       readFile(new URL('public/terms/index.html', root), 'utf8'),
     ]);
     for (const legal of [privacy, terms]) {
-      expect(legal).toContain('href="/demo"');
+      expect(legal).toContain('href="/?demo=1"');
       expect(legal).toContain('href="/privacy/"');
       expect(legal).toContain('href="/terms/"');
     }
@@ -155,7 +155,7 @@ describe('release policy', () => {
     const pages = await Promise.all(publicPaths.map((path) => readFile(new URL(path, root), 'utf8')));
     for (const page of pages) {
       expect(page).toContain('aria-label="Primary navigation"');
-      expect(page).toContain('href="/demo"');
+      expect(page).toContain('href="/?demo=1"');
       expect(page).toContain('href="/privacy/"');
       expect(page).toContain('href="/terms/"');
     }
@@ -184,8 +184,23 @@ describe('release policy', () => {
   test('gives the real and demo routes distinct titles, descriptions, and canonical URLs', async () => {
     const app = await readFile(new URL('src/app.ts', root), 'utf8');
     expect(app).toContain("'Demo — Animatic Event Strip'");
-    expect(app).toContain("'/demo' : '/'");
+    expect(app).toContain("'?demo=1' : ''");
     expect(app).toContain('meta[property="og:url"]');
     expect(app).toContain('meta[name="twitter:description"]');
+  });
+
+  test('repairs F-4-1 with a storage-free landing and an explicit real-project entry', async () => {
+    const [app, home, demo, claims] = await Promise.all([
+      readFile(new URL('src/app.ts', root), 'utf8'),
+      readFile(new URL('index.html', root), 'utf8'),
+      readFile(new URL('.factory/demo.md', root), 'utf8'),
+      readFile(new URL('.factory/claims.json', root), 'utf8'),
+    ]);
+    expect(home).toContain('id="try-demo" href="/?demo=1"');
+    expect(home).toContain('Your project is not opened or changed.');
+    expect(app).toContain("else if (explicitRealStart)");
+    expect(app).not.toMatch(/else \{\s*project = demoMode \? sampleProject\(\) : newProject\(\);/);
+    expect(demo).toContain('Demo mode never opens the real `animatic-event-strip` database');
+    expect(JSON.parse(claims).filter((claim: { id: string }) => claim.id === 'sample-demo')).toHaveLength(1);
   });
 });

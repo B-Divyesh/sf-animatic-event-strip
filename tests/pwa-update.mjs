@@ -11,8 +11,8 @@ const served = join(temporary, 'dist');
 await cp(source, served, { recursive: true });
 const workerPath = join(served, 'sw.js');
 const currentWorker = await readFile(workerPath, 'utf8');
-assert.match(currentWorker, /aes-shell-v10/, 'production worker version is not v10');
-await writeFile(workerPath, currentWorker.replaceAll('aes-shell-v10', 'aes-shell-update-old'));
+assert.match(currentWorker, /aes-shell-v11/, 'production worker version is not v11');
+await writeFile(workerPath, currentWorker.replaceAll('aes-shell-v11', 'aes-shell-update-old'));
 
 const server = spawn(process.execPath, [join(process.cwd(), 'node_modules/vite/bin/vite.js'), 'preview', '--outDir', served, '--host', '127.0.0.1', '--port', '4199'], { stdio: ['ignore', 'pipe', 'pipe'] });
 try {
@@ -27,7 +27,7 @@ try {
   });
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
-  await page.goto('http://127.0.0.1:4199/demo');
+  await page.goto('http://127.0.0.1:4199/?demo=1');
   await page.evaluate(() => navigator.serviceWorker.ready);
   if (!await page.evaluate(() => Boolean(navigator.serviceWorker.controller))) await page.reload();
   await copyFile(new URL('../dist/sw.js', import.meta.url), workerPath);
@@ -36,9 +36,9 @@ try {
   await Promise.all([page.waitForEvent('load'), page.getByRole('button', { name: 'Update app' }).click()]);
   await page.getByRole('heading', { level: 1 }).waitFor();
   const caches = await page.evaluate(() => window.caches.keys());
-  assert.deepEqual(caches.filter((name) => name.startsWith('aes-shell-')), ['aes-shell-v10']);
+  assert.deepEqual(caches.filter((name) => name.startsWith('aes-shell-')), ['aes-shell-v11']);
   await browser.close();
-  console.log('PASS update toast shown; v10 activated; old cache removed');
+  console.log('PASS update toast shown; v11 activated; old cache removed');
 } finally {
   server.kill('SIGTERM');
   await rm(temporary, { recursive: true, force: true });

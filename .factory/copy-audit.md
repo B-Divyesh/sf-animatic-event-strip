@@ -1,6 +1,6 @@
 # Copy audit
 
-Audited 2026-08-28 for polish 3. Counts treat hyphenated terms, versions, file names, and prices as one word. No sentence exceeds 22 words. No sentence uses a banned marketing word. “Unlocks” appears only for the literal paid-license result.
+Audited 2026-08-28 for polish 4. Counts treat hyphenated terms, versions, file names, and prices as one word. No sentence exceeds 22 words. No sentence uses a banned marketing word. “Unlocks” appears only for the literal paid-license result.
 
 ## First screen
 
@@ -11,19 +11,21 @@ Audited 2026-08-28 for polish 3. Counts treat hyphenated terms, versions, file n
 | 6 | Try it with sample data. |
 | 4 | Add your own event. |
 | 5 | Loads a filled 10-second strip. |
-| 8 | The demo never opens or changes your project. |
+| 7 | Your project is not opened or changed. |
 | 6 | Your project stays on this device. |
 | 6 | Reopens offline after your first visit. |
 | 4 | Core exports are free. |
 | 5 | Studio Pack costs $12 once. |
 
-The first screen states the job, audience, first action, sample result, privacy, offline behavior, and price.
+The first screen states the job, audience, first action, sample result, privacy, offline behavior, and price. The landing route does not open project storage.
 
 ## Default planner copy
 
 | Words | Copy |
 | ---: | --- |
+| 8 | Planner ready: your project has not been opened. |
 | 5 | Planner loaded: your local project. |
+| 5 | Planner loaded without local storage. |
 | 6 | Place each board on the strip. |
 | 8 | Add local clips where the scene needs them. |
 | 7 | Mark beats, cues, and input windows. |
@@ -43,7 +45,7 @@ The first screen states the job, audience, first action, sample result, privacy,
 | 4 | AI-generated environmental scene. |
 | 2 | No analytics. |
 | 4 | Built by Param Factory. |
-| 4 | Version 1.0.0, polish 3. |
+| 4 | Version 1.0.0, polish 4. |
 
 ## State, dialog, and error copy
 
@@ -146,6 +148,7 @@ Headings name their sections: **How to build an animation handoff**, **Name engi
 | 9 | Installs as a PWA and reopens the editor offline. |
 | 19 | Optionally unlocks Godot 4 / Unity 6 starter adapters and a print handoff sheet through a one-time Sociobot license. |
 | 21 | This is a pre-production tool, not an animation editor: it does not tween, generate art, animate characters, or execute engine events. |
+| 9 | The landing page does not open either project database. |
 | 10 | The demo stores edits in the separate `demo:animatic-event-strip` IndexedDB database. |
 | 4 | Real projects use `animatic-event-strip`. |
 | 14 | The complete claim list and one tagged browser test per claim are in `.factory/claims.json`. |

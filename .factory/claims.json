@@ -1,7 +1,7 @@
 [
   {
     "id": "sample-demo",
-    "claim": "Try a filled sample strip without opening or changing your project.",
+    "claim": "Try a filled sample strip without opening, reading, or changing your project.",
     "where": "landing first screen, README",
     "test": "npm run test:e2e -- --grep @claim:sample-demo --project=chromium"
   },

@@ -3,7 +3,7 @@
   "name": "Animatic Event Strip",
   "short_name": "Event Strip",
   "description": "Plan boards, audio cues, and input windows before engine work.",
-  "start_url": "/?source=pwa&v=10",
+  "start_url": "/?source=pwa&v=11",
   "scope": "/",
   "display": "standalone",
   "background_color": "#11191d",

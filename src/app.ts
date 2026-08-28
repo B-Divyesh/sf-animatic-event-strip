@@ -11,6 +11,7 @@ const LICENSE_CACHE_KEY = `${LICENSE_KEY}:verdict`;
 const VERIFY_URL = `https://api.sociobot.in/api/v1/products/${SLUG}/verify`;
 const params = new URLSearchParams(location.search);
 const demoMode = location.pathname.replace(/\/$/, '') === '/demo' || params.get('demo') === '1';
+const explicitRealStart = !demoMode && (params.get('start') === '1' || params.get('source') === 'pwa');
 const storageSpace: StorageSpace = demoMode ? 'demo' : 'project';
 
 function element<T extends HTMLElement>(id: string): T {
@@ -33,6 +34,9 @@ let playStartedAt = 0;
 let playStartedFrame = 0;
 let animationFrame = 0;
 let licensed = false;
+let projectStorageReady = false;
+let projectStorageLoading: Promise<boolean> | undefined;
+let storageFailed = false;
 const mediaUrls = new WeakMap<Blob, string>();
 const activeAudio = new Set<HTMLAudioElement>();
 
@@ -62,7 +66,9 @@ const playButton = element<HTMLButtonElement>('play-preview');
 type RouteState = { scrollX?: number; scrollY?: number; focusId?: string };
 
 function routeMessage(): string {
-  return demoMode ? 'Demo loaded: Rain Gate sample strip.' : 'Planner loaded: your local project.';
+  if (demoMode) return 'Demo loaded: Rain Gate sample strip.';
+  if (storageFailed) return 'Planner loaded without local storage.';
+  return projectStorageReady ? 'Planner loaded: your local project.' : 'Planner ready: your project has not been opened.';
 }
 
 function configureRouteMetadata(): void {
@@ -70,7 +76,7 @@ function configureRouteMetadata(): void {
   const description = demoMode
     ? 'Try a filled animation event strip with sample boards, sound, and event markers.'
     : 'Plan frames, sound cues, and input windows in a local event strip for animation handoff.';
-  const canonical = `https://animatic-event-strip.sociobot.in${demoMode ? '/demo' : '/'}`;
+  const canonical = `https://animatic-event-strip.sociobot.in/${demoMode ? '?demo=1' : ''}`;
   document.title = title;
   document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.setAttribute('href', canonical);
   document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute('content', description);
@@ -186,9 +192,39 @@ async function persist(message = 'Saved locally'): Promise<void> {
     saveStatus.textContent = demoMode ? 'Demo only' : message;
     saveStatus.setAttribute('aria-label', `${message}. Last saved ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`);
   } catch (error) {
+    storageFailed = true;
     saveStatus.textContent = 'Save failed';
     announceError(`${error instanceof Error ? error.message : 'Could not save locally.'} Export a project backup before closing this tab.`);
   }
+}
+
+async function openRealProject(): Promise<boolean> {
+  if (demoMode || projectStorageReady) return true;
+  if (projectStorageLoading) return projectStorageLoading;
+  projectStorageLoading = (async () => {
+    try {
+      const stored = await loadProject('project');
+      project = stored ?? newProject();
+      projectStorageReady = true;
+      render();
+      if (stored) saveStatus.textContent = 'Saved locally';
+      else await persist('Ready offline');
+      element('route-status').textContent = routeMessage();
+      return true;
+    } catch (error) {
+      project = newProject();
+      projectStorageReady = true;
+      storageFailed = true;
+      render();
+      announceError(`${error instanceof Error ? error.message : 'Local storage is unavailable.'} You can still work and export from this tab.`);
+      saveStatus.textContent = 'Storage unavailable';
+      element('route-status').textContent = 'Planner loaded without local storage.';
+      return true;
+    } finally {
+      projectStorageLoading = undefined;
+    }
+  })();
+  return projectStorageLoading;
 }
 
 function setFrame(frame: number): void {
@@ -506,7 +542,8 @@ async function initializeLicense(): Promise<void> {
 }
 
 function registerEvents(): void {
-  element('start-project').addEventListener('click', () => {
+  element('start-project').addEventListener('click', async () => {
+    if (!await openRealProject()) return;
     element('workspace-title').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     openEventEditor();
   });
@@ -519,18 +556,18 @@ function registerEvents(): void {
     element('demo-status').textContent = 'Sample strip reset.';
   });
   element('leave-demo').addEventListener('click', async () => {
-    try { await clearProject('demo'); } finally { location.assign('/'); }
+    try { await clearProject('demo'); } finally { location.assign('/?start=1'); }
   });
-  element('add-event').addEventListener('click', () => openEventEditor());
-  element('empty-add').addEventListener('click', () => openEventEditor());
-  element('project-settings').addEventListener('click', () => openSettings());
-  element('rename-project').addEventListener('click', () => openSettings(true));
+  element('add-event').addEventListener('click', async () => { if (await openRealProject()) openEventEditor(); });
+  element('empty-add').addEventListener('click', async () => { if (await openRealProject()) openEventEditor(); });
+  element('project-settings').addEventListener('click', async () => { if (await openRealProject()) openSettings(); });
+  element('rename-project').addEventListener('click', async () => { if (await openRealProject()) openSettings(true); });
   element('open-guide').addEventListener('click', () => guideDialog.showModal());
-  element('export-menu').addEventListener('click', () => exportDialog.showModal());
+  element('export-menu').addEventListener('click', async () => { if (await openRealProject()) exportDialog.showModal(); });
   element('import-project').addEventListener('click', () => element<HTMLInputElement>('import-file').click());
-  element<HTMLInputElement>('import-file').addEventListener('change', (event) => {
+  element<HTMLInputElement>('import-file').addEventListener('change', async (event) => {
     const input = event.currentTarget as HTMLInputElement;
-    if (input.files?.[0]) void importFile(input.files[0]);
+    if (input.files?.[0] && await openRealProject()) await importFile(input.files[0]);
     input.value = '';
   });
   eventForm.addEventListener('change', (event) => {
@@ -606,7 +643,7 @@ function registerEvents(): void {
   element('jump-start').addEventListener('click', () => setFrame(0));
   element('step-back').addEventListener('click', () => setFrame(currentFrame - 1));
   element('step-forward').addEventListener('click', () => setFrame(currentFrame + 1));
-  playButton.addEventListener('click', togglePlayback);
+  playButton.addEventListener('click', async () => { if (await openRealProject()) togglePlayback(); });
   element<HTMLInputElement>('timeline-zoom').addEventListener('input', (event) => { stage.style.width = `${Number((event.target as HTMLInputElement).value) * 100}%`; });
   element<HTMLFormElement>('license-form').addEventListener('submit', (event) => {
     event.preventDefault();
@@ -671,19 +708,27 @@ async function start(): Promise<void> {
   configureRouteMetadata();
   element('demo-banner').hidden = !demoMode;
   document.body.classList.toggle('demo-mode', demoMode);
-  try {
-    const stored = await loadProject(storageSpace);
-    if (stored) project = stored;
-    else {
-      project = demoMode ? sampleProject() : newProject();
-      await persist(demoMode ? 'Demo ready' : 'Ready offline');
+  if (demoMode) {
+    projectStorageReady = true;
+    try {
+      const stored = await loadProject('demo');
+      if (stored) project = stored;
+      else {
+        project = sampleProject();
+        await persist('Demo ready');
+      }
+    } catch (error) {
+      project = sampleProject();
+      storageFailed = true;
+      announceError(`${error instanceof Error ? error.message : 'Local storage is unavailable.'} You can still work and export from this tab.`);
     }
-  } catch (error) {
-    announceError(`${error instanceof Error ? error.message : 'Local storage is unavailable.'} You can still work and export from this tab.`);
+  } else if (explicitRealStart) {
+    await openRealProject();
+    if (params.get('start') === '1') history.replaceState({}, '', '/');
   }
   render();
   announceRoute();
-  saveStatus.textContent = demoMode ? 'Demo only' : 'Saved locally';
+  saveStatus.textContent = storageFailed ? 'Storage unavailable' : demoMode ? 'Demo only' : projectStorageReady ? 'Saved locally' : 'Project unopened';
   if (demoMode) renderLicense('The demo uses the free planner and does not read saved licenses.');
   else await initializeLicense();
   await registerServiceWorker();
