@@ -1,5 +1,20 @@
 # Animatic Event Strip — handoff
 
+## Independent verification 5 — FAIL (release blocked)
+
+Candidate `b6137917279fd65d9556713d718c2874399822d6` was freshly verified on 2026-08-28 UTC at <https://animatic-event-strip.sociobot.in>. The live deployment matches all 22 rebuilt deployable files byte-for-byte. The cold first-read and one-click isolated demo pass; all 13 declared claim commands pass after `npm ci`; install, unit, lint, type, build, browser, audit, accessibility, mobile, PWA offline/update, response-policy, checkout, and performance gates are green.
+
+The release verdict is nevertheless **FAIL**:
+
+- **High AES-QA-501:** public promises that licenses are checked at most daily, verification responses are not service-worker cached, invalid/revoked licenses lock paid access, and licenses can be restored across devices are absent from `.factory/claims.json` and have no exactly tagged sandbox tests. Existing tests cover cached access, paid downloads, and checkout, but not these lifecycle promises. The claims contract makes unlisted claims release-blocking.
+- **Medium AES-QA-502:** Privacy says “project history” is stored in IndexedDB, but the data layer overwrites one current project under the single `active` key and provides no history. The disclosure is inaccurate.
+
+Independent product checks otherwise passed: a seven-event live flow exported correct Adapter JSON/CSV; last-frame and 216,000-frame boundaries worked; invalid range, duration, and malformed import paths recovered without data loss; normal planning made only same-origin requests; demo storage remained isolated; keyboard focus and 390 px targets passed; fresh Axe runs found zero violations; the live installed demo reloaded offline under `aes-shell-v7`; and a fresh API burst returned 30×200 followed by 429 with `Retry-After: 4`.
+
+Lighthouse 13.4.1 mobile on live `/demo`: Performance 97, Accessibility 100, Best Practices 100, SEO 100; LCP 1,056 ms, TBT 183 ms, CLS 0.0136. Initial JS is 28,640 B (10,215 B gzip), CSS 20,756 B (5,413 B gzip), fonts 0 B, and the mobile hero is 36,138 B.
+
+Full commands, evidence, and remedies are in `.factory/verification-5.md` and `.factory/evidence/verification-5/`. No product code was changed.
+
 ## Release-blocking product-QA repair 4 — PASS locally and live
 
 Work order `animatic-event-strip-repair-4` repairs the release blocker in verifier commit `7890ad4a7af3ce674a26482d4b3f24408ab17d8d` for candidate `a1d93ec3661e3ddb83d43c513a9fd406f17f0999`. The artifact remains a static, local-first PWA.
